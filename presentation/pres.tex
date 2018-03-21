@@ -1,0 +1,45 @@
+\documentclass{beamer}
+
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{graphicx}
+\usepackage{commath}
+\usetheme{Warsaw}
+
+\begin{document}
+
+\title{Ajout de contraintes lexicales aux k-moyenne}
+\author{Grand Maxence}
+\maketitle
+
+\begin{frame}
+  \frametitle{K-Moyenne}
+
+  L'algorithme K-Moyenne est un algorithme de clustering non supervis\'e.
+\\
+  Soit C une collection de n documents, k le nombre de clusters souhait\'e, $r_i$
+  le rep\'esentant du cluster i, la K-Moyenne cherche \`a minimiser la fonction : 
+\\
+\[
+Loss = \sum_{i=1}^n \norm{C_i - r_i}_2^2
+\]
+\end{frame}
+
+\begin{frame}
+  \frametitle{Les contraintes Lexicales}
+  Les contraintes lexicales sont les vues d\'efinits par un ensemble de mot cl\'ees
+  donn\'e par l'utilisateur.
+\end{frame}
+
+\begin{frame}
+  \frametitle{Travail Demand\'e}
+  \begin{itemize}
+  \item Recherche documentaire
+  \item Rechercher comment repr\'esenter les contraintes lexicales
+  \item Implantation de l'algotithme
+  \item Test de l'algorithme
+  \end{itemize}
+\end{frame}
+
+\end{document}

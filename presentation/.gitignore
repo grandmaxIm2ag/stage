@@ -1,0 +1,10 @@
+
+*.aux
+*.fls
+*.nav
+*.toc
+*.snm
+*.dvi
+*.out
+*.log
+*.fdb_latexml
