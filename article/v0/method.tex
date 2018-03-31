@@ -1,0 +1,112 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[document]{ragged2e}
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb,amsthm} 
+\usepackage[round]{natbib}
+\usepackage{url}
+\usepackage{xspace}
+\usepackage[left=20mm,top=20mm]{geometry}
+\usepackage{algorithmic}
+\usepackage{subcaption}
+\usepackage{mathpazo}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{tikz}
+\usepackage{dsfont}
+%\usepackage{biblatex}
+
+\newcommand{\ie}{ie}
+\newcommand{\eg}{eg}
+\newcommand{\reffig}[1]{Figure~\ref{#1}}
+\newcommand{\refsec}[1]{Section~\ref{#1}}
+
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+
+
+\title{Integrate lexical constraints to K-Means : ML \& CL Method}
+\author{Grand Maxence}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\justify
+
+\section{The proposed Method}
+
+The idea is to produce must-link and cannot-link constraints using TF-IDF on key
+words and Auto-Encoder.\\ \\
+First, we use an Auto-Encoder to learn a latent space where each coponents shows
+the TF-IDF of the Key Words without taking account of all other words.
+\\Then, we can use the idea proposed by Yen-Chang Hsu and Zsolt Kira (biblio).
+We use the softmax function for having a distribution over key works and
+recognise the signficiance of each key word for all documents. And then, we use
+the KL Divergence to produce constraints.\\
+Finally, we can use the COP-Kmeans to perform the K-Means with must-link and
+cannot-link constraints in the latent space (biblio COPKmeans + embeded kmeans).
+\\ \\
+We denote
+$KW = \begin{pmatrix} kw_1 & kw_2 & ... & kw_{k-1} & kw_{k} \end {pmatrix}$
+the set of key words. $W_i$ the word of index i.X a document including only
+key word such that $\forall_{i = 1,2,..,n}~x_i = 1_{KW}(W_i)$.
+
+Y the vector of occurence of each key words in document X such that
+$\forall_{i=1, 2, .., k}~y_i = occur(kw_i~in~X)$. X' the representation of the
+document X in the latent space.
+\section{TF-IDF}
+
+\section{The Auto-Encoder}
+
+We can see the architecture in figure~\ref{fig:archi}.
+
+\subsection{Learn the Latent Space}
+\begin{equation}\label{eq:loss_AE}
+  L_{AE}= \lambda\sum_{x_i \in X} (x_i - AE(x_i)) +
+  \beta\sum_{x_i' in X'} (x_i' - TF\_IDF(y_i))
+\end{equation}
+\begin{equation}\label{eq:lambda}
+  \lambda = ....
+\end{equation}
+\begin{equation}\label{eq:beta}
+  \beta = ....
+\end{equation}
+
+\subsection{Produce constraints}
+
+We consider that two documents are in the same cluster only if the importance of
+key words are similare, and two documents are not in the same cluster only if
+the importance of each key words are dissimilar.
+\\
+We can use the method proposed by by Yen-Chang Hsu and Zsolt Kira (biblio). We
+applied the softmax function to the latent space. The outputs of the whole
+sofmax layer could be viewed as the distribution of the importance of each key
+words. We can use the Kullback-Leibler (KL) divergence to ealuate the similarity
+between distributions. 
+\\ \\
+Finally the loss function is :
+
+\begin{equation}\label{eq:loss_FINALE}
+  L = L_{AE}(X_P, X_q) + L_{KL}(X_P, X_q)
+\end{equation}
+
+We can apply the standard back-propagation algorithm.
+
+\begin{figure}[!t]
+  \centering
+  \tikzset{every picture/.style={scale=0.65}}
+  \input{ressources/tex_file/neural_network_autoencoder.tex}
+  \caption{Auto-Encoder}
+  \label{fig:archi}
+\end{figure}
+
+\subsection{Produce Constraints}
+
+\section{Integrate ML \& CL to K-Means}
+
+%\bibliographystyle{plain}
+%\bibliography{ressources/biblio/biblio.bib}
+%\printbibliography
+\end{document}

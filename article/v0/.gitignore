@@ -1,0 +1,13 @@
+*.aux
+*.pdf
+*latexmk
+*~
+*.log
+*.pdf
+*.dvi
+*.fls
+*.bbl
+*.out
+*.txt
+
+tmp/
