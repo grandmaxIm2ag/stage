@@ -1,0 +1,5 @@
+[0] Config.pm:340> INFO - This is Biber 2.4
+[0] Config.pm:343> INFO - Logfile is 'method.aux.blg'
+[50] biber:287> INFO - === sam. mars 31, 2018, 12:48:24
+[137] Utils.pm:163> ERROR - Cannot find control file 'method.aux.bcf'! - did you pass the "backend=biber" option to BibLaTeX?
+[137] Biber.pm:113> INFO - ERRORS: 1

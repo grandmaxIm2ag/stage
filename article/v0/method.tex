@@ -4,7 +4,6 @@
 \usepackage[document]{ragged2e}
 \usepackage{graphicx}
 \usepackage{amsmath,amssymb,amsthm} 
-\usepackage[round]{natbib}
 \usepackage{url}
 \usepackage{xspace}
 \usepackage[left=20mm,top=20mm]{geometry}
@@ -15,7 +14,12 @@
 \usepackage{hyperref}
 \usepackage{tikz}
 \usepackage{dsfont}
-%\usepackage{biblatex}
+\usepackage[
+  style=numeric,
+  natbib=true,
+  sortcites=true,
+  block=space]{biblatex} 
+\bibliography{ressources/biblio/biblio}
 
 \newcommand{\ie}{ie}
 \newcommand{\eg}{eg}
@@ -37,35 +41,57 @@
 
 \section{The proposed Method}
 
-The idea is to produce must-link and cannot-link constraints using TF-IDF on key
-words and Auto-Encoder.\\ \\
-First, we use an Auto-Encoder to learn a latent space where each coponents shows
-the TF-IDF of the Key Words without taking account of all other words.
-\\Then, we can use the idea proposed by Yen-Chang Hsu and Zsolt Kira (biblio).
-We use the softmax function for having a distribution over key works and
-recognise the signficiance of each key word for all documents. And then, we use
-the KL Divergence to produce constraints.\\
-Finally, we can use the COP-Kmeans to perform the K-Means with must-link and
-cannot-link constraints in the latent space (biblio COPKmeans + embeded kmeans).
+The idea is to produce must-link and cannot-link constraints using
+TFIDF on key words and Auto-Encoder.\\ \\
+First, we use an Auto-Encoder to learn a latent space where each
+coponents shows the TF-IDF of the Key Words without taking account of
+all other words.\\Then, we can use the idea proposed by Yen-Chang Hsu
+and Zsolt Kira \cite{2015arXiv151106321H}.We use the softmax function
+for having a distribution over key works andrecognise the signficiance
+of each key word for all documents. And then, we usethe KL Divergence
+to produce constraints.\\Finally, we can use the COP-Kmeans to perform
+the K-Means with must-link andcannot-link constraints in the latent
+space\cite{Wagstaff:2001:CKC:645530.655669}\cite{2016arXiv161004794Y}.
 \\ \\
-We denote
-$KW = \begin{pmatrix} kw_1 & kw_2 & ... & kw_{k-1} & kw_{k} \end {pmatrix}$
-the set of key words. $W_i$ the word of index i.X a document including only
-key word such that $\forall_{i = 1,2,..,n}~x_i = 1_{KW}(W_i)$.
+We denote $KW = \begin{pmatrix} kw_1 & kw_2 & ... & kw_{k-1} & kw_{k}
+\end {pmatrix}$
+the set of key words. $W_i$ the word of index i.X a document including
+only key word such that $\forall_{i = 1,2,..,n}~x_i = 1_{KW}(W_i)$.
 
 Y the vector of occurence of each key words in document X such that
-$\forall_{i=1, 2, .., k}~y_i = occur(kw_i~in~X)$. X' the representation of the
-document X in the latent space.
-\section{TF-IDF}
+$\forall_{i=1, 2, .., k}~y_i = occur(kw_i~in~X)$. X' the representation of
+the document X in the latent space. C the corpus of document and N the
+size of C.
+
+\section{TFIDF}
+
+The term frequency-inversed document frequency (TFIDF) is a method of
+weghting depicting the significiance of each word in a document rather
+a corpus.
+\\
+To compute the Term Frequency (tf) of a term t in document c we use
+the double normalisation K, with k=0.5 :  
+\begin{equation}\label{eq:tf}
+  tf(t, c) = 0.5 + 0.5.\frac{f_{t,c}}{max_{\{t' \in c \}}f_{t',c}}
+\end{equation}
+
+\begin{equation}\label{eq:idf}
+  idf(t, C) = log(\frac{N}{| \{ c \in C : t \in c \}  |})
+\end{equation}
+
+\begin{equation}\label{eq:tfidf}
+  tfidf(t,c,C) = tf(t,c) - idf(t,C)
+\end{equation}
+
 
 \section{The Auto-Encoder}
 
 We can see the architecture in figure~\ref{fig:archi}.
 
 \subsection{Learn the Latent Space}
-\begin{equation}\label{eq:loss_AE}
+\begin{equation}\label{eq:tf-idf}
   L_{AE}= \lambda\sum_{x_i \in X} (x_i - AE(x_i)) +
-  \beta\sum_{x_i' in X'} (x_i' - TF\_IDF(y_i))
+  \beta\sum_{x_i' in X'} (x_i' - TFIDF(y_i))
 \end{equation}
 \begin{equation}\label{eq:lambda}
   \lambda = ....
@@ -74,25 +100,25 @@ We can see the architecture in figure~\ref{fig:archi}.
   \beta = ....
 \end{equation}
 
-\subsection{Produce constraints}
+\section{Produce constraints}
 
-We consider that two documents are in the same cluster only if the importance of
-key words are similare, and two documents are not in the same cluster only if
-the importance of each key words are dissimilar.
+We consider that two documents are in the same cluster only if the
+importance of key words are similare, and two documents are not in the
+same cluster only if the importance of each key words are dissimilar.
 \\
-We can use the method proposed by by Yen-Chang Hsu and Zsolt Kira (biblio). We
-applied the softmax function to the latent space. The outputs of the whole
-sofmax layer could be viewed as the distribution of the importance of each key
-words. We can use the Kullback-Leibler (KL) divergence to ealuate the similarity
-between distributions. 
+
+We can use the method proposed by Yen-Chang Hsu and Zsolt Kira
+\cite{2015arXiv151106321H}. Weapplied the softmax function to the
+latent space. The outputs of the whole sofmax layer could be viewed as
+the distribution of the importance of each key words. We can use the
+Kullback-Leibler (KL) divergence to ealuate the similarity between
+distributions. 
 \\ \\
 Finally the loss function is :
 
 \begin{equation}\label{eq:loss_FINALE}
   L = L_{AE}(X_P, X_q) + L_{KL}(X_P, X_q)
 \end{equation}
-
-We can apply the standard back-propagation algorithm.
 
 \begin{figure}[!t]
   \centering
@@ -102,11 +128,8 @@ We can apply the standard back-propagation algorithm.
   \label{fig:archi}
 \end{figure}
 
-\subsection{Produce Constraints}
-
 \section{Integrate ML \& CL to K-Means}
 
-%\bibliographystyle{plain}
-%\bibliography{ressources/biblio/biblio.bib}
-%\printbibliography
+\nocite{*}
+\printbibliography[title=References]
 \end{document}
