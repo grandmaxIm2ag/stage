@@ -40,15 +40,17 @@
 
 The idea is to produce must-link and cannot-link constraints using
 TFIDF on key words and Auto-Encoder.\\ \\
-First, we use an Auto-Encoder to learn a latent space where each
-coponents shows the TF-IDF of the Key Words without taking account of
-all other words.\\Then, we can use the idea proposed by Yen-Chang Hsu
-and Zsolt Kira \cite{2015arXiv151106321H}.We use the softmax function
-for having a distribution over key works andrecognise the signficiance
-of each key word for all documents. And then, we usethe KL Divergence
-to produce constraints.\\Finally, we can use the COP-Kmeans to perform
-the K-Means with must-link andcannot-link constraints in the latent
-space\cite{Wagstaff:2001:CKC:645530.655669}\cite{2016arXiv161004794Y}.
+First, we use a siamese architecture  Auto-Encoder to learn a latent
+space where each coponents shows the TF-IDF of the Key Words without
+taking account of all other words.\\Then, we can use the idea proposed
+by Yen-Chang Hsu and Zsolt Kira \cite{2015arXiv151106321H}.
+We use the softmax function for having a distribution over key works
+and recognise the signficiance of each key word for all documents.
+And then, we usethe KL Divergence to produce constraints.\\Finally,
+we can use the COP-Kmeans to perform the K-Means with must-link and
+cannot-link constraints \cite{Wagstaff:2001:CKC:645530.655669}.
+The clustering will be biased by key words because the constraints
+will only take into account key words.
 \\ \\
 We denote $KW = \begin{pmatrix} kw_1 & kw_2 & ... & kw_{k-1} & kw_{k}
 \end {pmatrix}$
@@ -84,26 +86,25 @@ the double normalisation K, with k=0.5 :
 
 The auto-encoder allows to learn a latent space with significiantly
 informations for the clustering without loss of information.
-We use an siamese achitecture with two sparse auto-encoder for learn
-the latent space of two duments simultaneous. We use sparse
-auto-encoder because ...
+We use a sparse auto-encoder for learn the latent space of document.
+\\
+We denote $h=f(X, \theta_1)$ the encoder output, $g(f(X, \theta_1))$
+the decoder output and $\omega(h)$ the sparsity penalty, $L_{sparse}$
+the loss function of the sparse auto-encoder. we use MSE for
+reconstruct loss.
+\\
 We can see the architecture in figure~\ref{fig:archi}.
+\begin{equation}\label{eq:omega}
+  \omega(h) = || h - Softmax(Y')||_2^2
+\end{equation}
 
-\begin{equation}\label{eq:tf-idf}
-  L_{SAE}= \lambda\sum_{x_i \in X} (x_i - AE_1(x_i)) +
-  \beta \sum_{x_i \in X} (x_i - AE_2(x_i)) +
-  \sum_{x_i' in X'} (x_i' - TFIDF(y_i))
-\end{equation}
-\begin{equation}\label{eq:lambda}
-  \lambda = ....
-\end{equation}
-\begin{equation}\label{eq:beta}
-  \beta = ....
+\begin{equation}\label{eq:Sparse}
+  L_{SAE}(X, \theta_1) = ||X - f(g(X, \theta_1))||_2^2 + \omega(h)  
 \end{equation}
 
 \begin{figure}[!t]
   \centering
-  \tikzset{every picture/.style={scale=0.65}}
+  \tikzset{every picture/.style={scale=1.5}}
   \input{ressources/tex_file/neural_network_autoencoder.tex}
   \caption{Auto-Encoder}
   \label{fig:archi}
@@ -124,34 +125,43 @@ distributions.
 To produce constraints we use a multi layer perceptron taking two
 documents $x_p'$ and $x_q'$ for input and the functions $I_s$ and
 $I_{ds}$ for output.
+\\
+We can see the architecture in figure~\ref{fig:final_archi}.
+\begin{equation}
+  x_p' = g(x_p)
+\end{equation}
+\begin{equation}
+  x_q' = g(x_q)
+\end{equation}
+
 \begin{equation}\label{eq:Is}
-I_s(x_p, x_q; \theta) = \left\{
+I_s(x_p', x_q'; \theta_2) = \left\{
     \begin{array}{ll}
-        1~if~x_p~and~x_q~are~similare \\
+        1~if~x_p'~and~x_q'~are~similare \\
         0~otherwise
     \end{array}
 \right.
 \end{equation}
 \begin{equation}\label{eq:Ids}
-I_{ds}(x_p, x_q; \theta) = \left\{
+I_{ds}(x_p', x_q'; \theta_2) = \left\{
     \begin{array}{ll}
-        1~if~x_p~and~x_q~are~disimilare \\
+        1~if~x_p'~and~x_q'~are~disimilare \\
         0~otherwise
     \end{array}
     \right.
 \end{equation}
 
 \begin{equation}\label{eq:KL}
-KL(x_p || x_q) = \sum_{i=1}^k {x_p}_i . log(\frac{{x_p}_i}{{x_q}_i}) 
+KL(x_p' || x_q') = \sum_{i=1}^k {x_p'}_i . log(\frac{{x_p'}_i}{{x_q'}_i}) 
 \end{equation}
 
 We denote $L_{KL}$ the loss function for this network :
 \begin{equation}\label{eq:LossKL}
-L_{KL}(x_p, x_q) = L(x_p || x_q) + L(x_q || x_p) 
+L_{KL}(x_p', x_q') = L(x_p' || x_q') + L(x_q' || x_p') 
 \end{equation}
 \begin{equation}\label{eq:KLpq}
-  L(x_p || x_q) = I_s(x_p, x_q; \theta) . KL(x_p || x_q) +
-  I_{ds}(x_p, x_q; \theta) . man(0, margin - KL(x_p || x_q))
+  L(x_p' || x_q') = I_s(x_p', x_q'; \theta_2) . KL(x_p' || x_q') +
+  I_{ds}(x_p', x_q''; \theta_2) . min(0, margin - KL(x_p' || x_q'))
 \end{equation}
 \\ \\
 Finally the loss function is :
@@ -162,9 +172,9 @@ Finally the loss function is :
 
 \begin{figure}[!t]
   \centering
-  \tikzset{every picture/.style={scale=0.65}}
-  \input{ressources/tex_file/neural_network_autoencoder.tex}
-  \caption{Auto-Encoder}
+  \tikzset{every picture/.style={scale=1.5}}
+  \input{ressources/tex_file/net_prod.tex}
+  \caption{Produce Architecture}
   \label{fig:final_archi}
 \end{figure}
 \section{Integrate ML \& CL to K-Means}
