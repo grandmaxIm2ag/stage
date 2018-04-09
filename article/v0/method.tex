@@ -39,27 +39,24 @@
 \section{The proposed Method}
 
 The idea is to produce must-link and cannot-link constraints using
-TFIDF on key words and Auto-Encoder.\\ \\
-First, we use a siamese architecture  Auto-Encoder to learn a latent
+TFIDF on Key Words and Auto-Encoder.\\ \\
+First, we use an Auto-Encoder to learn a latent
 space where each coponents shows the TF-IDF of the Key Words without
-taking account of all other words.\\Then, we can use the idea proposed
+loss of information.\\Then, we can use the idea proposed
 by Yen-Chang Hsu and Zsolt Kira \cite{2015arXiv151106321H}.
 We use the softmax function for having a distribution over key works
 and recognise the signficiance of each key word for all documents.
-And then, we usethe KL Divergence to produce constraints.\\Finally,
+And then, we use the KL Divergence to produce constraints.\\Finally,
 we can use the COP-Kmeans to perform the K-Means with must-link and
-cannot-link constraints \cite{Wagstaff:2001:CKC:645530.655669}.
-The clustering will be biased by key words because the constraints
-will only take into account key words.
+cannot-link constraints in the latent space
+\cite{Wagstaff:2001:CKC:645530.655669} \cite{2016arXiv161004794Y}.
 \\ \\
 We denote $KW = \begin{pmatrix} kw_1 & kw_2 & ... & kw_{k-1} & kw_{k}
 \end {pmatrix}$
-the set of key words. $W_i$ the word of index i.X a document including
-only key word such that $\forall_{i = 1,2,..,n}~x_i = 1_{KW}(W_i)$.
-Y the vector of occurence of each key words in document X such that
-$\forall_{i=1, 2, .., k}~y_i = occur(kw_i~in~X)$. X' the representation of
-the document X in the latent space. C the corpus of document and N the
-size of C.
+the set of key words. $W_i$ the word of index i.X a document,
+Y the vector showing the TFIDF each key words, X' the representation of the
+document X in the latent space. $\forall_{i=1, 2, .., k}~y_i = TFIDF(kw_i~in~X)$.
+C the corpus of document and N the size of C.
 
 \section{TFIDF}
 
@@ -90,12 +87,12 @@ We use a sparse auto-encoder for learn the latent space of document.
 \\
 We denote $h=f(X, \theta_1)$ the encoder output, $g(f(X, \theta_1))$
 the decoder output and $\omega(h)$ the sparsity penalty, $L_{sparse}$
-the loss function of the sparse auto-encoder. we use MSE for
-reconstruct loss.
+the function loss of the sparse auto-encoder. we use MSE for
+the reconstruct loss.
 \\
-We can see the architecture in figure~\ref{fig:archi}.
+We can see the Auto-Encoder in figure~\ref{fig:archi}.
 \begin{equation}\label{eq:omega}
-  \omega(h) = || h - Softmax(Y')||_2^2
+  \omega(h) = || h - Softmax(Y)||_2^2
 \end{equation}
 
 \begin{equation}\label{eq:Sparse}
@@ -109,6 +106,7 @@ We can see the architecture in figure~\ref{fig:archi}.
   \caption{Auto-Encoder}
   \label{fig:archi}
 \end{figure}
+
 \section{Produce constraints}
 
 We consider that two documents are in the same cluster only if the
@@ -117,7 +115,7 @@ same cluster only if the importance of each key words are dissimilar.
 \\
 We can use the method proposed by Yen-Chang Hsu and Zsolt Kira
 \cite{2015arXiv151106321H}. We apply the softmax function to the
-latent space. The outputs of the whole sofmax layer could be viewed as
+encode output layer. The outputs of the whole sofmax layer could be viewed as
 the distribution of the importance of each key words. We can use the
 Kullback-Leibler (KL) divergence to ealuate the similarity between
 distributions.
@@ -126,78 +124,93 @@ To produce constraints we use a multi layer perceptron taking two
 documents $x_p'$ and $x_q'$ for input and the functions $I_s$ and
 $I_{ds}$ for output.
 \\
-We can see the architecture in figure~\ref{fig:final_archi}.
+We can see the network in figure~\ref{fig:final_archi}.
 \begin{equation}
-  x_p' = g(x_p)
+  X_p' = g(X_p)
 \end{equation}
 \begin{equation}
-  x_q' = g(x_q)
+  X_q' = g(X_q)
 \end{equation}
 
 \begin{equation}\label{eq:Is}
-I_s(x_p', x_q'; \theta_2) = \left\{
+I_s(X_p', X_q'; \theta_2) = \left\{
     \begin{array}{ll}
-        1~if~x_p'~and~x_q'~are~similare \\
+        1~if~X_p'~and~X_q'~are~similare \\
         0~otherwise
     \end{array}
 \right.
 \end{equation}
 \begin{equation}\label{eq:Ids}
-I_{ds}(x_p', x_q'; \theta_2) = \left\{
+I_{ds}(X_p', X_q'; \theta_2) = \left\{
     \begin{array}{ll}
-        1~if~x_p'~and~x_q'~are~disimilare \\
+        1~if~X_p'~and~X_q'~are~disimilare \\
         0~otherwise
     \end{array}
     \right.
 \end{equation}
 
 \begin{equation}\label{eq:KL}
-KL(x_p' || x_q') = \sum_{i=1}^k {x_p'}_i . log(\frac{{x_p'}_i}{{x_q'}_i}) 
+KL(X_p' || X_q') = \sum_{i=1}^k {X_p'}_i . log(\frac{{X_p'}_i}{{X_q'}_i}) 
 \end{equation}
 
 We denote $L_{KL}$ the loss function for this network :
 \begin{equation}\label{eq:LossKL}
-L_{KL}(x_p', x_q') = L(x_p' || x_q') + L(x_q' || x_p') 
+L_{KL}(X_p', X_q') = L(X_p' || X_q') + L(X_q' || X_p') 
 \end{equation}
 \begin{equation}\label{eq:KLpq}
-  L(x_p' || x_q') = I_s(x_p', x_q'; \theta_2) . KL(x_p' || x_q') +
-  I_{ds}(x_p', x_q''; \theta_2) . min(0, margin - KL(x_p' || x_q'))
+  L(X_p' || X_q') = I_s(X_p', X_q'; \theta_2) . KL(X_p' || X_q') +
+  I_{ds}(X_p', X_q''; \theta_2) . min(0, margin - KL(X_p' || X_q'))
 \end{equation}
 \\ \\
 Finally the loss function is :
 
 \begin{equation}\label{eq:loss_FINALE}
-  L = L_{SAE}(X_P, X_q) + L_{KL}(X_P, X_q)
+  L = L_{SAE}(X_P, X_q) + L_{KL}(X'_P, X'_q)
 \end{equation}
 
 \begin{figure}[!t]
   \centering
   \tikzset{every picture/.style={scale=1.5}}
   \input{ressources/tex_file/net_prod.tex}
-  \caption{Produce Architecture}
+  \caption{Produce Constraints}
   \label{fig:final_archi}
 \end{figure}
+
 \section{Integrate ML \& CL to K-Means}
 
-We can use the COPKmeans algorithme proposed by Kiri Wagstaff, Claire
+We can use the COP-Kmeans algorithm proposed by Kiri Wagstaff, Claire
 Cardie, Seth Rogers and Stephan Schr\"odl
 \cite{Wagstaff:2001:CKC:645530.655669} 
 
 \begin{algorithm}[H]
   \KwData{Data Set D, must-link consytraints $Con_=$, cannot-
-    link constraints $Con_\neq$}
-  Let $C_1$ ... $C_k$ be the initial clusters centers;\\
+    link constraints $Con_{\neq}$}
+  Let $C_1$ ... $C_k$ be the initial clusters centers\\
   \Repeat{convergence}{
     \ForEach{$d_i \in D$}{
-      
+      Assign $d_i$ to the cluster $C_j$ such that
+      violate-constraints($d_i, C_j, Con_=, Con_{\neq}$) return false 
     }
     \ForEach{$C_i$}{
       update($C_i$)
     }
   }
   return \{$C_1$...$C_k$\}
- \caption{COP-Kmeans Algorithm}
+  \caption{COP-Kmeans}
 \end{algorithm} 
+\begin{algorithm}[H]
+  \KwData{data point $d$, cluster C, must-link consytraints $Con_=$, cannot-
+    link constraints $Con_{\neq}$}
+    \ForEach{$d, d_= \in Con_=$}{
+      \If{$d_= \notin C$}{return True} 
+    }
+    \ForEach{$d, d_\neq \in Con_{\neq}$}{
+      \If{$d_\neq \notin C$}{return True} 
+    }
+  return false
+  \caption{violate-constraints}
+\end{algorithm} 
+
 \nocite{*}
 \printbibliography[title=References]
 \end{document}
