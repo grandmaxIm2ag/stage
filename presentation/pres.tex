@@ -1,6 +1,7 @@
 \documentclass{beamer}
 
-\usepackage[utf8]{inputenc} 
+\usepackage[utf8]{inputenc}
+\usepackage[francais]{babel}
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
 \usepackage{graphicx}
@@ -9,27 +10,26 @@
 
 \begin{document}
 
-\title{Ajout de contraintes lexicales aux k-moyenne}
+\title{Ajout de contraintes lexicales \`a l'algorithme des  K-Moyennes}
 \author{Grand Maxence}
+\institute{Laboratoire Informatique de Grenoble\\\'Equipe AMA\\Supervis\'e par \'Eric Gaussier}
+
 \maketitle
 
 \begin{frame}
   \frametitle{K-Moyenne}
 
-  L'algorithme K-Moyenne est un algorithme de clustering non supervis\'e.
-\\
+  L'algorithme des K-Moyennes est un algorithme de clustering non supervis\'e.
+\pause
   Soit C une collection de n documents, k le nombre de clusters souhait\'e, $r_i$
-  le rep\'esentant du cluster i, la K-Moyenne cherche \`a minimiser la fonction : 
+  le rep\'esentant du cluster i, l 'algoritme des  K-Moyennes cherche \`a minimiser la fonction : 
 \\
 \[
 Loss = \sum_{i=1}^n \norm{C_i - r_i}_2^2
 \]
-\end{frame}
-
-\begin{frame}
-  \frametitle{Les contraintes Lexicales}
-  Les contraintes lexicales sont les vues d\'efinits par un ensemble de mot cl\'ees
-  donn\'e par l'utilisateur.
+\pause
+Les contraintes lexicales sont les vues d\'efinies par un ensemble de mot cl\'ees
+donn\'e par l'utilisateur.
 \end{frame}
 
 \begin{frame}
