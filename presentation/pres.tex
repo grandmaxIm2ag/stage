@@ -10,9 +10,9 @@
 
 \begin{document}
 
-\title{Ajout de contraintes lexicales \`a l'algorithme des  K-Moyennes}
+\title{Ajout de contraintes lexicales et de connaissances \`a priori \`a l'algorithme  des K-Moyennes \`a l'aide de Deep Learning}
 \author{Grand Maxence}
-\institute{Laboratoire Informatique de Grenoble\\\'Equipe AMA\\Supervis\'e par \'Eric Gaussier}
+\institute{Laboratoire d'Informatique de Grenoble\\\'Equipe AMA\\Supervis\'e par \'Eric Gaussier}
 
 \maketitle
 
@@ -20,24 +20,32 @@
   \frametitle{K-Moyenne}
 
   L'algorithme des K-Moyennes est un algorithme de clustering non supervis\'e.
-\pause
-  Soit C une collection de n documents, k le nombre de clusters souhait\'e, $r_i$
-  le rep\'esentant du cluster i, l 'algoritme des  K-Moyennes cherche \`a minimiser la fonction : 
+  \pause
+  \\
+  Soit D une collection de n documents, K le nombre de clusters souhait\'e, $r_k$
+  le rep\'esentant du cluster $C_k$, l 'algorithme des  K-Moyennes maximise la fonction : 
 \\
 \[
-Loss = \sum_{i=1}^n \norm{C_i - r_i}_2^2
+\sum_{k=1}^K ~ \sum_{\forall d_i \in C_k} sim(d_i, r_k)
 \]
-\pause
-Les contraintes lexicales sont les vues d\'efinies par un ensemble de mot cl\'ees
-donn\'e par l'utilisateur.
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Contraintes}
+  Les contraintes lexicales sont les vues d\'efinies par un ensemble de mot cl\'es
+  donn\'e par l'utilisateur.
+  \pause
+  \\
+  Les connaissances \`a priori sont un ensemble de contraintes "must-link" et "cannot-link".
 \end{frame}
 
 \begin{frame}
   \frametitle{Travail Demand\'e}
   \begin{itemize}
-  \item Recherche documentaire
-  \item Rechercher comment repr\'esenter les contraintes lexicales
-  \item Implantation de l'algotithme
+  \item \'Etat de l'Art
+  \item Rechercher comment repr\'esenter les contraintes
+  \item Implantation de l'algorithme
   \item Test de l'algorithme
   \end{itemize}
 \end{frame}
