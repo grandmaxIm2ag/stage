@@ -1,0 +1,43 @@
+\section{Proposed Method}
+The idea is to learn a latent space taking into account lexical constains and
+a prior.
+\\
+We denote $KW = \begin{pmatrix} kw_1 & kw_2 & ... & kw_{k-1} & kw_{k}
+\end {pmatrix}$
+the set of key words. X a document,
+X' the vector showing the TFIDF each key words
+$\forall_{i=1, 2, .., k}~X'_i =TFIDF(kw_i~in~X)$.
+C the corpus of document, N the size of C, and K the number of cluster.
+\subsection{Auto-Encoder}
+We denote $h_X$ the encoder output : 
+\begin{equation}\label{eq:h}
+  h_X = g(X,\theta_1)
+\end{equation}
+To learn a latent space 
+\begin{equation}\label{eq:omega1}
+  \omega(h_X) = || h_X - g(X',\theta_1) ||_2^2 = || h_X - h_{X'}||_2^2
+\end{equation}
+
+\begin{equation}\label{eq:omegaCL}
+  \omega_{cl} = \sum_{\forall{(X_1,X_2)\in CL}} || h_{X_1} - h_{X_2} ||_2^2
+\end{equation}
+
+\begin{equation}\label{eq:omegaML}
+  \omega_{ml} = \sum_{\forall{(X_1,X_2)\in ML}} max(0,
+  \eta - || h_{X_1} - h_{X_2} ||_2^2)
+\end{equation}
+
+\begin{equation}\label{eq:Sparse}
+  L_{SAE}(C, \theta_1) = \sum_{X \in C}(||X - f(g(X, \theta_1))||_2^2
+  + \omega(h_X)) + \omega_{cl} + \omega_{ml}  
+\end{equation}
+
+\subsection{Deep K-Means}
+
+Finally the loss function is :
+\begin{equation}\label{eq:loss_FINALE}
+  Min~L(KW, C, K; \theta_1, \theta_2) = \epsilon_0.L_{SAE}(C, KW; \theta_1) 
+  + \epsilon_1.L_{KL}(C; \theta_2) + \epsilon_2.L_{clust}(C,K)
+\end{equation}
+
+with $\epsilon_0 \geq 0$, $\epsilon_1 \leq 0$, $\epsilon_2 \geq 0$.
