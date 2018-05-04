@@ -1,3 +1,20 @@
 
 \section{Introduction}\label{sec:intro}
 
+Clustering is one of the most fundamental tasks in data mining and machine
+learning. $K$-Means algorithm is a clustering method using centroid models,
+it represents each cluster by a single mean vector. $K$-Means clustering sorts
+n objects into k clusters in which each observation belongs to
+the cluster with the nearest centroid. This problem is computationally
+difficult (NP-hard).
+\\In real application domains, users may want to introduce constaints to find
+usefull properties for clustering data. The difficulty with integration of
+constraints to $K$-Means algorithm  is to find a good representation for data
+taking account constraint. The Deep Learning and Auto-Encoder can be used to
+learn this representation. With Auto-Encoder we have to perform the $K$-Means in
+the latent space learned.
+\\The major contribution to this work, is to propose a constrained Deep $K$-Means
+taking account into ML and CL constraints and lexical constraints.
+\\In next section, we provide some background on the $K$-Means alorithm and deep
+learning. In section 3, we proposed a method to introduce constraints to the
+$K$-Means algorithm. And we experiment our method in section 4.  

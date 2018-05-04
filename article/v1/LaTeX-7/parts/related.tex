@@ -8,13 +8,13 @@ a function $f(X, \theta) = X$. In other words, it is trting t learn an
 approximation of the identity function. An Auto-Encoder is composed in two
 parts an encoder function g, and a decoder function f.\\
 To learn the identity function we use a reconstruct loss $L_{rec}$ using MSE :
-\begin{equation}
+\begin{equation*}
   L_{rec}(X, \theta) = || X - f(g(X, \theta)) ||_2^2 
-\end{equation}
+\end{equation*}
 
-\begin{figure}[!b]
+\begin{figure}[!h]
   \centering
-  \tikzset{every picture/.style={scale=1.5}}
+  \tikzset{every picture/.style={scale=1.6}}
   \input{parts/res/tex/neural_network_autoencoder.tex}
   \caption{Auto-Encoder}
   \label{fig:AE}
@@ -22,40 +22,39 @@ To learn the identity function we use a reconstruct loss $L_{rec}$ using MSE :
 The spase Auto-Encoder ivolves a sparse penalty $\omega(h)$ on the code layer h,
 in addition to the reconstruct loss. We  enote $L_{SAE}$ the loss function of
 the sparse Auto-Encoder :
-\begin{equation}
+\begin{equation*}
   L_{SAE}(X, \theta) = L_{rec}(X, \theta) + \omega(h)
-\end{equation}
+\end{equation*}
 The sparse penalty allows to discover interesting structure in data.
 
-\subsection{A prior knowledge}
+\subsection{Background knowledge}
 
 The prior knowledge are pairwise constraints :
 \begin{itemize}
-\item Must-link constraint $CL$ : $(X, X') \in CL \implies $ X and X' are in the
+\item \textbf{Must-link} constraint $CL$ : $(X, X') \in CL \implies $ X and X' are in the
   same cluster.
-\item Cannot-link constraint $ML$ : $(X, X') \in ML \implies $ X and X' are in
+\item \textbf{Cannot-link} constraint $ML$ : $(X, X') \in ML \implies $ X and X' are in
   different cluster.
 \end{itemize}
-A first method is to integrate pairwise constraints to the K-Means is to use the
+A first method to integrate pairwise constraints to the K-Means is to use the
 COP-KMeans alorithm instroduced by Wagstaff
 \cite{Wagstaff:2001:CKC:645530.655669}. In this algorithm, we assign each to the
 closest cluster wich did not violate ML and CL constraints.
-Another method, proposed by Hsu and Kira \cite{2015arXiv151106321H}, consist to
+\\Another method, proposed by Hsu and Kira \cite{2015arXiv151106321H}, consists to
 use a neural Network based end-to-end clustering framework. This network
-directly assign clusters in the output layer. Then they use the softmax function
-on the uotput layer and the KL-Divergence to learn a latent space which minimize
+directly assigns clusters in the output layer. Then they use the softmax function
+on the output layer and the KL-Divergence to learn a latent space which minimize
 the statistical disrtance between predicted cluster probabilities for similar
 pairs while maximozing the distance for dissimilar pairs.
 \subsection{Deep $K$-Means}
-A several approaches for the deep $K$-Means propose to jinty learn
+A several approaches for the deep $K$-Means propose to jointy learn the
+representation and perform the $K$-Means algorithm. 
 In the paper proposed by Moradi, Thonet and Gaussier \cite{Deap-K-Means} the
 generalized Deep $K$-Means takes the form :
 
-\begin{equation}
-  \begin{aligned}
+\begin{gather*}
   L_{rec}(x) = g(x, A(x; \theta)) \\
   L_{clust}(x) = f(h_\theta(x), cf(h_\theta(x), R))\\
   min~Loss = \sum_{x \in X} \epsilon_0\lambda L_{rec}(x) + \epsilon_1 L_{clust}
   (x)
-  \end{aligned}
-\end{equation}
+\end{gather*}

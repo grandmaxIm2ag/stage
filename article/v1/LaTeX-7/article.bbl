@@ -94,7 +94,7 @@
       \field{sortinithash}{ec3950a647c092421b9fcca6d819504a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{abstract}{The exhaustivity of document descriptions and the specificity of index terms are usually regarded as independent. It is suggested that specificity should be interpreted statistically, as a function of term use rather than of term meaning. The effects on retrieval of variations in term specificity are examined, experiments with three test collections showing in particular that frequently\x{fffd}\x{fffd}\x{fffd}occurring terms are required for good overall performance. It is argued that terms should be weighted according to collection frequency, so that matches on less frequent, more specific, terms are of greater value than matches on frequent terms. Results for the test collections show that considerable improvements in performance are obtained with this very simple procedure.}
+      \field{abstract}{The exhaustivity of document descriptions and the specificity of index terms are usually regarded as independent. It is suggested that specificity should be interpreted statistically, as a function of term use rather than of term meaning. The effects on retrieval of variations in term specificity are examined, experiments with three test collections showing in particular that frequently‐occurring terms are required for good overall performance. It is argued that terms should be weighted according to collection frequency, so that matches on less frequent, more specific, terms are of greater value than matches on frequent terms. Results for the test collections show that considerable improvements in performance are obtained with this very simple procedure.}
       \field{journaltitle}{Journal of Documentation}
       \field{number}{1}
       \field{title}{A STATISTICAL INTERPRETATION OF TERM SPECIFICITY AND ITS APPLICATION IN RETRIEVAL}
@@ -138,6 +138,43 @@
       \field{labeltitlesource}{title}
       \field{title}{Deep K-Means : An End-to-End, Annealing-based Approach for jointly Clustering with K-Means and Learning Representations}
     \endentry
+    \entry{rake}{article}{}
+      \name{author}{4}{}{%
+        {{hash=540157d7052564964e568076a187235e}{%
+           family={Rose},
+           family_i={R\bibinitperiod},
+           given={Stuart},
+           given_i={S\bibinitperiod}}}%
+        {{hash=cc6caef30f9f980e9a91923a2e6d1660}{%
+           family={Engel},
+           family_i={E\bibinitperiod},
+           given={Dave},
+           given_i={D\bibinitperiod}}}%
+        {{hash=3a2810eae1b0cde1e8e9ec1566bdc7f5}{%
+           family={Cramer},
+           family_i={C\bibinitperiod},
+           given={Nick},
+           given_i={N\bibinitperiod}}}%
+        {{hash=6f08bbc8173af7c7fec5ebade1d6b5ac}{%
+           family={Cowley},
+           family_i={C\bibinitperiod},
+           given={Wendy},
+           given_i={W\bibinitperiod}}}%
+      }
+      \strng{namehash}{7ebf7af609892f3da9ee2808be11d4af}
+      \strng{fullhash}{8a5548f6e17d324e024b59ffc77db55a}
+      \field{sortinit}{R}
+      \field{sortinithash}{c7387613477035a752d935acfc3e3ea2}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Text Mining: Applications and Theory}
+      \field{isbn}{9780470689646}
+      \field{month}{03}
+      \field{title}{Automatic Keyword Extraction from Individual Documents}
+      \field{year}{2010}
+      \field{pages}{1\bibrangedash 20}
+      \range{pages}{20}
+    \endentry
     \entry{Wagstaff:2001:CKC:645530.655669}{inproceedings}{}
       \name{author}{4}{}{%
         {{hash=5cebf2e445161dae317e2c3c4421cf30}{%
@@ -156,7 +193,7 @@
            given={Seth},
            given_i={S\bibinitperiod}}}%
         {{hash=ebe8f465bb4d247fd901d44dd8b66de6}{%
-           family={Schr\"{o}dl},
+           family={Schrödl},
            family_i={S\bibinitperiod},
            given={Stefan},
            given_i={S\bibinitperiod}}}%
