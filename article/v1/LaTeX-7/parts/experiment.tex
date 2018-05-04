@@ -2,16 +2,21 @@
 \subsection{Data}
 To experiment our algoritm we use two corpus $C_1$ and $C_2$. $C_1$ contains a
 set of documents related to Finance and $C_2$ contains a set of documents
-related to Sport. With these corpus we generate $KW_1$ the set of Key Words
-for $C_1$ and $KW_2$ the set of Key Words. Then we denote $KW$ the set of Key
-Words for clustering such that $KW = KW_1 \cup KW_2$.\\
-To generate $KW_1$ (resp $KW_2$) we extract Key Words from $C_1$ (resp $C_2$)
+related to Sport. With these corpus we generate $KW_1$ the set of keywords
+for $C_1$ and $KW_2$ the set of keywords for $C_2$. Then we denote $KW$
+the set of keywords for clustering such that $KW = KW_1 \cup KW_2$.\\
+To generate $KW_1$ (resp $KW_2$) we extract keywords from $C_1$ (resp $C_2$)
 with RAKE algorithm \cite{rake}.\\
-For must-link we extract a set of pair (X, X') from  each corpus such that
-$(X, X') \in C_1 \vee (X, X') \in C_2$. And for cannot-link constraints we
-extract a set of pair (X, X') from  each corpus such that
-$(X \in C_1 \wedge  X' \in C_2)\vee (X \in C_2 \wedge  X' \in C_1)$. 
-\subsubsection{Reference Algorithm}
-We use an algorithm that doesn't use pairwise constraints to perform K-Means
-with lexical constraints. For this algorithm : 
+For must-link constraints we extract a set of pairs $(X_1, X_2)$ from each corpus such that
+$(X_1, X_2) \in C_1 \vee (X_1, X_2) \in C_2$. And for cannot-link constraints we
+extract a set of pairs $(X_1, X_2)$ from  each corpus such that
+$(X_1 \in C_1 \wedge  X_2 \in C_2)\vee (X_1 \in C_2 \wedge  X_2 \in C_1)$. 
+\subsection{Reference Algorithm}
+We use a Deep $K$-Mean algorithm that doesn't use pairwise constraints
+to perform K-Means with lexical constraints. The loss function is :
+\begin{equation}\label{eq:lies}
+  L = \sum_d \alpha L_d + \beta \sum_{k=1}^s || c_k - \sum_{\omega \in K}
+  \lambda_{K, \omega} \sigma(\omega, d)||_2^2 + \sum_{k=1}^s \gamma_k
+  || \lambda_k||
+\end{equation}
 \\We compare our algorithm's results with reference algorithm's result.    

@@ -4,7 +4,7 @@
 
 The Auto-Encoder allows to learn a latent space with significiantly informations
 for the clustering without loss of informations. The Auto-Encoder tries to learn
-a function $f(X, \theta) = X$. In other words, it is trting t learn an
+a function $f(X, \theta) = X$. In other words, it is trying to learn an
 approximation of the identity function. An Auto-Encoder is composed in two
 parts an encoder function g, and a decoder function f.\\
 To learn the identity function we use a reconstruct loss $L_{rec}$ using MSE :
@@ -20,7 +20,7 @@ To learn the identity function we use a reconstruct loss $L_{rec}$ using MSE :
   \label{fig:AE}
 \end{figure}
 The spase Auto-Encoder ivolves a sparse penalty $\omega(h)$ on the code layer h,
-in addition to the reconstruct loss. We  enote $L_{SAE}$ the loss function of
+in addition to the reconstruct loss. We  denote $L_{SAE}$ the loss function of
 the sparse Auto-Encoder :
 \begin{equation*}
   L_{SAE}(X, \theta) = L_{rec}(X, \theta) + \omega(h)
@@ -29,7 +29,7 @@ The sparse penalty allows to discover interesting structure in data.
 
 \subsection{Background knowledge}
 
-The prior knowledge are pairwise constraints :
+The background knowledge are pairwise constraints :
 \begin{itemize}
 \item \textbf{Must-link} constraint $CL$ : $(X, X') \in CL \implies $ X and X' are in the
   same cluster.
@@ -37,7 +37,7 @@ The prior knowledge are pairwise constraints :
   different cluster.
 \end{itemize}
 A first method to integrate pairwise constraints to the K-Means is to use the
-COP-KMeans alorithm instroduced by Wagstaff
+COP-KMeans alorithm introduced by Wagstaff
 \cite{Wagstaff:2001:CKC:645530.655669}. In this algorithm, we assign each to the
 closest cluster wich did not violate ML and CL constraints.
 \\Another method, proposed by Hsu and Kira \cite{2015arXiv151106321H}, consists to
@@ -45,7 +45,7 @@ use a neural Network based end-to-end clustering framework. This network
 directly assigns clusters in the output layer. Then they use the softmax function
 on the output layer and the KL-Divergence to learn a latent space which minimize
 the statistical disrtance between predicted cluster probabilities for similar
-pairs while maximozing the distance for dissimilar pairs.
+pairs while maximizing the distance for dissimilar pairs.
 \subsection{Deep $K$-Means}
 A several approaches for the deep $K$-Means propose to jointy learn the
 representation and perform the $K$-Means algorithm. 

@@ -3,8 +3,8 @@ The idea is to learn a latent space taking into account lexical constains and
 background knowledge.
 \\We denote $KW = \begin{pmatrix} kw_1 & kw_2 & ... & kw_{k-1} & kw_{k}
 \end {pmatrix}$
-the set of of index of key words. X a document of size n,
-X' the vector showing only data about key words such that :
+the set of index of keywords. X a document of size n,
+X' the vector showing only informations about keywords such that :
 \begin{equation*}
 \forall_{i=1,2,..,n}X_i' = \left\{
 \begin{array}{ll}
@@ -17,32 +17,33 @@ C the corpus, N the size of C, and K the number of cluster.
 \subsection{Auto-Encoder}
 We denote $h_X$ the encoder output : 
 \begin{equation}\label{eq:h}
-  h_X = g(X,\theta_1)
+  h_X = g(X,\theta)
 \end{equation}
 \subsubsection{Lexical Constraints}
-To learn the latent space we use sparse penalties such that the representation
+To learn the latent space we a use sparse penalty such that the representation
 of the document X is close of the representation of X'. In this way, in the
-latent the representation of document will be biased by key word. We introduce a
-sparse penalty $\omega_{KW}$ for lexical constraints and use squared loss : 
+latent space, the representation of document will be biased by keywords.
+We introduce a sparse penalty $\omega_{KW}$ for lexical constraints and
+use squared loss : 
 \begin{equation}\label{eq:omega1}
-  \omega_{KW} = \sum_{\forall{X\in C}} || h_X - g(X',\theta_1) ||_2^2 =
+  \omega_{KW} = \sum_{\forall{X\in C}} || h_X - g(X',\theta) ||_2^2 =
   \sum_{\forall{(X,X')\in X}} || h_X - h_{X'}||_2^2
 \end{equation}
 \subsubsection{Backgroung Knowledge}
 In addition of lexical constraints we introduce background knowledge, so we need
-a representation taking into account theses constraints.\\
+a representation taking into account these constraints.\\
 For must-link constraints we want close representations for each pair $X_1$, $X_2$
 in the set ML. We introduce a sparse penalty $\omega_{ML}$ for must-link
 constraints and use squared loss :
 \begin{equation}\label{eq:omegaML}
   \omega_{ML} = \sum_{\forall{(X_1,X_2)\in CL}} || h_{X_1} - h_{X_2} ||_2^2
 \end{equation}
-For must-link constraints we want away representations for each pair $X_1$, $X_2$
-in the set ML.
+For cannot-link constraints we want distant representations for each pair $X_1$, $X_2$
+in the set CL.
 We can use the hinge loss.
 We introduce a sparse penalty $\omega_{CL}$ for cannot-link constraints.
 \begin{equation}\label{eq:omegaCL}
-  \omega_{CL} = \sum_{\forall{(X_1,X_2)\in ML}} max(0,
+  \omega_{CL} = \sum_{\forall{(X_1,X_2)\in CL}} max(0,
   \eta - || h_{X_1} - h_{X_2} ||_2^2)
 \end{equation}
 The sparse penalty is :
@@ -50,13 +51,13 @@ The sparse penalty is :
   \Omega(C) = \omega_{KW} + \omega_{CL} + \omega_{ML}  
 \end{equation}
 
-Then the reconstruct function is :
+Then the reconstruct loss function is :
 \begin{equation}\label{eq:AEDK}
-  L_{rec}(C, \theta_1) = \sum_{X \in C}(||X - f(g(X, \theta_1))||_2^2
+  L_{rec}(C, \theta) = \sum_{X \in C}(||X - f(g(X, \theta))||_2^2
 \end{equation}
 Finally the loss function for the Auto-Encoder is :
 \begin{equation}\label{eq:AE}
-  L_{SAE}(C, \theta_1) = L_{rec}(C, \theta_1) + \Omega(C)  
+  L_{SAE}(C,KW; \theta) = L_{rec}(C, \theta) + \Omega(C)  
 \end{equation}
 
 \subsection{Deep K-Means}
@@ -64,14 +65,14 @@ Finally the loss function for the Auto-Encoder is :
 \subsubsection{Clustering Loss}
 
 For the clustering loss we can use squared loss with euclidian distance. We
-denote $r = \begin{pmatrix} r_1 & r_2 & ... & r_i\end{pmatrix}$ the vector of
+denote $r = \begin{pmatrix} r_1 & r_2 & ... & r_K\end{pmatrix}$ the vector of
 centroids.  
 \begin{equation}\label{eq:loss_clust}
   L_{clust}(C,K) = \sum_{i=1}^K \sum_{X \in K_i} ||h_X - r_i ||_2^2 
 \end{equation}
 Finally the loss function is :
 \begin{equation}\label{eq:loss_FINALE}
-  Min~L(KW, C, K; \theta_1, \theta_2) = \epsilon_0.L_{SAE}(C, KW; \theta_1) 
+  Min~L(KW, C, K; \theta) = \epsilon_0.L_{SAE}(C, KW; \theta) 
   + \epsilon_1.L_{clust}(C,K)
 \end{equation}
 
