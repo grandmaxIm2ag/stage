@@ -6,6 +6,18 @@ import random
 import math
 import tensorflow as tf
 
+###################################################
+# Masque le document X avec les mot clés de KW    #
+#                                                 #
+# X            Le document                        #
+# KW           Les indices des mots clés          #
+###################################################
+def mask(X, KW):
+    X_prime = np.zeros(X.shape[0])
+    for i in range(KW.shape[0]):
+        X_prime[KW[i]]=X[KW[i]]
+    return X_prime
+        
 class Autoencoder:
     
     ###################################################
@@ -16,11 +28,14 @@ class Autoencoder:
     # n_encode     La taille de la couche d'encodage  #
     # batch        Jeu de données pour l'apprentissage#
     ###################################################
-    def __init__(self, n, n_hidden, n_encode, batch):
+    def __init__(self, n, n_hidden, n_encode, batch, KW):
         self.n = n
         self.n_hidden = n_hidden
         self.n_encode = n_encode
         self.batch = batch
+        self.batch_prime = []
+        for i in range(batch.shape[0]):
+            self.batch_prime.append(mask(batch[i], KW))
 
     ###################################################
     # Initialise les placeholders X et Y              #
@@ -92,7 +107,13 @@ class Autoencoder:
         self.losses = {
             'rec': tf.reduce_sum(tf.pow(self.X - self.decode_layer, 2))
         }
-        
+
+    ###################################################
+    # Fonction d'apprentissage de l'autoencoder       #
+    #                                                 #
+    # epoches      Nombre d'epoches                   #
+    # rate         Pas d'apprentissage                #
+    ###################################################
     def train(self, epoches, rate):
         train_step = tf.train.GradientDescentOptimizer(rate).minimize(\
             self.losses['rec'])
@@ -114,7 +135,8 @@ if __name__ == "__main__":
         [1,0,3,7,3],
         [8,5,13,9,7]
     ],dtype=np.dtype('Float32'))
-    autoencoder = Autoencoder(5,10,100,batch)
+    KW = np.array([0, 2])
+    autoencoder = Autoencoder(5,10,100,batch, KW)
     autoencoder.init_placeholder()
     autoencoder.init_weights()
     autoencoder.init_biases()
