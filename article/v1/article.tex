@@ -1,9 +1,18 @@
-\documentclass[twocolumn]{svjour3}       % onecolumn (second format)
-
+\documentclass{article}       % onecolumn (second format)
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[document]{ragged2e}
 \usepackage{graphicx}
+\usepackage{amsmath,amssymb,amsthm} 
+\usepackage{url}
+\usepackage{xspace}
 \usepackage[left=20mm,top=20mm]{geometry}
+\usepackage{subcaption}
+\usepackage{mathpazo}
+\usepackage{booktabs}
 \usepackage{hyperref}
 \usepackage{tikz}
+\usepackage{dsfont}
 \usepackage[
   style=numeric,
   natbib=true,
@@ -17,6 +26,7 @@
 \title{Integrate lexical constraints and a prior knowledge in K-Means}
 \author{Grand Maxence}
 
+\input{parts/abstract.tex}
 \input{parts/intro.tex}
 \input{parts/related.tex}
 \input{parts/proposed.tex}
