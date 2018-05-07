@@ -36,7 +36,7 @@ For must-link constraints we want close representations for each pair $X_1$, $X_
 in the set ML. We introduce a sparse penalty $\omega_{ML}$ for must-link
 constraints and use squared loss :
 \begin{equation}\label{eq:omegaML}
-  \omega_{ML} = \sum_{\forall{(X_1,X_2)\in ML}} || h_{X_1} - h_{X_2} ||_2^2
+  \omega_{ML} = \sum_{\forall{(X_1,X_2)\in Mcd L}} || h_{X_1} - h_{X_2} ||_2^2
 \end{equation}
 For cannot-link constraints we want distant representations for each pair $X_1$, $X_2$
 in the set CL.
