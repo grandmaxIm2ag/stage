@@ -77,7 +77,7 @@ class Autoencoder:
                                                (self.encode_layer,\
                                                 self.weights['h2']),\
                                                 self.biases['b2']))
-        self.decode_layer = tf.nn.relu(tf.add(tf.matmul\
+        self.decode_layer = tf.nn.softplus(tf.add(tf.matmul\
                                               (self.hidden2_layer,\
                                                self.weights['decode']),\
                                                self.biases['decode']))
@@ -110,13 +110,9 @@ class Autoencoder:
                     
 if __name__ == "__main__":
     batch = np.array([
-        [1,2,3,4,5],
-        [198,2,5,4,5],
-        [1,24,3,4,45],
-        [1,672,3,490,5],
-        [1,562,3,4,5],
-        [1,2,6453,4,5],
-        [1,652,3,4,5]
+        [11,4,3,4,5],
+        [1,0,3,7,3],
+        [8,5,13,9,7]
     ],dtype=np.dtype('Float32'))
     autoencoder = Autoencoder(5,10,100,batch)
     autoencoder.init_placeholder()
