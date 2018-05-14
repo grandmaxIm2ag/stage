@@ -1,15 +1,15 @@
 [1] Config.pm:340> INFO - This is Biber 2.4
-[2] Config.pm:343> INFO - Logfile is 'article.blg'
-[193] biber:287> INFO - === lun. mai  7, 2018, 16:08:32
-[497] Biber.pm:348> INFO - Reading 'article.bcf'
-[983] Biber.pm:739> INFO - Using all citekeys in bib section 0
-[1034] Biber.pm:3151> INFO - Processing section 0
-[1157] Biber.pm:3308> INFO - Looking for bibtex format file 'parts/biblio.bib' for section 0
-[1211] bibtex.pm:1113> INFO - Decoding LaTeX character macros into UTF-8
-[1261] bibtex.pm:974> INFO - Found BibTeX data source 'parts/biblio.bib'
-[2014] UCollate.pm:65> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[2014] UCollate.pm:65> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
-[2015] Biber.pm:3028> INFO - Sorting list 'nty/global' of type 'entry' with scheme 'nty' and locale 'en-US'
-[2015] Biber.pm:3032> INFO - No sort tailoring available for locale 'en-US'
-[2067] bbl.pm:519> INFO - Writing 'article.bbl' with encoding 'UTF-8'
-[2176] bbl.pm:615> INFO - Output to article.bbl
+[1] Config.pm:343> INFO - Logfile is 'article.blg'
+[205] biber:287> INFO - === lun. mai 14, 2018, 11:09:44
+[528] Biber.pm:348> INFO - Reading 'article.bcf'
+[1025] Biber.pm:739> INFO - Using all citekeys in bib section 0
+[1074] Biber.pm:3151> INFO - Processing section 0
+[1203] Biber.pm:3308> INFO - Looking for bibtex format file 'parts/biblio.bib' for section 0
+[1264] bibtex.pm:1113> INFO - Decoding LaTeX character macros into UTF-8
+[1317] bibtex.pm:974> INFO - Found BibTeX data source 'parts/biblio.bib'
+[2040] UCollate.pm:65> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[2041] UCollate.pm:65> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[2041] Biber.pm:3028> INFO - Sorting list 'nty/global' of type 'entry' with scheme 'nty' and locale 'en-US'
+[2041] Biber.pm:3032> INFO - No sort tailoring available for locale 'en-US'
+[2095] bbl.pm:519> INFO - Writing 'article.bbl' with encoding 'UTF-8'
+[2206] bbl.pm:615> INFO - Output to article.bbl

@@ -27,7 +27,7 @@ We introduce a sparse penalty $\omega_{KW}$ for lexical constraints and
 use squared loss : 
 \begin{equation}\label{eq:omega1}
   \omega_{KW} = \sum_{\forall{X\in C}} || h_X - g(X',\theta) ||_2^2 =
-  \sum_{\forall{(X,X')\in X}} || h_X - h_{X'}||_2^2
+  \sum_{\forall{X\in C}} || h_X - h_{X'}||_2^2
 \end{equation}
 \subsubsection{Backgroung Knowledge}
 In addition of lexical constraints we introduce background knowledge, so we need
@@ -38,8 +38,8 @@ constraints and use squared loss :
 \begin{equation}\label{eq:omegaML}
   \omega_{ML} = \sum_{\forall{(X_1,X_2)\in ML}} || h_{X_1} - h_{X_2} ||_2^2
 \end{equation}
-For cannot-link constraints we want distant representations for each pair $X_1$, $X_2$
-in the set CL.
+For cannot-link constraints we want distant representations for each pair $X_1$,
+$X_2$ in the set CL.
 We can use the hinge loss.
 We introduce a sparse penalty $\omega_{CL}$ for cannot-link constraints.
 \begin{equation}\label{eq:omegaCL}
@@ -48,9 +48,14 @@ We introduce a sparse penalty $\omega_{CL}$ for cannot-link constraints.
 \end{equation}
 The sparse penalty is :
 \begin{equation}\label{eq:Sparse}
-  \Omega(C) = \omega_{KW} + \omega_{CL} + \omega_{ML}  
+  \Omega(C) = \alpha_0\omega_{KW} + \alpha_1\omega_{CL} + \alpha_2\omega_{ML}  
 \end{equation}
-
+With hyperparameters $\alpha_0\geq 0$ ,$\alpha_1\geq 0$, $\alpha_2\geq 0$. We use
+hyperparameters because we can imagine there exists document $Y$ such that
+$forall i \in KW$ Y = 0. With this configuration, Y' is the null vector. If the
+number of null vector Y' is higher, the representation will be useless.
+Hyperparameters allows to to change the importance of each sparese penaties
+and avoid problems with null representation.\\
 Then the reconstruct loss function is :
 \begin{equation}\label{eq:AEDK}
   L_{rec}(C, \theta) = \sum_{X \in C}(||X - f(g(X, \theta))||_2^2
@@ -66,9 +71,9 @@ Finally the loss function for the Auto-Encoder is :
 
 For the clustering loss we can use squared loss with euclidian distance. We
 denote $r = \begin{pmatrix} r_1 & r_2 & ... & r_K\end{pmatrix}$ the vector of
-centroids.  
+centroids, and S the set of clusters.  
 \begin{equation}\label{eq:loss_clust}
-  L_{clust}(C,K) = \sum_{i=1}^K \sum_{X \in K_i} ||h_X - r_i ||_2^2 
+  L_{clust}(C,K) = \sum_{i=1}^K \sum_{X \in S_i} ||h_X - r_i ||_2^2 
 \end{equation}
 Finally the loss function is :
 \begin{equation}\label{eq:loss_FINALE}

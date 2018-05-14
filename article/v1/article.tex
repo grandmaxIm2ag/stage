@@ -13,27 +13,30 @@
 \usepackage{hyperref}
 \usepackage{tikz}
 \usepackage{dsfont}
+\usepackage[]{algorithm2e}
 \usepackage[
   style=numeric,
   natbib=true,
   sortcites=true,
   block=space]{biblatex}
 \bibliography{parts/biblio}
+\newcommand\institute[1]{\newcommand\theinstitute{#1}}
 
 \begin{document}
 
 % The correct dates will be entered by the editor
-\title{Integrate lexical constraints and background knowledge to $K$-Means with Deep Learning}
-\author{Grand Maxence}
-
+\input{parts/title.tex}
 \maketitle
-
+%\twocolumn
 \input{parts/abstract.tex}
 \input{parts/intro.tex}
 \input{parts/related.tex}
 \input{parts/proposed.tex}
 \input{parts/experiment.tex}
-
+%\input{parts/conclusion.tex}
+%\input{parts/futur.tex}
+%\input{parts/remercie.tex}
+\newpage
 \nocite{*}
 \printbibliography[title=References]
 

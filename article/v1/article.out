@@ -11,4 +11,8 @@
 \BOOKMARK [3][-]{subsubsection.3.2.1}{Clustering Loss}{subsection.3.2}% 11
 \BOOKMARK [1][-]{section.4}{Experiment}{}% 12
 \BOOKMARK [2][-]{subsection.4.1}{Data}{section.4}% 13
-\BOOKMARK [2][-]{subsection.4.2}{Reference Algorithm}{section.4}% 14
+\BOOKMARK [2][-]{subsection.4.2}{Evaluation}{section.4}% 14
+\BOOKMARK [3][-]{subsubsection.4.2.1}{Reference Algorithm}{subsection.4.2}% 15
+\BOOKMARK [3][-]{subsubsection.4.2.2}{Metric}{subsection.4.2}% 16
+\BOOKMARK [2][-]{subsection.4.3}{Separate Corpus }{section.4}% 17
+\BOOKMARK [2][-]{subsection.4.4}{Noising Text}{section.4}% 18
