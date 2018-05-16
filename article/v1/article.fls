@@ -336,8 +336,6 @@ INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/mathpazo/zplmr7t.tfm
 INPUT parts/related.tex
 INPUT parts/related.tex
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/adobe/palatino/pplb7t.tfm
-INPUT parts/res/tex/neural_network_autoencoder.tex
-INPUT parts/res/tex/neural_network_autoencoder.tex
 INPUT /usr/share/texlive/texmf-dist/fonts/vf/adobe/palatino/pplr7t.vf
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/adobe/palatino/pplr8r.tfm
 INPUT /var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map
@@ -390,6 +388,8 @@ INPUT /usr/share/texlive/texmf-dist/fonts/vf/public/mathpazo/zplmr7v.vf
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmex10.tfm
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/cm/cmex10.tfm
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/mathpazo/fplmr.tfm
+INPUT parts/res/tex/neural_network_autoencoder.tex
+INPUT parts/res/tex/neural_network_autoencoder.tex
 INPUT parts/proposed.tex
 INPUT parts/proposed.tex
 INPUT /usr/share/texlive/texmf-dist/fonts/vf/public/mathpazo/zplmr7m.vf

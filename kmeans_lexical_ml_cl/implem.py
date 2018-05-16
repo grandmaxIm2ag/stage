@@ -17,9 +17,9 @@ def mask(X, KW):
     for i in range(KW.shape[0]):
         X_prime[KW[i]]=X[KW[i]]
     return X_prime
-        
-class Autoencoder:
+
     
+class Autoencoder:    
     ###################################################
     # Constructeur de la classse Autoencoder          #
     #                                                 #
@@ -42,6 +42,7 @@ class Autoencoder:
     ###################################################
     def init_placeholder(self):
         self.X = tf.placeholder(tf.float32, shape=[None,self.n], name = 'X')
+        self.X_prime = tf.placeholder(tf.float32, shape=[None,self.n], name = 'X_prime')
 
     ###################################################
     # Initialise les matrices de poids dans le        #
@@ -81,23 +82,25 @@ class Autoencoder:
     ###################################################
     def init_layers(self):
         self.hidden1_layer = tf.nn.sigmoid(tf.add(tf.matmul\
-                                               (self.X,\
-                                                self.weights['h1']),\
-                                                self.biases['b1']))
-        self.encode_layer = tf.nn.sigmoid(tf.add(tf.matmul\
-                                              (self.hidden1_layer,\
-                                               self.weights['encode']),\
-                                               self.biases['encode']))
+                                                  (self.X,\
+                                                   self.weights['h1']),\
+                                                  self.biases['b1']))
+        self.encode_layer = tf.nn.softplus(tf.add(tf.matmul\
+                                                 (self.hidden1_layer,\
+                                                  self.weights['encode']),\
+                                                 self.biases['encode']))
         self.hidden2_layer = tf.nn.sigmoid(tf.add(tf.matmul\
-                                               (self.encode_layer,\
-                                                self.weights['h2']),\
-                                                self.biases['b2']))
+                                                  (self.encode_layer,\
+                                                   self.weights['h2']),\
+                                                  self.biases['b2']))
         self.decode_layer = tf.nn.softplus(tf.add(tf.matmul\
-                                              (self.hidden2_layer,\
-                                               self.weights['decode']),\
-                                               self.biases['decode']))
+                                                  (self.hidden2_layer,\
+                                                   self.weights['decode']),\
+                                                  self.biases['decode']))
 
-
+    def loss_lex(self):
+        sess = tf.Session()
+        x = sess.run(self.encode_layer)
     ###################################################
     # Initialise les fonctions de coûts :             #
     #   - reconstruction                              #
@@ -105,7 +108,8 @@ class Autoencoder:
     ###################################################
     def init_losses(self):
         self.losses = {
-            'rec': tf.reduce_sum(tf.pow(self.X - self.decode_layer, 2))
+            'rec': tf.reduce_sum(tf.pow(self.X - self.decode_layer, 2)),
+            'lex': tf.reduce_sum(tf.pow(self.encode_layer - self.encode_layer, 2))
         }
 
     ###################################################
@@ -114,18 +118,18 @@ class Autoencoder:
     # epoches      Nombre d'epoches                   #
     # rate         Pas d'apprentissage                #
     ###################################################
-    def train(self, epoches, rate):
-        train_step = tf.train.GradientDescentOptimizer(rate).minimize(\
-            self.losses['rec'])
+    def train(self, epoches, rate, hyperparam):
+        train_step = tf.train.GradientDescentOptimizer(rate).\
+                     minimize(hyperparam[0]*self.losses['rec'])
         init = tf.global_variables_initializer()
         with tf.Session() as sess:
             sess.run(init)
             for e in range(1, epoches):
-                sess.run(train_step, feed_dict={self.X: self.batch})
+                sess.run(train_step, feed_dict={self.X: self.batch_prime})
                 if e % 100 == 0:
                     print "epoch : "+str(e)
                     pred = sess.run(self.decode_layer,feed_dict=\
-                                    {self.X: self.batch})
+                                    {self.X: self.batch_prime})
                     print "Estimation : \n"+str(pred)
                     print '\n'
                     
@@ -136,10 +140,11 @@ if __name__ == "__main__":
         [8,5,13,9,7]
     ],dtype=np.dtype('Float32'))
     KW = np.array([0, 2])
-    autoencoder = Autoencoder(5,10,100,batch, KW)
+    hyperparam = np.array([1,0])
+    autoencoder = Autoencoder(5,10,5,batch, KW)
     autoencoder.init_placeholder()
     autoencoder.init_weights()
     autoencoder.init_biases()
     autoencoder.init_layers()
     autoencoder.init_losses()
-    autoencoder.train(40000, 0.01)
+    autoencoder.train(40000, 0.01, hyperparam)

@@ -1,7 +1,6 @@
 \section{Related Work}\label{sec:related}
 
 \subsection{Sparse Auto-Encoder}
-
 The Auto-Encoder allows to learn a latent space with significiantly informations
 for the clustering without loss of informations. The Auto-Encoder tries to learn
 a function $f(X, \theta) = X$. In other words, it is trying to learn an
@@ -12,13 +11,6 @@ To learn the identity function we use a reconstruct loss $L_{rec}$ using MSE :
   L_{rec}(X, \theta) = || X - f(g(X, \theta)) ||_2^2 
 \end{equation*}
 
-\begin{figure}[!h]
-  \centering
-  \tikzset{every picture/.style={scale=1.6}}
-  \input{parts/res/tex/neural_network_autoencoder.tex}
-  \caption{Simple Auto-Encoder}
-  \label{fig:AE}
-\end{figure}
 The spase Auto-Encoder ivolves a sparse penalty $\omega(h)$ on the code layer h,
 in addition to the reconstruct loss. We  denote $L_{SAE}$ the loss function of
 the sparse Auto-Encoder :
@@ -38,7 +30,7 @@ The background knowledge are pairwise constraints :
 \end{itemize}
 A first method to integrate pairwise constraints to the K-Means is to use the
 COP-KMeans alorithm introduced by Wagstaff
-\cite{Wagstaff:2001:CKC:645530.655669}. In this algorithm, we assign each to the
+\cite{Wagstaff:2001:CKC:645530.655669}. In this algorithm, we assign each documents to the
 closest cluster wich did not violate ML and CL constraints.\\
 \begin{algorithm}[!h]
   \SetKwInOut{Input}{input}
@@ -111,7 +103,10 @@ pairs while maximizing the distance for dissimilar pairs.
 \right.
 \end{equation*}
 \begin{equation*}
-  Loss(P || Q) = I_s(P,Q)KL(P || Q) + I_{ds}max(0, argin(KL(P || Q))
+  Loss(P || Q) = I_s(P,Q)KL(P || Q) + I_{ds}max(0, margin(KL(P || Q))
+\end{equation*}
+\begin{equation*}
+  L(P,Q) = Loss(P || Q) + Loss(Q || P)
 \end{equation*}
 \subsection{Deep $K$-Means}
 A several approaches for the deep $K$-Means propose to jointy learn the
@@ -125,3 +120,10 @@ generalized Deep $K$-Means takes the form :
   min~Loss = \sum_{x \in X} \epsilon_0\lambda L_{rec}(x) + \epsilon_1 L_{clust}
   (x)
 \end{gather*}
+\begin{figure}[!h]
+  \centering
+  \tikzset{every picture/.style={scale=1.6}}
+  \input{parts/res/tex/neural_network_autoencoder.tex}
+  \caption{Auto-Encoder}
+  \label{fig:AE}
+\end{figure}

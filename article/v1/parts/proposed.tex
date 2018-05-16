@@ -52,10 +52,10 @@ The sparse penalty is :
 \end{equation}
 With hyperparameters $\alpha_0\geq 0$ ,$\alpha_1\geq 0$, $\alpha_2\geq 0$. We use
 hyperparameters because we can imagine there exists document $Y$ such that
-$forall i \in KW$ Y = 0. With this configuration, Y' is the null vector. If the
-number of null vector Y' is higher, the representation will be useless.
-Hyperparameters allows to to change the importance of each sparese penaties
-and avoid problems with null representation.\\
+$\forall_{i \in KW} Y_i = 0$. With this configuration, Y' is the null vector. If the
+number of null vector Y' is high, the representation will be useless.
+Hyperparameters allows to change the importance of each sparse penalty
+and avoid problems with null vectors.\\
 Then the reconstruct loss function is :
 \begin{equation}\label{eq:AEDK}
   L_{rec}(C, \theta) = \sum_{X \in C}(||X - f(g(X, \theta))||_2^2
