@@ -153,6 +153,7 @@ class Autoencoder:
                     self.loss_rec.append(x)
                     self.loss_lex.append(y)
                     self.ep.append(e)
+                    print "epoch : "+str(e)
             print "epoch : "+str(e)
             pred = sess.run(self.encode_layer,feed_dict=\
                             {self.X: self.batch,
@@ -167,6 +168,7 @@ class Autoencoder:
                              {self.X_prime: self.batch_prime})
             print "Estimation decode : \n"+str(pred)+"\n"+str(pred2)
             print str(self.ep)
+
     def plot_loss(self):
         plt.title('Variation des loss')
         plt.ylabel('loss')
