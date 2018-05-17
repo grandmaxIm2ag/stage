@@ -5,6 +5,8 @@ import numpy as np
 import random
 import math
 import tensorflow as tf
+import matplotlib.pyplot as plt
+import sys
 
 ###################################################
 # Masque le document X avec les mot clés de KW    #
@@ -17,8 +19,7 @@ def mask(X, KW):
     for i in range(KW.shape[0]):
         X_prime[KW[i]]=X[KW[i]]
     return X_prime
-
-    
+        
 class Autoencoder:    
     ###################################################
     # Constructeur de la classse Autoencoder          #
@@ -97,10 +98,23 @@ class Autoencoder:
                                                   (self.hidden2_layer,\
                                                    self.weights['decode']),\
                                                   self.biases['decode']))
+        self.hidden1_layer_prime = tf.nn.sigmoid(tf.add(tf.matmul\
+                                                  (self.X_prime,\
+                                                   self.weights['h1']),\
+                                                  self.biases['b1']))
+        self.encode_layer_prime = tf.nn.softplus(tf.add(tf.matmul\
+                                                 (self.hidden1_layer_prime,\
+                                                  self.weights['encode']),\
+                                                 self.biases['encode']))
+        self.hidden2_layer_prime = tf.nn.sigmoid(tf.add(tf.matmul\
+                                                  (self.encode_layer_prime,\
+                                                   self.weights['h2']),\
+                                                  self.biases['b2']))
+        self.decode_layer_prime = tf.nn.softplus(tf.add(tf.matmul\
+                                                  (self.hidden2_layer_prime,\
+                                                   self.weights['decode']),\
+                                                  self.biases['decode']))
 
-    def loss_lex(self):
-        sess = tf.Session()
-        x = sess.run(self.encode_layer)
     ###################################################
     # Initialise les fonctions de coûts :             #
     #   - reconstruction                              #
@@ -109,7 +123,7 @@ class Autoencoder:
     def init_losses(self):
         self.losses = {
             'rec': tf.reduce_sum(tf.pow(self.X - self.decode_layer, 2)),
-            'lex': tf.reduce_sum(tf.pow(self.encode_layer - self.encode_layer, 2))
+            'lex': tf.reduce_sum(tf.pow(self.encode_layer - self.encode_layer_prime, 2))
         }
 
     ###################################################
@@ -119,32 +133,45 @@ class Autoencoder:
     # rate         Pas d'apprentissage                #
     ###################################################
     def train(self, epoches, rate, hyperparam):
+        self.loss_rec = []
+        self.loss_lex = []
+        self.ep = []
         train_step = tf.train.GradientDescentOptimizer(rate).\
-                     minimize(hyperparam[0]*self.losses['rec'])
+                     minimize(hyperparam[0]*self.losses['rec']+
+                              hyperparam[1]*self.losses['lex'])
         init = tf.global_variables_initializer()
         with tf.Session() as sess:
             sess.run(init)
-            for e in range(1, epoches):
-                sess.run(train_step, feed_dict={self.X: self.batch_prime})
-                if e % 100 == 0:
-                    print "epoch : "+str(e)
-                    pred = sess.run(self.decode_layer,feed_dict=\
-                                    {self.X: self.batch_prime})
-                    print "Estimation : \n"+str(pred)
-                    print '\n'
-                    
-if __name__ == "__main__":
-    batch = np.array([
-        [11,4,3,4,5],
-        [1,0,3,7,3],
-        [8,5,13,9,7]
-    ],dtype=np.dtype('Float32'))
-    KW = np.array([0, 2])
-    hyperparam = np.array([1,0])
-    autoencoder = Autoencoder(5,10,5,batch, KW)
-    autoencoder.init_placeholder()
-    autoencoder.init_weights()
-    autoencoder.init_biases()
-    autoencoder.init_layers()
-    autoencoder.init_losses()
-    autoencoder.train(40000, 0.01, hyperparam)
+            for e in range(1, epoches+1):
+                sess.run(train_step, feed_dict={self.X: self.batch,
+                                                self.X_prime: self.batch_prime})
+                if e % 10 == 0:
+                    _, x = sess.run([train_step, self.losses['rec']], feed_dict={self.X: self.batch,
+                                                self.X_prime: self.batch_prime})
+                    _, y = sess.run([train_step, self.losses['lex']], feed_dict={self.X: self.batch,
+                                                self.X_prime: self.batch_prime})
+                    self.loss_rec.append(x)
+                    self.loss_lex.append(y)
+                    self.ep.append(e)
+            print "epoch : "+str(e)
+            pred = sess.run(self.encode_layer,feed_dict=\
+                            {self.X: self.batch,
+                             self.X_prime: self.batch_prime})
+            pred2 = sess.run(self.encode_layer_prime,feed_dict=\
+                             {self.X: self.batch,
+                              self.X_prime: self.batch_prime})
+            print "Estimation encode : \n"+str(pred)+"\n"+str(pred2)
+            pred = sess.run(self.decode_layer,feed_dict=\
+                            {self.X: self.batch})
+            pred2 = sess.run(self.decode_layer_prime,feed_dict=\
+                             {self.X_prime: self.batch_prime})
+            print "Estimation decode : \n"+str(pred)+"\n"+str(pred2)
+            print str(self.ep)
+    def plot_loss(self):
+        plt.title('Variation des loss')
+        plt.ylabel('loss')
+        plt.xlabel('epochs')
+        plt.plot(self.ep, self.loss_rec, label = 'rec')
+        plt.plot(self.ep, self.loss_lex, label = 'lex')
+        plt.legend()
+        plt.savefig('rec.png', bbox_inches='tight')
