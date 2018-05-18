@@ -4,6 +4,7 @@
 import numpy as np
 from random import randint
 from math import log
+from sklearn.cluster import KMeans
 
 def wid(k, doc):
     sum_ = 0
@@ -19,12 +20,12 @@ def df(k, data):
 class syntetic:
     def __init__(self, n, m, max_value, nb_label):
         self.data_ = np.zeros((n, m))
-        self.labels_ = np.zeros(n)
         for i in range (n):
             for j in range(m):
                 self.data_[i][j] = randint(0, max_value)
-            self.labels_[i] = randint(1, nb_label)
-            
+        kmeans = KMeans(n_clusters=nb_label, random_state=0).fit(self.data_)
+        self.labels_ = kmeans.labels_
+        
     def TFIDFvectorize(self):
         data_TFIDFvectorized = np.zeros((self.data_.shape[0], self.data_.shape[1]))
         for i in range(self.data_.shape[0]):

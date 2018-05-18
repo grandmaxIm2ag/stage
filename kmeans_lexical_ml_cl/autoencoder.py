@@ -169,6 +169,8 @@ class Autoencoder:
                                                 self.X_ML2: self.batch_ML2,
                                                 self.X_CL1: self.batch_CL1,
                                                 self.X_CL2: self.batch_CL2})
+                if e % 100 == 0:
+                    print "epochs : "+str(e)
                 if e % 10 == 0:
                     _, l1 = sess.run([train_step, self.losses['rec']], feed_dict={self.X: self.batch,
                                                                                  self.X_KW1: self.batch_KW1,
@@ -207,10 +209,6 @@ class Autoencoder:
         plt.title('Variation des loss')
         plt.ylabel('loss')
         plt.xlabel('epochs')
-        print self.loss_cl
-        print self.loss_ml
-        print self.loss_rec
-        print self.loss_lex
         plt.plot(self.ep, self.loss_cl, label = 'cl')
         plt.plot(self.ep, self.loss_ml, label = 'ml')
         plt.plot(self.ep, self.loss_rec, label = 'rec')
