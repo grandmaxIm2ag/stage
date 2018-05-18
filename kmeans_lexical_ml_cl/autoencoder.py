@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 #-*- coding: utf-8 -*-
 
 import numpy as np
@@ -7,6 +6,8 @@ import math
 import tensorflow as tf
 import matplotlib.pyplot as plt
 import sys
+
+MARGIN = 2
 
 ###################################################
 # Masque le document X avec les mot clés de KW    #
@@ -19,8 +20,16 @@ def mask(X, KW):
     for i in range(KW.shape[0]):
         X_prime[KW[i]]=X[KW[i]]
     return X_prime
-        
-class Autoencoder:    
+
+def pairewise_const(X, P):
+    P1 = []
+    P2 = []
+    for i in range(len(P)):
+        P1.append(X[P[i][0]])
+        P2.append(X[P[i][1]])
+    return P1, P2
+
+class Autoencoder:            
     ###################################################
     # Constructeur de la classse Autoencoder          #
     #                                                 #
@@ -29,22 +38,32 @@ class Autoencoder:
     # n_encode     La taille de la couche d'encodage  #
     # batch        Jeu de données pour l'apprentissage#
     ###################################################
-    def __init__(self, n, n_hidden, n_encode, batch, KW):
+    def __init__(self, n, n_hidden, n_encode, batch, KW, ML_pair, CL_pair):
         self.n = n
         self.n_hidden = n_hidden
         self.n_encode = n_encode
         self.batch = batch
-        self.batch_prime = []
+        self.batch_KW1 = []
         for i in range(batch.shape[0]):
-            self.batch_prime.append(mask(batch[i], KW))
+            self.batch_KW1.append(batch[i])
+        self.batch_KW2 = []
+        for i in range(batch.shape[0]):
+            self.batch_KW2.append(mask(batch[i], KW))
+        self.batch_ML1, self.batch_ML2 = pairewise_const(batch, ML_pair)
+        self.batch_CL1, self.batch_CL2 = pairewise_const(batch, CL_pair) 
 
     ###################################################
-    # Initialise les placeholders X et Y              #
+    # Initialise les placeholders X                   #
     ###################################################
     def init_placeholder(self):
         self.X = tf.placeholder(tf.float32, shape=[None,self.n], name = 'X')
-        self.X_prime = tf.placeholder(tf.float32, shape=[None,self.n], name = 'X_prime')
-
+        self.X_KW1 = tf.placeholder(tf.float32, shape=[None,self.n], name = 'KW1')
+        self.X_KW2 = tf.placeholder(tf.float32, shape=[None,self.n], name = 'KW2')
+        self.X_ML1 = tf.placeholder(tf.float32, shape=[None,self.n], name = 'ML1')
+        self.X_ML2 = tf.placeholder(tf.float32, shape=[None,self.n], name = 'ML2')
+        self.X_CL1 = tf.placeholder(tf.float32, shape=[None,self.n], name = 'CL1')
+        self.X_CL2 = tf.placeholder(tf.float32, shape=[None,self.n], name = 'CL2')
+        
     ###################################################
     # Initialise les matrices de poids dans le        #
     # dictionnaire weights                            #
@@ -78,43 +97,37 @@ class Autoencoder:
             }
 
 
+    def init_net_layers(self, X):
+        h1 = tf.nn.sigmoid(tf.add(tf.matmul\
+                                  (X,\
+                                   self.weights['h1']),\
+                                  self.biases['b1']))
+        enc = tf.nn.softplus(tf.add(tf.matmul\
+                                    (h1,\
+                                     self.weights['encode']),\
+                                    self.biases['encode']))
+        h2 = tf.nn.sigmoid(tf.add(tf.matmul\
+                                  (enc,\
+                                   self.weights['h2']),\
+                                  self.biases['b2']))
+        dec = tf.nn.softplus(tf.add(tf.matmul\
+                                    (h2,\
+                                     self.weights['decode']),\
+                                    self.biases['decode']))
+        return h1, h2, dec, enc
+        
     ###################################################
     # Initialise les couches du réseaux               #       
     ###################################################
     def init_layers(self):
-        self.hidden1_layer = tf.nn.sigmoid(tf.add(tf.matmul\
-                                                  (self.X,\
-                                                   self.weights['h1']),\
-                                                  self.biases['b1']))
-        self.encode_layer = tf.nn.softplus(tf.add(tf.matmul\
-                                                 (self.hidden1_layer,\
-                                                  self.weights['encode']),\
-                                                 self.biases['encode']))
-        self.hidden2_layer = tf.nn.sigmoid(tf.add(tf.matmul\
-                                                  (self.encode_layer,\
-                                                   self.weights['h2']),\
-                                                  self.biases['b2']))
-        self.decode_layer = tf.nn.softplus(tf.add(tf.matmul\
-                                                  (self.hidden2_layer,\
-                                                   self.weights['decode']),\
-                                                  self.biases['decode']))
-        self.hidden1_layer_prime = tf.nn.sigmoid(tf.add(tf.matmul\
-                                                  (self.X_prime,\
-                                                   self.weights['h1']),\
-                                                  self.biases['b1']))
-        self.encode_layer_prime = tf.nn.softplus(tf.add(tf.matmul\
-                                                 (self.hidden1_layer_prime,\
-                                                  self.weights['encode']),\
-                                                 self.biases['encode']))
-        self.hidden2_layer_prime = tf.nn.sigmoid(tf.add(tf.matmul\
-                                                  (self.encode_layer_prime,\
-                                                   self.weights['h2']),\
-                                                  self.biases['b2']))
-        self.decode_layer_prime = tf.nn.softplus(tf.add(tf.matmul\
-                                                  (self.hidden2_layer_prime,\
-                                                   self.weights['decode']),\
-                                                  self.biases['decode']))
-
+        self.hidden1_layer,self.hidden1_layer, self.decode_layer, self.encode_layer = self.init_net_layers(self.X)
+        self.hidden1_layer_KW1,self.hidden2_layer_KW1, self.decode_layer_KW1, self.encode_layer_KW1 = self.init_net_layers(self.X_KW1)
+        self.hidden1_layer_KW2,self.hidden2_layer_KW2, self.decode_layer_KW2, self.encode_layer_KW2 = self.init_net_layers(self.X_KW2)
+        self.hidden1_layer_CL1,self.hidden2_layer_CL1, self.decode_layer_CL1, self.encode_layer_CL1 = self.init_net_layers(self.X_ML1)
+        self.hidden1_layer_CL2,self.hidden2_layer_CL2, self.decode_layer_CL2, self.encode_layer_CL2 = self.init_net_layers(self.X_ML2)
+        self.hidden1_layer_ML1,self.hidden2_layer_ML1, self.decode_layer_ML1, self.encode_layer_ML1 = self.init_net_layers(self.X_CL1)
+        self.hidden1_layer_CL2,self.hidden2_layer_ML2, self.decode_layer_ML2, self.encode_layer_ML2 = self.init_net_layers(self.X_CL2)
+        
     ###################################################
     # Initialise les fonctions de coûts :             #
     #   - reconstruction                              #
@@ -123,7 +136,9 @@ class Autoencoder:
     def init_losses(self):
         self.losses = {
             'rec': tf.reduce_sum(tf.pow(self.X - self.decode_layer, 2)),
-            'lex': tf.reduce_sum(tf.pow(self.encode_layer - self.encode_layer_prime, 2))
+            'lex': tf.reduce_sum(tf.pow(self.encode_layer_KW1 - self.encode_layer_KW2, 2)),
+            'ML' : tf.reduce_sum(tf.pow(self.encode_layer_ML1 - self.encode_layer_ML2, 2)),
+            'CL' : tf.maximum(0., MARGIN - tf.reduce_sum(tf.pow(self.encode_layer_CL1 - self.encode_layer_CL2, 2)))
         }
 
     ###################################################
@@ -135,44 +150,69 @@ class Autoencoder:
     def train(self, epoches, rate, hyperparam):
         self.loss_rec = []
         self.loss_lex = []
+        self.loss_ml = []
+        self.loss_cl = []
         self.ep = []
         train_step = tf.train.GradientDescentOptimizer(rate).\
                      minimize(hyperparam[0]*self.losses['rec']+
-                              hyperparam[1]*self.losses['lex'])
+                              hyperparam[1]*self.losses['lex']+
+                              hyperparam[2]*self.losses['ML']+
+                              hyperparam[3]*self.losses['CL'])
         init = tf.global_variables_initializer()
         with tf.Session() as sess:
             sess.run(init)
             for e in range(1, epoches+1):
                 sess.run(train_step, feed_dict={self.X: self.batch,
-                                                self.X_prime: self.batch_prime})
+                                                self.X_KW1: self.batch_KW1,
+                                                self.X_KW2: self.batch_KW2,
+                                                self.X_ML1: self.batch_ML1,
+                                                self.X_ML2: self.batch_ML2,
+                                                self.X_CL1: self.batch_CL1,
+                                                self.X_CL2: self.batch_CL2})
                 if e % 10 == 0:
-                    _, x = sess.run([train_step, self.losses['rec']], feed_dict={self.X: self.batch,
-                                                self.X_prime: self.batch_prime})
-                    _, y = sess.run([train_step, self.losses['lex']], feed_dict={self.X: self.batch,
-                                                self.X_prime: self.batch_prime})
-                    self.loss_rec.append(x)
-                    self.loss_lex.append(y)
+                    _, l1 = sess.run([train_step, self.losses['rec']], feed_dict={self.X: self.batch,
+                                                                                 self.X_KW1: self.batch_KW1,
+                                                                                 self.X_KW2: self.batch_KW2,
+                                                                                 self.X_ML1: self.batch_ML1,
+                                                                                 self.X_ML2: self.batch_ML2,
+                                                                                 self.X_CL1: self.batch_CL1,
+                                                                                 self.X_CL2: self.batch_CL2})
+                    _, l2 = sess.run([train_step, self.losses['lex']], feed_dict={self.X: self.batch,
+                                                                                 self.X_KW1: self.batch_KW1,
+                                                                                 self.X_KW2: self.batch_KW2,
+                                                                                 self.X_ML1: self.batch_ML1,
+                                                                                 self.X_ML2: self.batch_ML2,
+                                                                                 self.X_CL1: self.batch_CL1,
+                                                                                 self.X_CL2: self.batch_CL2})
+                    _, l3 = sess.run([train_step, self.losses['ML']], feed_dict={self.X: self.batch,
+                                                                                 self.X_KW1: self.batch_KW1,
+                                                                                 self.X_KW2: self.batch_KW2,
+                                                                                 self.X_ML1: self.batch_ML1,
+                                                                                 self.X_ML2: self.batch_ML2,
+                                                                                 self.X_CL1: self.batch_CL1,
+                                                                                 self.X_CL2: self.batch_CL2})
+                    _, l4 = sess.run([train_step, self.losses['CL']], feed_dict={self.X: self.batch,
+                                                                                 self.X_KW1: self.batch_KW1,
+                                                                                 self.X_KW2: self.batch_KW2,
+                                                                                 self.X_ML1: self.batch_ML1,
+                                                                                 self.X_ML2: self.batch_ML2,
+                                                                                 self.X_CL1: self.batch_CL1,
+                                                                                 self.X_CL2: self.batch_CL2})
+                    self.loss_rec.append(l1)
+                    self.loss_lex.append(l2)
+                    self.loss_ml.append(l3)
+                    self.loss_cl.append(l4)
                     self.ep.append(e)
-                    print "epoch : "+str(e)
-            print "epoch : "+str(e)
-            pred = sess.run(self.encode_layer,feed_dict=\
-                            {self.X: self.batch,
-                             self.X_prime: self.batch_prime})
-            pred2 = sess.run(self.encode_layer_prime,feed_dict=\
-                             {self.X: self.batch,
-                              self.X_prime: self.batch_prime})
-            print "Estimation encode : \n"+str(pred)+"\n"+str(pred2)
-            pred = sess.run(self.decode_layer,feed_dict=\
-                            {self.X: self.batch})
-            pred2 = sess.run(self.decode_layer_prime,feed_dict=\
-                             {self.X_prime: self.batch_prime})
-            print "Estimation decode : \n"+str(pred)+"\n"+str(pred2)
-            print str(self.ep)
-
     def plot_loss(self):
         plt.title('Variation des loss')
         plt.ylabel('loss')
         plt.xlabel('epochs')
+        print self.loss_cl
+        print self.loss_ml
+        print self.loss_rec
+        print self.loss_lex
+        plt.plot(self.ep, self.loss_cl, label = 'cl')
+        plt.plot(self.ep, self.loss_ml, label = 'ml')
         plt.plot(self.ep, self.loss_rec, label = 'rec')
         plt.plot(self.ep, self.loss_lex, label = 'lex')
         plt.legend()
