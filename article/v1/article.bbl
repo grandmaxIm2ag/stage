@@ -19,6 +19,41 @@
 
 \refsection{0}
   \sortlist[entry]{nty/global}
+    \entry{measure}{book}{}
+      \name{author}{4}{}{%
+        {{hash=0c3245a7baa44c72c8545fb898c1a7ca}{%
+           family={D\bibnamedelima Manning},
+           family_i={D\bibinitperiod\bibinitdelim M\bibinitperiod},
+           given={C},
+           given_i={C\bibinitperiod}}}%
+        {{hash=c722ec4eb501337b12785307557e9dcd}{%
+           family={Raghavan},
+           family_i={R\bibinitperiod},
+           given={P},
+           given_i={P\bibinitperiod}}}%
+        {{hash=8d515a2bf2ebc979d4699139a532ab1d}{%
+           family={Schtextbackslashütze},
+           family_i={S\bibinitperiod},
+           given={H},
+           given_i={H\bibinitperiod}}}%
+        {{hash=775bdb399d599e6fae4a49b3bd655626}{%
+           family={Corporation},
+           family_i={C\bibinitperiod},
+           given={Ebooks},
+           given_i={E\bibinitperiod}}}%
+      }
+      \strng{namehash}{985274fe4b8ac8afe88067db5bc76cd4}
+      \strng{fullhash}{265ec568af2ff8ca183c63771f645698}
+      \field{sortinit}{D}
+      \field{sortinithash}{78f7c4753a2004675f316a80bdb31742}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Inf. Retr}
+      \field{month}{01}
+      \field{title}{Introduction to Information Retrieval}
+      \field{volume}{13}
+      \field{year}{2008}
+    \endentry
     \entry{Goodfellow-et-al-2016}{book}{}
       \name{author}{3}{}{%
         {{hash=5d2585c11210cf1d4512e6e0a03ec315}{%

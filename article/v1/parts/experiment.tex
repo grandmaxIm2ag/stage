@@ -21,10 +21,24 @@ We evaluate our algorithm with three algorithms :
 \end{itemize}
 \subsubsection{Metric}
 To evaluate our algorithm and compare results with reference algorithms we can
-use the NMI metric and Purity Metric.
-
+use the NMI metric and Purity Metric \cite{measure}. The NMI metric is defined by
+$$
+NMI(S,C) = \frac{I(S,C)}{[H(S)+H(C)]/2}
+$$ 
+with
+$$
+I(S,C) =\sum_k \sum_f\frac{|s_k \cap c_f|}{N}log\frac{N|s_k \cap c_f|}{|s_k| |c_f|}
+$$
+and 
+$$
+H(S) = -\sum_k\frac{|s_k|}{N}log\frac{N|s_k|}{|s_k|}
+$$.
+The purity metric is defined by :
+$$
+purity(S,C) = \frac{1}{N}\sum_k {max}_j|s_k \cap c_j|
+$$
 \subsection{Separate Corpus }
-With these corpus we generate $KW_1$ the set of keywords
+With corpus $C_1$ and $C_2$ we generate $KW_1$ the set of keywords
 for $C_1$ and $KW_2$ the set of keywords for $C_2$. Then we denote $KW$
 the set of keywords for clustering such that $KW = KW_1 \cup KW_2$.\\
 To generate $KW_1$ (resp $KW_2$) we extract keywords from $C_1$ (resp $C_2$)
@@ -37,7 +51,7 @@ X_2 \in C_1)$.\\
 The purpose of the experiment is to rediscover the different corpus $C_1$ and
 $C_2$ with keywords and background knowledge.
 \subsection{Noising Text}
-With these corpus we generate $KW$ the set of keywords
+With corpus $C_1$ and $C_2$ we generate $KW$ the set of keywords
 for $C_1$.
 To generate $KW$ we extract keywords from $C_1$ with RAKE algorithm \cite{rake}.
 For must-link constraints we extract a set of pairs $(X_1, X_2)$ from Corpus

@@ -2054,8 +2054,9 @@
     <bcf:citekey order="3">Deap-K-Means</bcf:citekey>
     <bcf:citekey order="4">2015arXiv151106321H</bcf:citekey>
     <bcf:citekey order="5">Wagstaff:2001:CKC:645530.655669</bcf:citekey>
-    <bcf:citekey order="6">rake</bcf:citekey>
+    <bcf:citekey order="6">measure</bcf:citekey>
     <bcf:citekey order="7">rake</bcf:citekey>
+    <bcf:citekey order="8">rake</bcf:citekey>
     <bcf:citekey order="0">*</bcf:citekey>
   </bcf:section>
   <bcf:sortlist section="0" name="nty/global" type="entry" sortscheme="nty" sortnamekeyscheme="global">

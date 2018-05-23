@@ -1,4 +1,3 @@
-
 \section{Introduction}\label{sec:intro}
 
 Clustering is one of the most fundamental tasks in data mining and machine
@@ -7,7 +6,36 @@ it represents each cluster by a single mean vector. $K$-Means clustering sorts
 n objects into k clusters in which each observation belongs to
 the cluster with the nearest centroid. This problem is computationally
 difficult (NP-hard).
-\\In real application domains, users may want to introduce constaints to find
+\begin{algorithm}
+  \SetKwInOut{Input}{input}
+  \SetKwInOut{Output}{output}
+  \Input{Corpus C, the number of cluster K}
+  \Output{Clusters $S_1, S_2, ..., S_k$}
+  Let $S_1^{0}, S_2^{0} , ..., S_k^{0}$ be the initial clusters\\
+  Let $r_1^{0}, r_2^{0} , ..., r_k^{0}$ be the initial centroids\\
+  $t \gets 1$\\
+  \Repeat{Convergence}{
+    \ForEach{$X \in C$}{
+      $S_k^{t} \gets \{X : ||X-S_k^{t-1}||_2^2 \leq ||X-S_l^{t-1}||_2^2, 
+\forall l \neq k, 1 \leq l \leq K \} $\\
+    }
+    \ForEach{Clusters $S_k$}{
+      $r_k^t \gets \frac{1}{S_k^t}\sum_{X \in S_k^t}X$.\\
+    }
+    $t++$\\
+  }
+  \Return{$S_1, S_2, ..., S_k$}
+  \caption{$K$-means}
+\end{algorithm}
+\\Given a corpus C, where each document X is a 
+d-dimensional real vector, k-means clustering aims to partition the n 
+documents into K clusters S = {$S_1, S_2, ..., S_K$}, represented by centroids 
+r = {$r_1, r_2, ..., r_K$}. Formally, the objective is to minimize :
+$$
+\sum_{i=1}^K \sum_{X \in S_i} ||X - r_i ||_2^2
+$$
+
+In real application domains, users may want to introduce constaints to find
 usefull properties for clustering data. The difficulty with integration of
 constraints to $K$-Means algorithm  is to find a good representation for data
 taking into account constraints. The Deep Learning and Auto-Encoder can be used to
@@ -15,6 +43,6 @@ learn this representation. With Auto-Encoder we have to perform the $K$-Means in
 the latent space learned.
 \\The major contribution to this work, is to propose a constrained Deep $K$-Means
 taking account into ML and CL constraints and lexical constraints.
-\\In next section, we provide some background on the $K$-Means alorithm and deep
+\\In next section, we provide some background on the $K$-Means algorithm and deep
 learning. In section 3, we proposed a method to introduce constraints to the
 $K$-Means algorithm. And we experiment our method in section 4.  
