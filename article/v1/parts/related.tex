@@ -1,26 +1,24 @@
 \section{Related Work}\label{sec:related}
 
-\subsection{Sparse Auto-Encoder}
-The Auto-Encoder allows to learn a latent space with significiantly informations
-for the clustering without loss of informations. The Auto-Encoder tries to learn
-a function $f(X, \theta) = X$. In other words, it is trying to learn an
-approximation of the identity function. An Auto-Encoder is composed in two
-parts an encoder function g, and a decoder function f.\\
-To learn the identity function we use a reconstruct loss $L_{rec}$ using MSE :
+\subsection{Auto-Encoder}
+The Auto-Encoder allows to learn a latent space with significantly informations 
+for the clustering without loss of information. The Auto-Encoder tries to learn 
+a function $f (X, \theta) = X$. In other words, it is trying to learn an 
+approximation of the identity function. An Auto-Encoder is composed in two parts
+an encoder function g, and a decoder function f.
+To learn the identity function, we use a reconstruct loss $L_{rec}$ using MSE :
 \begin{equation*}
   L_{rec}(X, \theta) = || X - f(g(X, \theta)) ||_2^2 
 \end{equation*}
 
-The spase Auto-Encoder ivolves a sparse penalty $\omega(h)$ on the code layer h,
-in addition to the reconstruct loss. We  denote $L_{SAE}$ the loss function of
-the sparse Auto-Encoder :
-\begin{equation*}
-  L_{SAE}(X, \theta) = L_{rec}(X, \theta) + \omega(h)
-\end{equation*}
-The sparse penalty allows to discover interesting structure in data.
-
+\begin{figure}
+  \centering
+  \tikzset{every picture/.style={scale=1.6}}
+  \input{parts/res/tex/neural_network_autoencoder.tex}
+  \caption{Auto-Encoder}
+  \label{fig:AE}
+\end{figure}
 \subsection{Background knowledge}
-
 The background knowledge are pairwise constraints :
 \begin{itemize}
 \item \textbf{Must-link} constraint $ML$ : $(X, X') \in ML \implies $ X and X' are in the
@@ -28,10 +26,10 @@ The background knowledge are pairwise constraints :
 \item \textbf{Cannot-link} constraint $CL$ : $(X, X') \in CL \implies $ X and X' are in
   different cluster.
 \end{itemize}
-A first method to integrate pairwise constraints to the K-Means is to use the
-COP-KMeans alorithm introduced by Wagstaff
-\cite{Wagstaff:2001:CKC:645530.655669}. In this algorithm, we assign each documents to the
-closest cluster wich did not violate ML and CL constraints.\\
+A first method to integrate pairwise constraints to the K-Means is to use the 
+COP-KMeans algorithm introduced by Wagstaff\cite{Wagstaff:2001:CKC:645530.655669}.
+In this algorithm, we assign each document to the closest cluster, 
+which did not violate ML and CL constraints.
 \begin{algorithm}[!h]
   \SetKwInOut{Input}{input}
   \SetKwInOut{Output}{output}
@@ -74,12 +72,12 @@ closest cluster wich did not violate ML and CL constraints.\\
   \Return{False}
   \caption{Violate-Constraints}
 \end{algorithm}
-Another method, proposed by Hsu and Kira \cite{2015arXiv151106321H}, consists to
-use a neural Network based end-to-end clustering framework. This network
-directly assigns clusters in the output layer. Then they use the softmax function
-on the output layer and the KL-Divergence to learn a latent space which minimize
-the statistical disrtance between predicted cluster probabilities for similar
-pairs while maximizing the distance for dissimilar pairs.
+Another method, proposed by Hsu and Kira \cite{2015arXiv151106321H}, consists to 
+use a neural Network based end-to-end clustering framework. This network 
+directly assigns clusters in the output layer. Then they use the softmax 
+function on the output layer and the KL-Divergence to learn a latent space 
+which minimizes the statistical distance between predicted cluster probabilities 
+for similar pairs while maximizing the distance for dissimilar pairs
 
 \begin{equation*}
   P = f(x_p), ~ Q = f(x_q)
@@ -107,27 +105,27 @@ pairs while maximizing the distance for dissimilar pairs.
 \right.
 \end{equation*}
 \begin{equation*}
-  Loss(P || Q) = I_s(x_p, x_q)KL(P || Q) + I_{ds}(x_p, x_q)max(0, \eta-KL(P || Q))
+  Loss(P || Q) = I_s(x_p, x_q)KL(P || Q) + I_{ds}(x_p, x_q)max(0, \eta-KL(P||Q))
 \end{equation*}
 \begin{equation*}
   L(P,Q) = Loss(P || Q) + Loss(Q || P)
 \end{equation*}
 \subsection{Deep $K$-Means}
 A several approaches for the deep $K$-Means propose to jointy learn the
-representation and perform the $K$-Means algorithm. 
-In the paper proposed by Moradi, Thonet and Gaussier \cite{Deap-K-Means} the
-generalized Deep $K$-Means takes the form :
-
-\begin{gather*}
-  L_{rec}(x) = g(x, A(x; \theta)) \\
-  L_{clust}(x) = f(h_\theta(x), cf(h_\theta(x), R))\\
-  min~Loss = \sum_{x \in X} \epsilon_0\lambda L_{rec}(x) + \epsilon_1 L_{clust}
-  (x)
-\end{gather*}
-\begin{figure}[!h]
-  \centering
-  \tikzset{every picture/.style={scale=1.6}}
-  \input{parts/res/tex/neural_network_autoencoder.tex}
-  \caption{Auto-Encoder}
-  \label{fig:AE}
-\end{figure}
+representation and perform the $K$-Means algorithm \cite{2018arXiv180107648A}.
+In these approaches, network's loss are divided in two parts :
+\begin{itemize}
+\item \textbf{Non-Clustering loss} : The non-clustering loss doesn't take into 
+of the clustering parts. It allows to learn a good representation for our 
+problem.
+\item \textbf{Clustering loss} : The clustering allows to learn a $K$-means 
+friendly representation.
+\end{itemize}
+The loss function takes the form :
+$$
+L(X;\theta) = \epsilon L_{Clust}(X,\theta) + (1-\epsilon)L_{NonClust}(X,\theta)
+$$
+In the first phase of the DCN proposed by Yang, Fu, Sidiropoulos, Hong 
+\cite{2016arXiv161004794Y}
+the network is pretrained using the autoencoder reconstruction loss. However, 
+the second phase is different. In contrast to DEC, the network is jointly trained using a mathematical combination of the autoencoder reconstruction loss and the k-means clustering loss function. Thus, due to the fact that strict cluster assignments were used during the training (instead of probabilities such as in DEC) the method required an alternation process between the network training and the cluster updates. The method performed well and even led to better results than DEC on the MNIST dataset.

@@ -14,29 +14,30 @@ We evaluate our algorithm with three algorithms :
 \item \textbf{COPKmeans} proposed by Wagstaff \cite{Wagstaff:2001:CKC:645530.655669}.
 \item \textbf{Thematic kmeans}, the loss function for this algorithm is
   \begin{equation*}
-    argmin \sum_{i=1}^{N}L(x_i) + \beta\sum_{k=1}^{K}||r_k - \sum_{\omega \in K}
+    argmin \sum_{i=1}^{N}L(x_i) + \beta\sum_{k=1}^{K}||r_k - \sum_{\omega \in KW}
     \alpha_{k,\omega}h(\omega, \theta)||_2^2 + \delta\sum_{k=1}^{K}||\alpha_k|| 
   \end{equation*}
   with $L(x_i) = L_{rec}(x_i) + \lambda L_{clust}(x_i)$
 \end{itemize}
 \subsubsection{Metric}
 To evaluate our algorithm and compare results with reference algorithms we can
-use the NMI metric and Purity Metric \cite{measure}. The NMI metric is defined by
+use the NMI metric and Purity Metric \cite{measure}. 
+\begin{itemize}
+\item The NMI metric is defined by
 $$
 NMI(S,C) = \frac{I(S,C)}{[H(S)+H(C)]/2}
 $$ 
 with
-$$
+$
 I(S,C) =\sum_k \sum_f\frac{|s_k \cap c_f|}{N}log\frac{N|s_k \cap c_f|}{|s_k| |c_f|}
-$$
-and 
-$$
+$ and $
 H(S) = -\sum_k\frac{|s_k|}{N}log\frac{N|s_k|}{|s_k|}
-$$.
-The purity metric is defined by :
+$
+\item The purity metric is defined by :
 $$
 purity(S,C) = \frac{1}{N}\sum_k {max}_j|s_k \cap c_j|
 $$
+\end{itemize}
 \subsection{Separate Corpus }
 With corpus $C_1$ and $C_2$ we generate $KW_1$ the set of keywords
 for $C_1$ and $KW_2$ the set of keywords for $C_2$. Then we denote $KW$

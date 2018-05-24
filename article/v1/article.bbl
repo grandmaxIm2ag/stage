@@ -19,6 +19,46 @@
 
 \refsection{0}
   \sortlist[entry]{nty/global}
+    \entry{2018arXiv180107648A}{article}{}
+      \name{author}{4}{}{%
+        {{hash=a322429432dae14269176ea6f035e405}{%
+           family={{Aljalbout}},
+           family_i={A\bibinitperiod},
+           given={E.},
+           given_i={E\bibinitperiod}}}%
+        {{hash=4932f68bb1c3c78da8317e0ba42a7887}{%
+           family={{Golkov}},
+           family_i={G\bibinitperiod},
+           given={V.},
+           given_i={V\bibinitperiod}}}%
+        {{hash=10fb95ead20b11b0dab459dc724304a5}{%
+           family={{Siddiqui}},
+           family_i={S\bibinitperiod},
+           given={Y.},
+           given_i={Y\bibinitperiod}}}%
+        {{hash=d2e7a9453b9aec6fc6555a4551e262f5}{%
+           family={{Cremers}},
+           family_i={C\bibinitperiod},
+           given={D.},
+           given_i={D\bibinitperiod}}}%
+      }
+      \strng{namehash}{b5a5cc6cf2be86a8f89a4c9a70a64ff0}
+      \strng{fullhash}{8df6e897ba88eb93f79e0a5e25a31146}
+      \field{sortinit}{A}
+      \field{sortinithash}{b685c7856330eaee22789815b49de9bb}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{cs.LG}
+      \field{eprinttype}{arXiv}
+      \field{journaltitle}{ArXiv e-prints}
+      \field{month}{01}
+      \field{title}{{Clustering with Deep Learning: Taxonomy and New Methods}}
+      \field{year}{2018}
+      \verb{eprint}
+      \verb 1801.07648
+      \endverb
+      \keyw{Computer Science - Learning,Computer Science - Artificial Intelligence,Computer Science - Computer Vision and Pattern Recognition,Computer Science - Neural and Evolutionary Computing,Statistics - Machine Learning,62H30,62M45,91C20,H.3.3,I.2.6,I.5,I.5.3,I.5.4}
+    \endentry
     \entry{measure}{book}{}
       \name{author}{4}{}{%
         {{hash=0c3245a7baa44c72c8545fb898c1a7ca}{%
@@ -147,6 +187,34 @@
       \verb https://doi.org/10.1108/eb026526
       \endverb
     \endentry
+    \entry{1056489}{article}{}
+      \name{author}{1}{}{%
+        {{hash=8ebf199f60191f22565bfd96113285ea}{%
+           family={Lloyd},
+           family_i={L\bibinitperiod},
+           given={S.},
+           given_i={S\bibinitperiod}}}%
+      }
+      \strng{namehash}{8ebf199f60191f22565bfd96113285ea}
+      \strng{fullhash}{8ebf199f60191f22565bfd96113285ea}
+      \field{sortinit}{L}
+      \field{sortinithash}{872351f18d0f736066eda0bf18bfa4f7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{0018-9448}
+      \field{journaltitle}{IEEE Transactions on Information Theory}
+      \field{month}{03}
+      \field{number}{2}
+      \field{title}{Least squares quantization in PCM}
+      \field{volume}{28}
+      \field{year}{1982}
+      \field{pages}{129\bibrangedash 137}
+      \range{pages}{9}
+      \verb{doi}
+      \verb 10.1109/TIT.1982.1056489
+      \endverb
+      \keyw{Least-squares approximation;PCM communication;Quantization (signal);Signal quantization}
+    \endentry
     \entry{Deap-K-Means}{book}{}
       \name{author}{3}{}{%
         {{hash=2823cc03d31ae9a6d35f657561012d54}{%
@@ -255,6 +323,41 @@
       \verb{url}
       \verb http://dl.acm.org/citation.cfm?id=645530.655669
       \endverb
+    \endentry
+    \entry{2015arXiv151106335X}{article}{}
+      \name{author}{3}{}{%
+        {{hash=cd8a9d66396e0651496a8f08b850420f}{%
+           family={{Xie}},
+           family_i={X\bibinitperiod},
+           given={J.},
+           given_i={J\bibinitperiod}}}%
+        {{hash=e305749deaf6b2662cb799d07c4632b9}{%
+           family={{Girshick}},
+           family_i={G\bibinitperiod},
+           given={R.},
+           given_i={R\bibinitperiod}}}%
+        {{hash=bbaf67eb584babec2720e9c503f00e3f}{%
+           family={{Farhadi}},
+           family_i={F\bibinitperiod},
+           given={A.},
+           given_i={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{1c7c28ea41a6bad9594ee5c61c16b870}
+      \strng{fullhash}{1c7c28ea41a6bad9594ee5c61c16b870}
+      \field{sortinit}{X}
+      \field{sortinithash}{2999ebab86052e6d71b434385f8b4ed2}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{cs.LG}
+      \field{eprinttype}{arXiv}
+      \field{journaltitle}{ArXiv e-prints}
+      \field{month}{11}
+      \field{title}{{Unsupervised Deep Embedding for Clustering Analysis}}
+      \field{year}{2015}
+      \verb{eprint}
+      \verb 1511.06335
+      \endverb
+      \keyw{Computer Science - Learning,Computer Science - Computer Vision and Pattern Recognition}
     \endentry
     \entry{2016arXiv161004794Y}{article}{}
       \name{author}{4}{}{%

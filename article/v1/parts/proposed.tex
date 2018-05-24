@@ -20,7 +20,7 @@ We denote $h_X$ the encoder output :
   h_X = g(X,\theta)
 \end{equation}
 \subsubsection{Lexical Constraints}
-To learn the latent space we a use sparse penalty such that the representation
+To learn the latent space we add a penalty such that the representation
 of the document X is close of the representation of X'. In this way, in the
 latent space, the representation of document will be biased by keywords.
 We introduce a sparse penalty $\omega_{KW}$ for lexical constraints and
@@ -33,7 +33,7 @@ use squared loss :
 In addition of lexical constraints we introduce background knowledge, so we need
 a representation taking into account these constraints.\\
 For must-link constraints we want close representations for each pair $X_1$, $X_2$
-in the set ML. We introduce a sparse penalty $\omega_{ML}$ for must-link
+in the set ML. We introduce a penalty $\omega_{ML}$ for must-link
 constraints and use squared loss :
 \begin{equation}\label{eq:omegaML}
   \omega_{ML} = \sum_{\forall{(X_1,X_2)\in ML}} || h_{X_1} - h_{X_2} ||_2^2
@@ -41,7 +41,7 @@ constraints and use squared loss :
 For cannot-link constraints we want distant representations for each pair $X_1$,
 $X_2$ in the set CL.
 We can use the hinge loss.
-We introduce a sparse penalty $\omega_{CL}$ for cannot-link constraints.
+We introduce a penalty $\omega_{CL}$ for cannot-link constraints.
 \begin{equation}\label{eq:omegaCL}
   \omega_{CL} = \sum_{\forall{(X_1,X_2)\in CL}} max(0,
   \eta - || h_{X_1} - h_{X_2} ||_2^2)
@@ -62,7 +62,7 @@ Then the reconstruct loss function is :
 \end{equation}
 Finally the loss function for the Auto-Encoder is :
 \begin{equation}\label{eq:AE}
-  L_{SAE}(C,KW; \theta) = L_{rec}(C, \theta) + \Omega(C)  
+  L_{AE}(C,KW; \theta) = L_{rec}(C, \theta) + \Omega(C)  
 \end{equation}
 
 \subsection{Deep K-Means}
@@ -77,8 +77,10 @@ centroids, and S the set of clusters.
 \end{equation}
 Finally the loss function is :
 \begin{equation}\label{eq:loss_FINALE}
-  Min~L(KW, C, K; \theta) = \epsilon_0.L_{SAE}(C, KW; \theta) 
+  Min~L(KW, C, K; \theta) = \epsilon_0.L_{AE}(C, KW; \theta) 
   + \epsilon_1.L_{clust}(C,K)
 \end{equation}
-
 with $\epsilon_0 \geq 0$, $\epsilon_1 \geq 0$.
+
+\subsubsection{Training}
+

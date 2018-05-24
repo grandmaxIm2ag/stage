@@ -34,15 +34,14 @@ r = {$r_1, r_2, ..., r_K$}. Formally, the objective is to minimize :
 $$
 \sum_{i=1}^K \sum_{X \in S_i} ||X - r_i ||_2^2
 $$
-
-In real application domains, users may want to introduce constaints to find
-usefull properties for clustering data. The difficulty with integration of
-constraints to $K$-Means algorithm  is to find a good representation for data
-taking into account constraints. The Deep Learning and Auto-Encoder can be used to
-learn this representation. With Auto-Encoder we have to perform the $K$-Means in
-the latent space learned.
-\\The major contribution to this work, is to propose a constrained Deep $K$-Means
+In real application domains, users may want to introduce constraints to finding 
+useful properties for clustering data. The difficulty with integration of 
+constraints into $K$-Means algorithm is to find a good representation for data 
+taking into account constraints. The Deep Learning and Auto-Encoder can be used 
+to learn this representation. With Auto-Encoder we have to perform the $K$-Means 
+in the latent space learned.
+\\The major contribution to this work, is to propose a constrained Deep $K$-Means 
 taking account into ML and CL constraints and lexical constraints.
-\\In next section, we provide some background on the $K$-Means algorithm and deep
-learning. In section 3, we proposed a method to introduce constraints to the
-$K$-Means algorithm. And we experiment our method in section 4.  
+\\In the next section, we provide some background on the $K$-Means algorithm and 
+deep learning. In section 3, we proposed a method to introduce constraints to 
+the $K$-Means algorithm. And we are experimenting our method in section 4.

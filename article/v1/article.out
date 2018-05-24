@@ -1,6 +1,6 @@
 \BOOKMARK [1][-]{section.1}{Introduction}{}% 1
 \BOOKMARK [1][-]{section.2}{Related Work}{}% 2
-\BOOKMARK [2][-]{subsection.2.1}{Sparse Auto-Encoder}{section.2}% 3
+\BOOKMARK [2][-]{subsection.2.1}{Auto-Encoder}{section.2}% 3
 \BOOKMARK [2][-]{subsection.2.2}{Background knowledge}{section.2}% 4
 \BOOKMARK [2][-]{subsection.2.3}{Deep K-Means}{section.2}% 5
 \BOOKMARK [1][-]{section.3}{Proposed Method}{}% 6
@@ -9,10 +9,11 @@
 \BOOKMARK [3][-]{subsubsection.3.1.2}{Backgroung Knowledge}{subsection.3.1}% 9
 \BOOKMARK [2][-]{subsection.3.2}{Deep K-Means}{section.3}% 10
 \BOOKMARK [3][-]{subsubsection.3.2.1}{Clustering Loss}{subsection.3.2}% 11
-\BOOKMARK [1][-]{section.4}{Experiment}{}% 12
-\BOOKMARK [2][-]{subsection.4.1}{Data}{section.4}% 13
-\BOOKMARK [2][-]{subsection.4.2}{Evaluation}{section.4}% 14
-\BOOKMARK [3][-]{subsubsection.4.2.1}{Reference Algorithm}{subsection.4.2}% 15
-\BOOKMARK [3][-]{subsubsection.4.2.2}{Metric}{subsection.4.2}% 16
-\BOOKMARK [2][-]{subsection.4.3}{Separate Corpus }{section.4}% 17
-\BOOKMARK [2][-]{subsection.4.4}{Noising Text}{section.4}% 18
+\BOOKMARK [3][-]{subsubsection.3.2.2}{Training}{subsection.3.2}% 12
+\BOOKMARK [1][-]{section.4}{Experiment}{}% 13
+\BOOKMARK [2][-]{subsection.4.1}{Data}{section.4}% 14
+\BOOKMARK [2][-]{subsection.4.2}{Evaluation}{section.4}% 15
+\BOOKMARK [3][-]{subsubsection.4.2.1}{Reference Algorithm}{subsection.4.2}% 16
+\BOOKMARK [3][-]{subsubsection.4.2.2}{Metric}{subsection.4.2}% 17
+\BOOKMARK [2][-]{subsection.4.3}{Separate Corpus }{section.4}% 18
+\BOOKMARK [2][-]{subsection.4.4}{Noising Text}{section.4}% 19
