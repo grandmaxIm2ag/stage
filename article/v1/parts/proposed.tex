@@ -62,7 +62,7 @@ Then the reconstruct loss function is :
 \end{equation}
 Finally the loss function for the Auto-Encoder is :
 \begin{equation}\label{eq:AE}
-  L_{AE}(C,KW; \theta) = L_{rec}(C, \theta) + \Omega(C)  
+  L_{NonClust}(C,KW; \theta) = L_{rec}(C, \theta) + \Omega(C)  
 \end{equation}
 
 \subsection{Deep K-Means}
@@ -73,14 +73,16 @@ For the clustering loss we can use squared loss with euclidian distance. We
 denote $r = \begin{pmatrix} r_1 & r_2 & ... & r_K\end{pmatrix}$ the vector of
 centroids, and S the set of clusters.  
 \begin{equation}\label{eq:loss_clust}
-  L_{clust}(C,K) = \sum_{i=1}^K \sum_{X \in S_i} ||h_X - r_i ||_2^2 
+  L_{clust}(C,K) = \sum_{i=1}^N ||h_{X_i} - RS_i ||_2^2 
 \end{equation}
 Finally the loss function is :
 \begin{equation}\label{eq:loss_FINALE}
-  Min~L(KW, C, K; \theta) = \epsilon_0.L_{AE}(C, KW; \theta) 
-  + \epsilon_1.L_{clust}(C,K)
+  Min~L(KW, C, K; \theta) = \lambda.L_{NonClust}(C, KW; \theta) 
+  + (1-\lambda).L_{clust}(C,K)
 \end{equation}
-with $\epsilon_0 \geq 0$, $\epsilon_1 \geq 0$.
+with $\epsilon \geq 0$.
 
 \subsubsection{Training}
 
+To train our model we can use the approach proposed by [...] see in
+section 2.3. 

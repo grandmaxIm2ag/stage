@@ -2052,12 +2052,11 @@
     <bcf:citekey order="1">Wagstaff:2001:CKC:645530.655669</bcf:citekey>
     <bcf:citekey order="2">2015arXiv151106321H</bcf:citekey>
     <bcf:citekey order="3">2018arXiv180107648A</bcf:citekey>
-    <bcf:citekey order="4">2016arXiv161004794Y</bcf:citekey>
-    <bcf:citekey order="5">2015arXiv151106321H</bcf:citekey>
-    <bcf:citekey order="6">Wagstaff:2001:CKC:645530.655669</bcf:citekey>
-    <bcf:citekey order="7">measure</bcf:citekey>
+    <bcf:citekey order="4">2015arXiv151106321H</bcf:citekey>
+    <bcf:citekey order="5">Wagstaff:2001:CKC:645530.655669</bcf:citekey>
+    <bcf:citekey order="6">measure</bcf:citekey>
+    <bcf:citekey order="7">rake</bcf:citekey>
     <bcf:citekey order="8">rake</bcf:citekey>
-    <bcf:citekey order="9">rake</bcf:citekey>
     <bcf:citekey order="0">*</bcf:citekey>
   </bcf:section>
   <bcf:sortlist section="0" name="nty/global" type="entry" sortscheme="nty" sortnamekeyscheme="global">

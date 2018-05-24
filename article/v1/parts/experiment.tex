@@ -12,6 +12,13 @@ We evaluate our algorithm with three algorithms :
 \item \textbf{NNclustering} proposed by Hsu and Kira
 \cite{2015arXiv151106321H}.
 \item \textbf{COPKmeans} proposed by Wagstaff \cite{Wagstaff:2001:CKC:645530.655669}.
+\item \textbf{COPKmeans with lexical constraints}, we learn a $k$-means
+  friendly space taking into account lexical constraints. The loss
+  function for this model is :
+  $$
+  Min~L(KW, C, K; \theta) = \lambda(L_{rec}(C, \theta) + \omega_{KW} )+
+  (1-\lambda)L_{clust}(C,K)
+  $$
 \item \textbf{Thematic kmeans}, the loss function for this algorithm is
   \begin{equation*}
     argmin \sum_{i=1}^{N}L(x_i) + \beta\sum_{k=1}^{K}||r_k - \sum_{\omega \in KW}
@@ -21,7 +28,8 @@ We evaluate our algorithm with three algorithms :
 \end{itemize}
 \subsubsection{Metric}
 To evaluate our algorithm and compare results with reference algorithms we can
-use the NMI metric and Purity Metric \cite{measure}. 
+use the NMI Metric, Purity Metric \cite{measure}, accuracy and adjusted
+Rand index. 
 \begin{itemize}
 \item The NMI metric is defined by
 $$
@@ -37,6 +45,13 @@ $
 $$
 purity(S,C) = \frac{1}{N}\sum_k {max}_j|s_k \cap c_j|
 $$
+\item The adjusted Rand index are defined by :
+  $$R = \frac{a+b}{\binom{N}{2}}$$
+  where a is the number of pairs of document in C
+  that are in the same cluster in predicted partition and in real
+  partition, and b he number of pairs of documents in C that are in
+  different clusters in predicted partition and in different cluster
+  in real partition.
 \end{itemize}
 \subsection{Separate Corpus }
 With corpus $C_1$ and $C_2$ we generate $KW_1$ the set of keywords

@@ -105,27 +105,67 @@ for similar pairs while maximizing the distance for dissimilar pairs
 \right.
 \end{equation*}
 \begin{equation*}
-  Loss(P || Q) = I_s(x_p, x_q)KL(P || Q) + I_{ds}(x_p, x_q)max(0, \eta-KL(P||Q))
+  Loss(P || Q) = I_s(x_p, x_q)KL(P || Q) + I_{ds}(x_p, x_q)max(0,
+  \eta-KL(P||Q))
 \end{equation*}
 \begin{equation*}
   L(P,Q) = Loss(P || Q) + Loss(Q || P)
 \end{equation*}
-\subsection{Deep $K$-Means}
+\subsection{Deep Clustering}\label{seq:DeepClust}
 A several approaches for the deep $K$-Means propose to jointy learn the
 representation and perform the $K$-Means algorithm \cite{2018arXiv180107648A}.
 In these approaches, network's loss are divided in two parts :
 \begin{itemize}
-\item \textbf{Non-Clustering loss} : The non-clustering loss doesn't take into 
-of the clustering parts. It allows to learn a good representation for our 
-problem.
-\item \textbf{Clustering loss} : The clustering allows to learn a $K$-means 
-friendly representation.
+\item \textbf{Non-Clustering loss} : The non-clustering loss doesn't
+  take into of the clustering parts. It allows to learn a good
+  representation for our problem.
+\item \textbf{Clustering loss} : The clustering allows to learn a
+  $K$-means friendly representation.
 \end{itemize}
 The loss function takes the form :
 $$
-L(X;\theta) = \epsilon L_{Clust}(X,\theta) + (1-\epsilon)L_{NonClust}(X,\theta)
+L(X;\theta) = \lambda L_{Clust}(X,\theta) + (1-\lambda)L_{NonClust}
+(X,\theta)
 $$
-In the first phase of the DCN proposed by Yang, Fu, Sidiropoulos, Hong 
-\cite{2016arXiv161004794Y}
-the network is pretrained using the autoencoder reconstruction loss. However, 
-the second phase is different. In contrast to DEC, the network is jointly trained using a mathematical combination of the autoencoder reconstruction loss and the k-means clustering loss function. Thus, due to the fact that strict cluster assignments were used during the training (instead of probabilities such as in DEC) the method required an alternation process between the network training and the cluster updates. The method performed well and even led to better results than DEC on the MNIST dataset.
+In the method proposed by [...], they proposed to learn a  a joint DR and
+$K$-means clustering approach. The loss function for this approach is :
+$$ \sum_{i=1}^N ||X - f(g(X;\theta))||_2^2 + \frac{\lambda}{2}||g(X;\theta)
+RS_i||_2^2$$
+Where $S_{j,i} \in \{0,1\}$ is the assigment matrix.
+\\ To implement SGD for updat-
+ing the network parameters, we look at the problem for the data
+$Xi$ :
+$$ L^i = ||f(g(X_i) -X_i||_2^2 + \frac{lambda}{2}||g(X_i) -RS_i||_2^2$$
+They trained the network with back-propagation based SGD. The
+gradient of the above function over the network parameters is easily
+computable. $\nabla_\theta L^i = \frac{\delta||f(g(X_i)) -X_i||_2^2}
+{\delta\theta} + \lambda\frac{\delta||g(X_i) -X_i||_2^2}{\delta \theta}
+(g(X_i) - RS_i)$. These gradient can be comput by back-propagation.\\
+Then the network parameters are update by : $\theta \gets \theta -
+\epsilon\nabla_\theta L^i$. The assignment matrix are updated by
+\begin{equation*}
+  S_{i,j} \gets \left\{
+\begin{array}{ll}
+  1 & \mbox{if } j = \argmin_{k = \{1 ... K\}}||g(X_i) - r_k||_2^2\\
+  0 & \mbox{Otherwise.}
+\end{array}
+\right.
+\end{equation*}
+For fiwing R, they used : $r_k = (\frac{1}{C_k^i})\sum_{i \in C_k^i}
+g(X_i)$ where $C_k^i$ is the recorded index set of samples assigned to
+cluster k from the first sample to the current object i.
+$r_k$ are updated by a simple gradient step
+$$r_k \gets (\frac{1}{C_k^i})(g(X_i)-r_k)S_{k,i}$$
+where the gradient step size $\frac{1}{C_k^i}$ controls the learning
+rate.
+\begin{algorithm}[!h]
+  \SetKwInOut{Input}{input}
+  \SetKwInOut{Output}{output}
+  \Input{T : the number of epochs}
+  \For{t = 1 : T }{
+    Update network parameters\\
+    Update assignment matrix\\
+    Update centroids\\
+  }
+  \caption{SGD}
+\end{algorithm}

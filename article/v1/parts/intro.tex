@@ -10,29 +10,45 @@ difficult (NP-hard).
   \SetKwInOut{Input}{input}
   \SetKwInOut{Output}{output}
   \Input{Corpus C, the number of cluster K}
-  \Output{Clusters $S_1, S_2, ..., S_k$}
-  Let $S_1^{0}, S_2^{0} , ..., S_k^{0}$ be the initial clusters\\
+  \Output{Assignment matrix S}
   Let $r_1^{0}, r_2^{0} , ..., r_k^{0}$ be the initial centroids\\
   $t \gets 1$\\
   \Repeat{Convergence}{
-    \ForEach{$X \in C$}{
-      $S_k^{t} \gets \{X : ||X-S_k^{t-1}||_2^2 \leq ||X-S_l^{t-1}||_2^2, 
-\forall l \neq k, 1 \leq l \leq K \} $\\
+    \For{i = 1 : N}{
+      $
+        S_{i,j}^t \gets \left\{
+        \begin{array}{ll}
+          1 & \mbox{if } j = \argmin_{k = \{1 ... K\}}||g(X_i) -
+          r_k^{t-1}||_2^2\\
+          0 & \mbox{Otherwise.}
+        \end{array}
+        \right.
+      $
     }
-    \ForEach{Clusters $S_k$}{
-      $r_k^t \gets \frac{1}{S_k^t}\sum_{X \in S_k^t}X$.\\
+    \ForEach{centroids $r_k$}{
+      $r_k^t \gets \frac{1}{\sum_{i = 1}^N S_{i,k}}\sum_{i = 1}^N
+      {X_i}S_{i,k}$.\\
     }
     $t++$\\
   }
-  \Return{$S_1, S_2, ..., S_k$}
+  \Return{S}
   \caption{$K$-means}
 \end{algorithm}
 \\Given a corpus C, where each document X is a 
 d-dimensional real vector, k-means clustering aims to partition the n 
-documents into K clusters S = {$S_1, S_2, ..., S_K$}, represented by centroids 
-r = {$r_1, r_2, ..., r_K$}. Formally, the objective is to minimize :
+documents into K clusters represented by centroids 
+r = {$r_1, r_2, ..., r_K$}. S is the assignment matrix :
+\begin{equation*}
+  S_{j,i} = \left\{
+\begin{array}{ll}
+  1 & \mbox{if document i $\in$ cluster j}\\
+  0 & \mbox{Otherwise.}
+\end{array}
+\right.
+\end{equation*}
+Formally, the objective is to minimize :
 $$
-\sum_{i=1}^K \sum_{X \in S_i} ||X - r_i ||_2^2
+\sum_{i =1 }^N ||X_i - RS_i ||_2^2
 $$
 In real application domains, users may want to introduce constraints to finding 
 useful properties for clustering data. The difficulty with integration of 

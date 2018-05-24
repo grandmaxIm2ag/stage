@@ -2,7 +2,7 @@
 \BOOKMARK [1][-]{section.2}{Related Work}{}% 2
 \BOOKMARK [2][-]{subsection.2.1}{Auto-Encoder}{section.2}% 3
 \BOOKMARK [2][-]{subsection.2.2}{Background knowledge}{section.2}% 4
-\BOOKMARK [2][-]{subsection.2.3}{Deep K-Means}{section.2}% 5
+\BOOKMARK [2][-]{subsection.2.3}{Deep Clustering}{section.2}% 5
 \BOOKMARK [1][-]{section.3}{Proposed Method}{}% 6
 \BOOKMARK [2][-]{subsection.3.1}{Auto-Encoder}{section.3}% 7
 \BOOKMARK [3][-]{subsubsection.3.1.1}{Lexical Constraints}{subsection.3.1}% 8
