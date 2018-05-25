@@ -3,7 +3,7 @@ The idea is to learn a latent space taking into account lexical constraints and
 background knowledge.
 \\We denote $KW = \begin{pmatrix} kw_1 & kw_2 & ... & kw_{k-1} & kw_{k}
 \end {pmatrix}$
-the set of index of keywords. X a document of size n,
+the set of index of keywords. X a document of size N,
 X' the vector showing only informations about keywords such that :
 \begin{equation*}
 \forall_{i=1,2,..,n}X_i' = \left\{
@@ -23,7 +23,7 @@ We denote $h_X$ the encoder output :
 To learn the latent space we add a penalty such that the representation
 of the document X is close of the representation of X'. In this way, in the
 latent space, the representation of document will be biased by keywords.
-We introduce a sparse penalty $\omega_{KW}$ for lexical constraints and
+We introduce a penalty $\omega_{KW}$ for lexical constraints and
 use squared loss : 
 \begin{equation}\label{eq:omega1}
   \omega_{KW} = \sum_{\forall{X\in C}} || h_X - g(X',\theta) ||_2^2 =
@@ -46,7 +46,7 @@ We introduce a penalty $\omega_{CL}$ for cannot-link constraints.
   \omega_{CL} = \sum_{\forall{(X_1,X_2)\in CL}} max(0,
   \eta - || h_{X_1} - h_{X_2} ||_2^2)
 \end{equation}
-The sparse penalty is :
+The penalty is :
 \begin{equation}\label{eq:Sparse}
   \Omega(C) = \alpha_0\omega_{KW} + \alpha_1\omega_{CL} + \alpha_2\omega_{ML}  
 \end{equation}
@@ -54,7 +54,7 @@ With hyperparameters $\alpha_0\geq 0$ ,$\alpha_1\geq 0$, $\alpha_2\geq 0$. We us
 hyperparameters because we can imagine there exists document $Y$ such that
 $\forall_{i \in KW} Y_i = 0$. With this configuration, Y' is the null vector. If the
 number of null vector Y' is high, the representation will be useless.
-Hyperparameters allows to change the importance of each sparse penalty
+Hyperparameters allows to change the importance of each penalty
 and avoid problems with null vectors.\\
 Then the reconstruct loss function is :
 \begin{equation}\label{eq:AEDK}
@@ -84,5 +84,5 @@ with $\epsilon \geq 0$.
 
 \subsubsection{Training}
 
-To train our model we can use the approach proposed by [...] see in
-section 2.3. 
+To train our model we can use the approach proposed by Yang, Fu,
+Sidiropoulos, Hong \cite{2016arXiv161004794Y}see in section 2.3. 

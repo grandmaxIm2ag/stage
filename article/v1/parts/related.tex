@@ -1,12 +1,13 @@
 \section{Related Work}\label{sec:related}
 
 \subsection{Auto-Encoder}
-The Auto-Encoder allows to learn a latent space with significantly informations 
-for the clustering without loss of information. The Auto-Encoder tries to learn 
-a function $f (X, \theta) = X$. In other words, it is trying to learn an 
-approximation of the identity function. An Auto-Encoder is composed in two parts
-an encoder function g, and a decoder function f.
-To learn the identity function, we use a reconstruct loss $L_{rec}$ using MSE :
+The Auto-Encoder allows to learn a latent space with significantly
+informs for the clustering without loss of information.
+The Auto-Encoder tries to learn a function $f (X, \theta) = X$. In
+other words, it is trying to learn an approximation of the identity
+function. An Auto-Encoder is composed in two parts an encoder function
+g, and a decoder function f. To learn the identity function, we use a
+reconstruct loss $L_{rec}$ using MSE :
 \begin{equation*}
   L_{rec}(X, \theta) = || X - f(g(X, \theta)) ||_2^2 
 \end{equation*}
@@ -117,30 +118,31 @@ representation and perform the $K$-Means algorithm \cite{2018arXiv180107648A}.
 In these approaches, network's loss are divided in two parts :
 \begin{itemize}
 \item \textbf{Non-Clustering loss} : The non-clustering loss doesn't
-  take into of the clustering parts. It allows to learn a good
-  representation for our problem.
+  take into account of the clustering parts. It allows to learn a good
+  representation of our problem.
 \item \textbf{Clustering loss} : The clustering allows to learn a
   $K$-means friendly representation.
 \end{itemize}
 The loss function takes the form :
 $$
-L(X;\theta) = \lambda L_{Clust}(X,\theta) + (1-\lambda)L_{NonClust}
+L(X;\theta) = \lambda L_{NonClust}(X,\theta) + (1-\lambda)L_{Clust}
 (X,\theta)
 $$
-In the method proposed by [...], they proposed to learn a  a joint DR and
+In the method proposed by Yang, Fu, Sidiropoulos, Hong \cite{2016arXiv161004794Y}
+they proposed a joint Dimension Reduction and
 $K$-means clustering approach. The loss function for this approach is :
-$$ \sum_{i=1}^N ||X - f(g(X;\theta))||_2^2 + \frac{\lambda}{2}||g(X;\theta)
-RS_i||_2^2$$
-Where $S_{j,i} \in \{0,1\}$ is the assigment matrix.
-\\ To implement SGD for updat-
-ing the network parameters, we look at the problem for the data
+$$ \sum_{i=1}^N ||X_i - f(g(X_i;\theta))||_2^2 + \frac{\lambda}{2}
+||g(X_i;\theta)RS_i||_2^2$$
+Where $S_{i, j} \in \{0,1\}$ is the assignment matrix.
+\\To implement SGD for updating the network parameters, we look at
+the problem for the data
 $Xi$ :
 $$ L^i = ||f(g(X_i) -X_i||_2^2 + \frac{lambda}{2}||g(X_i) -RS_i||_2^2$$
 They trained the network with back-propagation based SGD. The
 gradient of the above function over the network parameters is easily
 computable. $\nabla_\theta L^i = \frac{\delta||f(g(X_i)) -X_i||_2^2}
 {\delta\theta} + \lambda\frac{\delta||g(X_i) -X_i||_2^2}{\delta \theta}
-(g(X_i) - RS_i)$. These gradient can be comput by back-propagation.\\
+(g(X_i) - RS_i)$. This gradient can be computed by back-propagation.\\
 Then the network parameters are update by : $\theta \gets \theta -
 \epsilon\nabla_\theta L^i$. The assignment matrix are updated by
 \begin{equation*}
@@ -151,12 +153,12 @@ Then the network parameters are update by : $\theta \gets \theta -
 \end{array}
 \right.
 \end{equation*}
-For fiwing R, they used : $r_k = (\frac{1}{C_k^i})\sum_{i \in C_k^i}
-g(X_i)$ where $C_k^i$ is the recorded index set of samples assigned to
+For fixing R, they used : $r_k = (\frac{1}{c_k^i})\sum_{i \in c_k^i}
+g(X_i)$ where $c_k^i$ is the recorded index set of samples assigned to
 cluster k from the first sample to the current object i.
 $r_k$ are updated by a simple gradient step
-$$r_k \gets (\frac{1}{C_k^i})(g(X_i)-r_k)S_{k,i}$$
-where the gradient step size $\frac{1}{C_k^i}$ controls the learning
+$$r_k \gets (\frac{1}{c_k^i})(g(X_i)-r_k)S_{k,i}$$
+where the gradient step size $\frac{1}{c_k^i}$ controls the learning
 rate.
 \begin{algorithm}[!h]
   \SetKwInOut{Input}{input}

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.9.30)  24 MAY 2018 23:10
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.9.30)  25 MAY 2018 11:22
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1438,13 +1438,13 @@ LaTeX Font Info:    Font shape `OT1/ppl/bx/n' in size <12> not available
 (./parts/res/tex/neural_network_autoencoder.tex
 \du=\skip96
 )
-LaTeX Font Info:    Try loading font information for OMS+ppl on input line 24.
+LaTeX Font Info:    Try loading font information for OMS+ppl on input line 25.
 
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/omsppl.fd
 File: omsppl.fd 
 )
 LaTeX Font Info:    Font shape `OMS/ppl/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 24.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 25.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
@@ -1475,7 +1475,7 @@ Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 45.
 Here is how much of TeX's memory you used:
  25121 strings out of 493029
  455245 string characters out of 6136234
- 871714 words of memory out of 5000000
+ 872734 words of memory out of 5000000
  28133 multiletter control sequences out of 15000+600000
  42587 words of font info for 120 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -1489,10 +1489,10 @@ public/mathpazo/fplmr.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/mat
 hpazo/fplmri.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/palatino/uplb8a
 .pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/s
 hare/texlive/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on article.pdf (8 pages, 138507 bytes).
+Output written on article.pdf (8 pages, 138679 bytes).
 PDF statistics:
- 231 PDF objects out of 1000 (max. 8388607)
- 209 compressed objects within 3 object streams
+ 233 PDF objects out of 1000 (max. 8388607)
+ 211 compressed objects within 3 object streams
  62 named destinations out of 1000 (max. 500000)
  165 words of extra memory for PDF output out of 10000 (max. 10000000)
 
