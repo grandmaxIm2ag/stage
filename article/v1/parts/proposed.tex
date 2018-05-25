@@ -26,25 +26,25 @@ latent space, the representation of document will be biased by keywords.
 We introduce a penalty $\omega_{KW}$ for lexical constraints and
 use squared loss : 
 \begin{equation}\label{eq:omega1}
-  \omega_{KW} = \sum_{\forall{X\in C}} || h_X - g(X',\theta) ||_2^2 =
-  \sum_{\forall{X\in C}} || h_X - h_{X'}||_2^2
+  \omega_{KW} = \sum_{i=1}^N || h_{X_i} - g(X_i',\theta) ||_2^2 =
+  \sum_{i=1}^N || h_{X_i} - h_{X_i'}||_2^2
 \end{equation}
 \subsubsection{Backgroung Knowledge}
 In addition of lexical constraints we introduce background knowledge, so we need
 a representation taking into account these constraints.\\
-For must-link constraints we want close representations for each pair $X_1$, $X_2$
+For must-link constraints we want close representations for each pair $X_i$, $X_j$
 in the set ML. We introduce a penalty $\omega_{ML}$ for must-link
 constraints and use squared loss :
 \begin{equation}\label{eq:omegaML}
-  \omega_{ML} = \sum_{\forall{(X_1,X_2)\in ML}} || h_{X_1} - h_{X_2} ||_2^2
+  \omega_{ML} = \sum_{\forall{(X_i,X_j)\in ML}} || h_{X_i} - h_{X_j} ||_2^2
 \end{equation}
-For cannot-link constraints we want distant representations for each pair $X_1$,
-$X_2$ in the set CL.
+For cannot-link constraints we want distant representations for each pair $X_i$,
+$X_j$ in the set CL.
 We can use the hinge loss.
 We introduce a penalty $\omega_{CL}$ for cannot-link constraints.
 \begin{equation}\label{eq:omegaCL}
-  \omega_{CL} = \sum_{\forall{(X_1,X_2)\in CL}} max(0,
-  \eta - || h_{X_1} - h_{X_2} ||_2^2)
+  \omega_{CL} = \sum_{\forall{(X_i,X_j)\in CL}} max(0,
+  \eta - || h_{X_i} - h_{X_j} ||_2^2)
 \end{equation}
 The penalty is :
 \begin{equation}\label{eq:Sparse}
@@ -58,7 +58,7 @@ Hyperparameters allows to change the importance of each penalty
 and avoid problems with null vectors.\\
 Then the reconstruct loss function is :
 \begin{equation}\label{eq:AEDK}
-  L_{rec}(C, \theta) = \sum_{X \in C}(||X - f(g(X, \theta))||_2^2
+  L_{rec}(C, \theta) = \sum_{i=1}^N(||X_i - f(g(X_i, \theta))||_2^2
 \end{equation}
 Finally the loss function for the Auto-Encoder is :
 \begin{equation}\label{eq:AE}
@@ -70,8 +70,8 @@ Finally the loss function for the Auto-Encoder is :
 \subsubsection{Clustering Loss}
 
 For the clustering loss we can use squared loss with euclidian distance. We
-denote $r = \begin{pmatrix} r_1 & r_2 & ... & r_K\end{pmatrix}$ the vector of
-centroids, and S the set of clusters.  
+denote $R = \begin{pmatrix} r_1 & r_2 & ... & r_K\end{pmatrix}$ the vector of
+centroids, and S the assignment matrix :.  
 \begin{equation}\label{eq:loss_clust}
   L_{clust}(C,K) = \sum_{i=1}^N ||h_{X_i} - RS_i ||_2^2 
 \end{equation}
@@ -80,7 +80,7 @@ Finally the loss function is :
   Min~L(KW, C, K; \theta) = \lambda.L_{NonClust}(C, KW; \theta) 
   + (1-\lambda).L_{clust}(C,K)
 \end{equation}
-with $\epsilon \geq 0$.
+with $0 \leq \lambda \leq 1$.
 
 \subsubsection{Training}
 

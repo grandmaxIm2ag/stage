@@ -2,7 +2,7 @@
 
 \subsection{Auto-Encoder}
 The Auto-Encoder allows to learn a latent space with significantly
-informs for the clustering without loss of information.
+informations for the clustering without loss of information.
 The Auto-Encoder tries to learn a function $f (X, \theta) = X$. In
 other words, it is trying to learn an approximation of the identity
 function. An Auto-Encoder is composed in two parts an encoder function
@@ -12,7 +12,7 @@ reconstruct loss $L_{rec}$ using MSE :
   L_{rec}(X, \theta) = || X - f(g(X, \theta)) ||_2^2 
 \end{equation*}
 
-\begin{figure}
+\begin{figure}[!h]
   \centering
   \tikzset{every picture/.style={scale=1.6}}
   \input{parts/res/tex/neural_network_autoencoder.tex}
@@ -53,7 +53,6 @@ which did not violate ML and CL constraints.
   \Return{$S_1, S_2, ..., S_k$}
   \caption{COP-Kmeans}
 \end{algorithm}
-
 \begin{algorithm}[!h]
   \SetKwInOut{Input}{input}
   \SetKwInOut{Output}{output}
@@ -91,7 +90,7 @@ for similar pairs while maximizing the distance for dissimilar pairs
 \begin{equation*}
   I_s = \left\{
 \begin{array}{ll}
-  1 & \mbox{if $x_p$ and $x_q$ is a similar pair} x \in X\\
+  1 & \mbox{if $x_p$ and $x_q$ is a similar pair}\\
   0 & \mbox{Otherwise.}
 \end{array}
 \right.
@@ -100,7 +99,7 @@ for similar pairs while maximizing the distance for dissimilar pairs
 \begin{equation*}
   I_{ds} = \left\{
 \begin{array}{ll}
-  1 & \mbox{if $x_p$ and $x_q$ is a disimilar pair} x \in X\\
+  1 & \mbox{if $x_p$ and $x_q$ is a dissimilar pair}\\
   0 & \mbox{Otherwise.}
 \end{array}
 \right.
@@ -115,7 +114,7 @@ for similar pairs while maximizing the distance for dissimilar pairs
 \subsection{Deep Clustering}\label{seq:DeepClust}
 A several approaches for the deep $K$-Means propose to jointy learn the
 representation and perform the $K$-Means algorithm \cite{2018arXiv180107648A}.
-In these approaches, network's loss are divided in two parts :
+In these approaches, network's loss is divided in two parts :
 \begin{itemize}
 \item \textbf{Non-Clustering loss} : The non-clustering loss doesn't
   take into account of the clustering parts. It allows to learn a good
@@ -134,10 +133,11 @@ $K$-means clustering approach. The loss function for this approach is :
 $$ \sum_{i=1}^N ||X_i - f(g(X_i;\theta))||_2^2 + \frac{\lambda}{2}
 ||g(X_i;\theta)RS_i||_2^2$$
 Where $S_{i, j} \in \{0,1\}$ is the assignment matrix.
-\\To implement SGD for updating the network parameters, we look at
+\\They use SGD algorithm to update parameters.
+To implement SGD for updating the network parameters, they look at
 the problem for the data
 $Xi$ :
-$$ L^i = ||f(g(X_i) -X_i||_2^2 + \frac{lambda}{2}||g(X_i) -RS_i||_2^2$$
+$$ L^i = ||f(g(X_i) -X_i||_2^2 + \frac{\lambda}{2}||g(X_i) -RS_i||_2^2$$
 They trained the network with back-propagation based SGD. The
 gradient of the above function over the network parameters is easily
 computable. $\nabla_\theta L^i = \frac{\delta||f(g(X_i)) -X_i||_2^2}
@@ -157,7 +157,7 @@ For fixing R, they used : $r_k = (\frac{1}{c_k^i})\sum_{i \in c_k^i}
 g(X_i)$ where $c_k^i$ is the recorded index set of samples assigned to
 cluster k from the first sample to the current object i.
 $r_k$ are updated by a simple gradient step
-$$r_k \gets (\frac{1}{c_k^i})(g(X_i)-r_k)S_{k,i}$$
+$$r_k \gets \frac{1}{c_k^i}(g(X_i)-r_k)S_{i,k}$$
 where the gradient step size $\frac{1}{c_k^i}$ controls the learning
 rate.
 \begin{algorithm}[!h]
