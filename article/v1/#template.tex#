@@ -1,3 +1,4 @@
+
 %%%%%%%%%%%%%%%%%%%%%%% file template.tex %%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % This is a general template file for the LaTeX package SVJour3
@@ -68,8 +69,6 @@ grestore
   sortcites=true,
   block=space]{biblatex}
 \bibliography{parts/biblio}%
-\DeclareMathOperator*{\argmax}{arg\,max}
-\DeclareMathOperator*{\argmin}{arg\,min}
 % \usepackage{mathptmx}      % use Times fonts if available on your TeX system
 %
 % insert here the call for the packages your document requires
@@ -89,7 +88,7 @@ grestore
 % The correct dates will be entered by the editor
 
 \maketitle
-\justify
+
 \input{parts/abstract.tex}
 \input{parts/intro.tex}
 \input{parts/related.tex}

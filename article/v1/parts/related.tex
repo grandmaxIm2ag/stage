@@ -8,9 +8,9 @@ other words, it is trying to learn an approximation of the identity
 function. An Auto-Encoder is composed in two parts an encoder function
 g, and a decoder function f. To learn the identity function, we use a
 reconstruct loss $L_{rec}$ using MSE :
-\begin{equation*}
+\begin{equation}
   L_{rec}(X, \theta) = || X - f(g(X, \theta)) ||_2^2 
-\end{equation*}
+\end{equation}
 
 \begin{figure}[!h]
   \centering
@@ -79,38 +79,38 @@ function on the output layer and the KL-Divergence to learn a latent space
 which minimizes the statistical distance between predicted cluster probabilities 
 for similar pairs while maximizing the distance for dissimilar pairs
 
-\begin{equation*}
+\begin{equation}
   P = f(x_p), ~ Q = f(x_q)
-\end{equation*}
+\end{equation}
 
-\begin{equation*}
+\begin{equation}
   KL(P||Q) = \sum_i^k P_ilog\frac{P_i}{Q_i}
-\end{equation*}
+\end{equation}
 
-\begin{equation*}
+\begin{equation}
   I_s = \left\{
 \begin{array}{ll}
   1 & \mbox{if $x_p$ and $x_q$ is a similar pair}\\
   0 & \mbox{Otherwise.}
 \end{array}
 \right.
-\end{equation*}
+\end{equation}
 %
-\begin{equation*}
+\begin{equation}
   I_{ds} = \left\{
 \begin{array}{ll}
   1 & \mbox{if $x_p$ and $x_q$ is a dissimilar pair}\\
   0 & \mbox{Otherwise.}
 \end{array}
 \right.
-\end{equation*}
-\begin{equation*}
+\end{equation}
+\begin{equation}
   Loss(P || Q) = I_s(x_p, x_q)KL(P || Q) + I_{ds}(x_p, x_q)max(0,
   \eta-KL(P||Q))
-\end{equation*}
-\begin{equation*}
+\end{equation}
+\begin{equation}
   L(P,Q) = Loss(P || Q) + Loss(Q || P)
-\end{equation*}
+\end{equation}
 \subsection{Deep Clustering}\label{seq:DeepClust}
 A several approaches for the deep $K$-Means propose to jointy learn the
 representation and perform the $K$-Means algorithm \cite{2018arXiv180107648A}.
@@ -123,51 +123,23 @@ In these approaches, network's loss is divided in two parts :
   $K$-means friendly representation.
 \end{itemize}
 The loss function takes the form :
-$$
-L(X;\theta) = \lambda L_{NonClust}(X,\theta) + (1-\lambda)L_{Clust}
-(X,\theta)
-$$
-In the method proposed by Yang, Fu, Sidiropoulos, Hong \cite{2016arXiv161004794Y}
-they proposed a joint Dimension Reduction and
-$K$-means clustering approach. The loss function for this approach is :
-$$ \sum_{i=1}^N ||X_i - f(g(X_i;\theta))||_2^2 + \frac{\lambda}{2}
-||g(X_i;\theta)RS_i||_2^2$$
-Where $S_{i, j} \in \{0,1\}$ is the assignment matrix.
-\\They use SGD algorithm to update parameters.
-To implement SGD for updating the network parameters, they look at
-the problem for the data
-$Xi$ :
-$$ L^i = ||f(g(X_i) -X_i||_2^2 + \frac{\lambda}{2}||g(X_i) -RS_i||_2^2$$
-They trained the network with back-propagation based SGD. The
-gradient of the above function over the network parameters is easily
-computable. $\nabla_\theta L^i = \frac{\delta||f(g(X_i)) -X_i||_2^2}
-{\delta\theta} + \lambda\frac{\delta||g(X_i) -X_i||_2^2}{\delta \theta}
-(g(X_i) - RS_i)$. This gradient can be computed by back-propagation.\\
-Then the network parameters are update by : $\theta \gets \theta -
-\epsilon\nabla_\theta L^i$. The assignment matrix are updated by
-\begin{equation*}
-  S_{i,j} \gets \left\{
-\begin{array}{ll}
-  1 & \mbox{if } j = \argmin_{k = \{1 ... K\}}||g(X_i) - r_k||_2^2\\
-  0 & \mbox{Otherwise.}
-\end{array}
-\right.
-\end{equation*}
-For fixing R, they used : $r_k = (\frac{1}{c_k^i})\sum_{i \in c_k^i}
-g(X_i)$ where $c_k^i$ is the recorded index set of samples assigned to
-cluster k from the first sample to the current object i.
-$r_k$ are updated by a simple gradient step
-$$r_k \gets \frac{1}{c_k^i}(g(X_i)-r_k)S_{i,k}$$
-where the gradient step size $\frac{1}{c_k^i}$ controls the learning
-rate.
-\begin{algorithm}[!h]
-  \SetKwInOut{Input}{input}
-  \SetKwInOut{Output}{output}
-  \Input{T : the number of epochs}
-  \For{t = 1 : T }{
-    Update network parameters\\
-    Update assignment matrix\\
-    Update centroids\\
-  }
-  \caption{SGD}
-\end{algorithm}
+\begin{equation}
+L(X;\theta) = \lambda L_{NonClust}(C;\theta) + (1-\lambda)L_{Clust}(C; \theta)
+\end{equation}
+Where $\lambda \in [0 ; 1]$is a constant specifying the weighting between both functions.
+It is an additional hyperparameter for the network training.\\
+In the method proposed by Moradi, Thonet and Gaussier \cite{Deap-K-Means} 
+the problem takes the form : 
+\begin{equation}
+L = L_{NonClust}(C;\theta,R ) + \lambda L_{Clust}(C,\alpha;\theta,R)
+\end{equation}
+\begin{equation}
+L_{NonClust}(C;\theta,R ) = \sum_{X \in C} ||X - f(g(X;\theta))||_2^2
+\end{equation}
+\begin{equation}
+\begin{aligned}
+L_{Clust}(C,\alpha;\theta,R) = \sum_{X \in C} ||g(X) - c(g(X, \theta); R) ||_2^2\\
+c(g(X, \theta); R) = \argmin_{k = 1 .. K} || X - r_k||_2^2
+\end{aligned}
+\end{equation}
+$c(X ; R)$ is a non differentiable function that assign the document X to its nearest centroid.

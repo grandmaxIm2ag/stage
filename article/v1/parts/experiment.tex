@@ -1,16 +1,29 @@
 \section{Experiment}
 
 \subsection{Data}
-To experiment our algoritm we use two corpus $C_1$ and $C_2$. $C_1$ contains a
-set of documents related to Finance and $C_2$ contains a set of documents
-related to Sport Each coprus are divided in 10 classes.
-
+To experiment our algoritm we use the dataset 20NewsGroup \cite{Newsgroups20}.
+The 20 Newsgroups data set is a collection of approximately 20,000 newsgroup 
+documents, partitioned evenly across 20 different newsgroups.\\
+Each document are represented by a vector using frequency-inverse document 
+frequency (TFIDF) representation.
+The term frequency-inverse document frequency is a method of weghting depicting 
+the significiance of each word in a document rather a corpus.
+\\To compute the Term 
+Frequency (TF) of a term t in document X we use the double normalisation K, 
+with k=0.5 :
+\begin{equation}
+TF(t, X) = 0.5 + 0.5\frac{f_{t, X}}{max_{t' \in C}f_{t', X}} 
+\end{equation}
+\begin{equation}
+IDF(t, C) = log(\frac{N}{|X \in C : t \in X|})
+\end{equation}
+\begin{equation}
+TFIDF(t,c,C) = TF(t, X) . IDF(t, C)   
+\end{equation}
 \subsection{Evaluation}
 \subsubsection{Reference Algorithm}
 We evaluate our algorithm with four algorithms :
 \begin{itemize}
-\item \textbf{NNclustering} proposed by Hsu and Kira
-\cite{2015arXiv151106321H}.
 \item \textbf{COPKmeans} proposed by Wagstaff \cite{Wagstaff:2001:CKC:645530.655669}.
 \item \textbf{COPKmeans with lexical constraints}, we learn a $k$-means
   friendly space taking into account lexical constraints. The loss
@@ -28,10 +41,10 @@ We evaluate our algorithm with four algorithms :
 \end{itemize}
 \subsubsection{Metric}
 To evaluate our algorithm and compare results with reference algorithms we can
-use the NMI Metric, Purity Metric \cite{measure}, and adjusted
-Rand index. 
+use the NMI Metric\cite{measure}, Accuracy Metric \cite{measure}, and Adjusted
+Rand index\cite{measure}. 
 \begin{itemize}
-\item The NMI metric is defined by
+\item The NMI Metric is defined by
 $$
 NMI(S,C) = \frac{I(S,C)}{[H(S)+H(C)]/2}
 $$ 
@@ -41,18 +54,55 @@ I(S,C) =\sum_k \sum_f\frac{|s_k \cap c_f|}{N}log\frac{N|s_k \cap c_f|}{|s_k| |c_
 $ and $
 H(S) = -\sum_k\frac{|s_k|}{N}log\frac{N|s_k|}{|s_k|}
 $
-\item The purity metric is defined by :
+\item The Accuracy metric is defined by :
 $$
 purity(S,C) = \frac{1}{N}\sum_k {max}_j|s_k \cap c_j|
 $$
-\item The adjusted Rand index are defined by :
-  $$R = \frac{a+b}{\binom{N}{2}}$$
+\item The Adjusted Rand index are defined by :
+  $$ARI = \frac{a+b}{\binom{N}{2}}$$
   where a is the number of pairs of document in C
   that are in the same cluster in the predicted partition and in the
   same cluster in the real partition, and b he number of pairs of
   documents in C that are in different clusters in predicted partition
   and in different cluster in real partition.
 \end{itemize}
+\subsection{Generate Constraint}
+\subsubsection{Lexical Constraints}
+\begin{algorithm}
+  \SetKwInOut{Input}{input}
+  \SetKwInOut{Output}{output}
+  \Input{Corpus C, The set of labels L, The number of pair $N_p$}
+  \Output{Must-Link Pair ML, Cannot-Link Pair CL}
+  \For{i = 1 : $N_p$}{
+    Coose randomly ($X_i, X_j$)\\
+    \If{$L_i == L_j$}{
+      Insert ($X_i, X_j$) in ML 
+    }
+    \Else{
+      Insert ($X_i, X_j$) in CL
+    }
+  }
+  \Return{ML, CL}
+  \caption{Extract Pair}
+\end{algorithm}
+\subsubsection{Background Knowledge}
+\begin{algorithm}
+  \SetKwInOut{Input}{input}
+  \SetKwInOut{Output}{output}
+  \Input{Corpus C, The set of labels L, The number of pair $N_p$}
+  \Output{Must-Link Pair ML, Cannot-Link Pair CL}
+  \For{i = 1 : $N_p$}{
+    Coose randomly ($X_i, X_j$)\\
+    \If{$L_i == L_j$}{
+      Insert ($X_i, X_j$) in ML 
+    }
+    \Else{
+      Insert ($X_i, X_j$) in CL
+    }
+  }
+  \Return{ML, CL}
+  \caption{Extract Pair}
+\end{algorithm}
 \subsection{Separate Corpus }
 With corpus $C_1$ and $C_2$ we generate $KW_1$ the set of keywords
 for $C_1$ and $KW_2$ the set of keywords for $C_2$. Then we denote $KW$

@@ -65,24 +65,19 @@ Finally the loss function for the Auto-Encoder is :
   L_{NonClust}(C,KW; \theta) = L_{rec}(C, \theta) + \Omega(C)  
 \end{equation}
 
-\subsection{Deep K-Means}
+\subsection{Deep $K$-Means}
 
-\subsubsection{Clustering Loss}
-
+For the Deep $K$-Means, we can use the approach proposed by Moradi, Thonet and Gaussier 
+\cite{Deap-K-Means} see in section 2.3.\\
 For the clustering loss we can use squared loss with euclidian distance. We
 denote $R = \begin{pmatrix} r_1 & r_2 & ... & r_K\end{pmatrix}$ the vector of
-centroids, and S the assignment matrix :.  
+centroids, and S the set of cluster :.  
 \begin{equation}\label{eq:loss_clust}
-  L_{clust}(C,K) = \sum_{i=1}^N ||h_{X_i} - RS_i ||_2^2 
+  L_{clust}(C, K; \theta, R) = \sum_{X \in C} ||g(X) - c(g(X, \theta); R) ||_2^2 
 \end{equation}
 Finally the loss function is :
 \begin{equation}\label{eq:loss_FINALE}
-  Min~L(KW, C, K; \theta) = \lambda.L_{NonClust}(C, KW; \theta) 
-  + (1-\lambda).L_{clust}(C,K)
+  Min~L(KW, C, K; \theta) = L_{NonClust}(C, KW; \theta) + \lambda.L_{clust}(C,K)
 \end{equation}
 with $0 \leq \lambda \leq 1$.
 
-\subsubsection{Training}
-
-To train our model we can use the approach proposed by Yang, Fu,
-Sidiropoulos, Hong \cite{2016arXiv161004794Y}see in section 2.3. 
