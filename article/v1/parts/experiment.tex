@@ -72,15 +72,15 @@ We evaluate our algorithm with four algorithms :
 \item \textbf{COPKmeans with lexical constraints}, we learn a $k$-means
   friendly space taking into account lexical constraints. The loss
   function for this model is :
-  $$
-  Min~L(KW, C, K; \theta) = \lambda(L_{rec}(C, \theta) + \omega_{KW} )+
-  (1-\lambda)L_{clust}(C,K)
-  $$
+  \begin{equation}
+  Min~L(KW, C, K; \theta) = (L_{rec}(C, \theta) + \omega_{KW} )+
+  \lambda L_{clust}(C,K)
+  \end{equation}
 \item \textbf{Thematic kmeans}, the loss function for this algorithm is
-  \begin{equation*}
+  \begin{equation}
     argmin \sum_{i=1}^{N}L(x_i) + \beta\sum_{k=1}^{K}||r_k - \sum_{\omega \in KW}
     \alpha_{k,\omega}h(\omega, \theta)||_2^2 + \delta\sum_{k=1}^{K}||\alpha_k|| 
-  \end{equation*}
+  \end{equation}
   with $L(x_i) = L_{rec}(x_i) + \lambda L_{clust}(x_i)$
 \end{itemize}
 \subsubsection{Metric}
@@ -88,44 +88,47 @@ To evaluate our algorithm and compare results with reference algorithms we can
 use the NMI Metric\cite{measure}, Accuracy Metric \cite{measure}, and Adjusted
 Rand index\cite{measure}. 
 \begin{itemize}
-\item The NMI Metric is defined by
-$$
-NMI(S,C) = \frac{I(S,C)}{[H(S)+H(C)]/2}
-$$ 
+\item The NMI Metric is defined as follows
+$$NMI(S,C) = \frac{I(S,C)}{[H(S)+H(C)]/2}$$ 
 with
-$
-I(S,C) =\sum_k \sum_f\frac{|s_k \cap c_f|}{N}log\frac{N|s_k \cap c_f|}{|s_k| |c_f|}
-$ and $
-H(S) = -\sum_k\frac{|s_k|}{N}log\frac{N|s_k|}{|s_k|}
-$
-\item The Accuracy metric is defined by :
+$I(S,C) =\sum_k \sum_f\frac{|s_k \cap c_f|}{N}log\frac{N|s_k \cap c_f|}{|s_k| |c_f|}$
+and
+$H(S) = -\sum_k\frac{|s_k|}{N}log\frac{N|s_k|}{|s_k|}$
+\item The Accuracy is the proportion of true results among the total
+  number of cases examined. The Accuracy metric is defined as follows :
 $$
 purity(S,C) = \frac{1}{N}\sum_k {max}_j|s_k \cap c_j|
 $$
-\item The Adjusted Rand index are defined by :
-  $$ARI = \frac{a+b}{\binom{N}{2}}$$
-  where a is the number of pairs of document in C
+\item Let a : the number of pairs of document in C
   that are in the same cluster in the predicted partition and in the
-  same cluster in the real partition, and b he number of pairs of
-  documents in C that are in different clusters in predicted partition
+  same cluster in the real partition, and b : the number of pairs of
+  document in C that are in different clusters in predicted partition
   and in different cluster in real partition.
+  The Adjusted Rand index is defined as follows :
+  $$ARI = \frac{a+b}{\binom{N}{2}}$$
 \end{itemize}
 \subsection{Experimental Setup}
 \subsubsection{Autoencoder Architecture}
 We use the same architecture used in~\cite{Deap-K-Means}. The encoder is a fully-connected 
 multilayer perceptron formed by 3 hidden layers (with dimensions 500, 500, 2000) 
- and an embedding layer (with dimension K, the number of cluster). 
+and an embedding layer (with dimension K, the number of cluster). 
 The decoder is a mirrored version of the encoder~\ref{fig:archi}.
 The ReLu activation function is used on layers, except for the third
 layer of encoder and decoder part.  
-The auto-encoder weights are initialized following the Xavier scheme.
 \begin{figure}[!h]
   \centering
   \tikzset{every picture/.style={scale=1.6}}
-  \input{parts/res/tex/neural_network_autoencoder.tex}
+  \input{parts/res/tex/archi.tex}
   \caption{\label{fig:archi}Architecture}
 \end{figure}
-\subsubsection{Training Details}
+
 \subsubsection{Noising Text}
-The purpose of the experiment is to rediscover the different classes of the
-corpus $C1$ with keywords and background knowledge.
+We divide the dataset into two corpus $C_1, C_2$. Each corpus contain
+ten classes. We generate keywords \ref{algo:gen_kw} and pairewise
+constraints \ref{algo:gen_pair} from $C_1$. Then we add noise to the corpus
+$C_1$. To add noise, we concatenate document from corpus $C_1$ with document
+fromm corpus $C_2$.
+\\The purpose of the experiment is to rediscover the different classes of the
+corpus $C_1$ with keywords and background knowledge.
+
+\subsubsection{Results}

@@ -1,3 +1,4 @@
+
 \section{Proposed Method}
 The idea is to learn a latent space taking into account lexical constraints and
 background knowledge.
@@ -50,13 +51,8 @@ The penalty is :
 \begin{equation}\label{eq:Sparse}
   \Omega(C) = \alpha_0\omega_{KW} + \alpha_1\omega_{CL} + \alpha_2\omega_{ML}  
 \end{equation}
-With hyperparameters $\alpha_0\geq 0$ ,$\alpha_1\geq 0$, $\alpha_2\geq 0$. We use
-hyperparameters because we can imagine there exists document $Y$ such that
-$\forall_{i \in KW} Y_i = 0$. With this configuration, Y' is the null vector. If the
-number of null vector Y' is high, the representation will be useless.
-Hyperparameters allows to change the importance of each penalty
-and avoid problems with null vectors.\\
-Then the reconstruct loss function is :
+With hyperparameters $\alpha_0\geq 0$ ,$\alpha_1\geq 0$, $\alpha_2\geq 0$.
+\\Then the reconstruct loss function is :
 \begin{equation}\label{eq:AEDK}
   L_{rec}(C, \theta) = \sum_{i=1}^N(||X_i - f(g(X_i, \theta))||_2^2
 \end{equation}
