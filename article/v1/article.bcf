@@ -2057,8 +2057,9 @@
     <bcf:citekey order="6">Newsgroups20</bcf:citekey>
     <bcf:citekey order="7">Wagstaff:2001:CKC:645530.655669</bcf:citekey>
     <bcf:citekey order="8">measure</bcf:citekey>
-    <bcf:citekey order="9">rake</bcf:citekey>
-    <bcf:citekey order="10">rake</bcf:citekey>
+    <bcf:citekey order="9">measure</bcf:citekey>
+    <bcf:citekey order="10">measure</bcf:citekey>
+    <bcf:citekey order="11">Deap-K-Means</bcf:citekey>
     <bcf:citekey order="0">*</bcf:citekey>
   </bcf:section>
   <bcf:sortlist section="0" name="nty/global" type="entry" sortscheme="nty" sortnamekeyscheme="global">

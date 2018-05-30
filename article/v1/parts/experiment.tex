@@ -20,6 +20,50 @@ IDF(t, C) = log(\frac{N}{|X \in C : t \in X|})
 \begin{equation}
 TFIDF(t,c,C) = TF(t, X) . IDF(t, C)   
 \end{equation}
+\subsection{Generate Constraint}
+\subsubsection{Lexical Constraints}
+To generate the set of keywords $KW$ we rank each word of each 
+document of each class using TFIDF~\ref{algo:gen_kw}
+\begin{algorithm}
+  \SetKwInOut{Input}{input}
+  \SetKwInOut{Output}{output}
+  \Input{Corpus C, The number of keywords per classes $P$}
+  \Output{KW}
+  $KW \gets \{\}$\\
+  \ForEach{Class $c_i \in C$}{
+    $rank \gets [0 ... 0]$\\
+    \ForEach{Document $X \in c_i$}{
+      \ForEach{Word $w \in X$}{
+        \If{$TFIDF(w) \ge rank_w$}{
+          $rank_w \gets w$\\
+        }
+      }
+    }
+    $KW \gets KW \cup \{\{w_1, w_2 ... w_P\} : \not\exists (v_1, v_2) | v_1 \not\in 
+    \{w_1, w_2 ... w_P\}, v_2 \in \{w_1, w_2 ... w_P\}, rank_{v_1} \ge rank_{v_2}\}$\\
+  }
+  \Return{KW}
+  \caption{\label{algo:gen_kw}Extract Keywords}
+\end{algorithm}
+\subsubsection{Background Knowledge}
+We generate pairwise randomly~\ref{algo:gen_pair}
+\begin{algorithm}[!h]
+  \SetKwInOut{Input}{input}
+  \SetKwInOut{Output}{output}
+  \Input{Corpus C, The set of labels L, The number of pair $N_p$}
+  \Output{Must-Link Pair ML, Cannot-Link Pair CL}
+  \For{i = 1 : $N_p$}{
+    Coose randomly ($X_i, X_j$)\\
+    \If{$L_i == L_j$}{
+      Insert ($X_i, X_j$) in ML 
+    }
+    \Else{
+      Insert ($X_i, X_j$) in CL
+    }
+  }
+  \Return{ML, CL}
+  \caption{\label{algo:gen_pair}Extract Pair}
+\end{algorithm}
 \subsection{Evaluation}
 \subsubsection{Reference Algorithm}
 We evaluate our algorithm with four algorithms :
@@ -66,64 +110,22 @@ $$
   documents in C that are in different clusters in predicted partition
   and in different cluster in real partition.
 \end{itemize}
-\subsection{Generate Constraint}
-\subsubsection{Lexical Constraints}
-\begin{algorithm}
-  \SetKwInOut{Input}{input}
-  \SetKwInOut{Output}{output}
-  \Input{Corpus C, The set of labels L, The number of pair $N_p$}
-  \Output{Must-Link Pair ML, Cannot-Link Pair CL}
-  \For{i = 1 : $N_p$}{
-    Coose randomly ($X_i, X_j$)\\
-    \If{$L_i == L_j$}{
-      Insert ($X_i, X_j$) in ML 
-    }
-    \Else{
-      Insert ($X_i, X_j$) in CL
-    }
-  }
-  \Return{ML, CL}
-  \caption{Extract Pair}
-\end{algorithm}
-\subsubsection{Background Knowledge}
-\begin{algorithm}
-  \SetKwInOut{Input}{input}
-  \SetKwInOut{Output}{output}
-  \Input{Corpus C, The set of labels L, The number of pair $N_p$}
-  \Output{Must-Link Pair ML, Cannot-Link Pair CL}
-  \For{i = 1 : $N_p$}{
-    Coose randomly ($X_i, X_j$)\\
-    \If{$L_i == L_j$}{
-      Insert ($X_i, X_j$) in ML 
-    }
-    \Else{
-      Insert ($X_i, X_j$) in CL
-    }
-  }
-  \Return{ML, CL}
-  \caption{Extract Pair}
-\end{algorithm}
-\subsection{Separate Corpus }
-With corpus $C_1$ and $C_2$ we generate $KW_1$ the set of keywords
-for $C_1$ and $KW_2$ the set of keywords for $C_2$. Then we denote $KW$
-the set of keywords for clustering such that $KW = KW_1 \cup KW_2$.\\
-To generate $KW_1$ (resp $KW_2$) we extract keywords from $C_1$ (resp $C_2$)
-with RAKE algorithm \cite{rake}.\\
-For must-link constraints we extract a set of pairs $(X_1, X_2)$ from each
-corpus such that $(X_1, X_2) \in C_1 \vee (X_1, X_2) \in C_2$.
-And for cannot-link constraints we extract a set of pairs $(X_1, X_2)$ from
-each corpus such that $(X_1 \in C_1 \wedge  X_2 \in C_2)\vee (X_1 \in C_2 \wedge
-X_2 \in C_1)$.\\
-The purpose of the experiment is to rediscover the different corpus $C_1$ and
-$C_2$ with keywords and background knowledge.
-\subsection{Noising Text}
-With corpus $C_1$ and $C_2$ we generate $KW$ the set of keywords
-for $C_1$.
-To generate $KW$ we extract keywords from $C_1$ with RAKE algorithm \cite{rake}.
-For must-link constraints we extract a set of pairs $(X_1, X_2)$ from Corpus
-$C_1$, with $X_1$, $X_2$ in the same class.
-And for cannot-link constraints we extract a set of pairs $(X_1, X_2)$ from Corpus
-$C_1$, with $X_1$, $X_2$ in different classes.
-Then we concatenate documents from $C_1$ with documents from $C_2$.\\
+\subsection{Experimental Setup}
+\subsubsection{Autoencoder Architecture}
+We use the same architecture used in~\cite{Deap-K-Means}. The encoder is a fully-connected 
+multilayer perceptron formed by 3 hidden layers (with dimensions 500, 500, 2000) 
+ and an embedding layer (with dimension K, the number of cluster). 
+The decoder is a mirrored version of the encoder~\ref{fig:archi}.
+The ReLu activation function is used on layers, except for the third
+layer of encoder and decoder part.  
+The auto-encoder weights are initialized following the Xavier scheme.
+\begin{figure}[!h]
+  \centering
+  \tikzset{every picture/.style={scale=1.6}}
+  \input{parts/res/tex/neural_network_autoencoder.tex}
+  \caption{\label{fig:archi}Architecture}
+\end{figure}
+\subsubsection{Training Details}
+\subsubsection{Noising Text}
 The purpose of the experiment is to rediscover the different classes of the
 corpus $C1$ with keywords and background knowledge.

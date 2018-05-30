@@ -126,10 +126,13 @@ The loss function takes the form :
 \begin{equation}
 L(X;\theta) = \lambda L_{NonClust}(C;\theta) + (1-\lambda)L_{Clust}(C; \theta)
 \end{equation}
-Where $\lambda \in [0 ; 1]$is a constant specifying the weighting between both functions.
+Where $\lambda \in [0 ; 1]$is a constant specifying the weighting between both 
+functions.
 It is an additional hyperparameter for the network training.\\
-In the method proposed by Moradi, Thonet and Gaussier \cite{Deap-K-Means} 
-the problem takes the form : 
+Moradi, Thonet and Gaussier \cite{Deap-K-Means} propopsed a method for k-Means 
+clustering based on a continuous reparametrization of the objective function 
+that leads to a truly joint solution. 
+The problem takes the form : 
 \begin{equation}
 L = L_{NonClust}(C;\theta,R ) + \lambda L_{Clust}(C,\alpha;\theta,R)
 \end{equation}
