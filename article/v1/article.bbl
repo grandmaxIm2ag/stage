@@ -59,40 +59,50 @@
       \endverb
       \keyw{Computer Science - Learning,Computer Science - Artificial Intelligence,Computer Science - Computer Vision and Pattern Recognition,Computer Science - Neural and Evolutionary Computing,Statistics - Machine Learning,62H30,62M45,91C20,H.3.3,I.2.6,I.5,I.5.3,I.5.4}
     \endentry
-    \entry{measure}{book}{}
-      \name{author}{4}{}{%
-        {{hash=0c3245a7baa44c72c8545fb898c1a7ca}{%
-           family={D\bibnamedelima Manning},
-           family_i={D\bibinitperiod\bibinitdelim M\bibinitperiod},
-           given={C},
-           given_i={C\bibinitperiod}}}%
-        {{hash=c722ec4eb501337b12785307557e9dcd}{%
-           family={Raghavan},
-           family_i={R\bibinitperiod},
-           given={P},
-           given_i={P\bibinitperiod}}}%
-        {{hash=8d515a2bf2ebc979d4699139a532ab1d}{%
-           family={Schtextbackslashütze},
-           family_i={S\bibinitperiod},
-           given={H},
-           given_i={H\bibinitperiod}}}%
-        {{hash=775bdb399d599e6fae4a49b3bd655626}{%
-           family={Corporation},
+    \entry{NMI_ACC}{article}{}
+      \name{author}{3}{}{%
+        {{hash=d927549489c087f3c02a85fa0c042bf9}{%
+           family={Cai},
            family_i={C\bibinitperiod},
-           given={Ebooks},
-           given_i={E\bibinitperiod}}}%
+           given={Deng},
+           given_i={D\bibinitperiod}}}%
+        {{hash=eca9094f921d211c414272ea48cb7866}{%
+           family={He},
+           family_i={H\bibinitperiod},
+           given={Xiaofei},
+           given_i={X\bibinitperiod}}}%
+        {{hash=7cacfe272c4d395c979d6aecd2f5ec9c}{%
+           family={Han},
+           family_i={H\bibinitperiod},
+           given={Jiawei},
+           given_i={J\bibinitperiod}}}%
       }
-      \strng{namehash}{985274fe4b8ac8afe88067db5bc76cd4}
-      \strng{fullhash}{265ec568af2ff8ca183c63771f645698}
-      \field{sortinit}{D}
-      \field{sortinithash}{78f7c4753a2004675f316a80bdb31742}
+      \list{language}{1}{%
+        {English (US)}%
+      }
+      \list{publisher}{1}{%
+        {IEEE Computer Society}%
+      }
+      \strng{namehash}{14a37915ed93349a1c451be9d81f19ac}
+      \strng{fullhash}{14a37915ed93349a1c451be9d81f19ac}
+      \field{sortinit}{C}
+      \field{sortinithash}{59f25d509f3381b07695554a9f35ecb2}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{booktitle}{Inf. Retr}
-      \field{month}{01}
-      \field{title}{Introduction to Information Retrieval}
-      \field{volume}{13}
-      \field{year}{2008}
+      \field{abstract}{Previous studies have demonstrated that document clustering performance can be improved significantly in lower dimensional linear subspaces. Recently, matrix factorization-based techniques, such as Nonnegative Matrix Factorization (NMF) and Concept Factorization (CF), have yielded impressive results. However, both of them effectively see only the global euclidean geometry, whereas the local manifold geometry is not fully considered. In this paper, we propose a new approach to extract the document concepts which are consistent with the manifold geometry such that each concept corresponds to a connected component. Central to our approach is a graph model which captures the local geometry of the document submanifold. Thus, we call it Locally Consistent Concept Factorization (LCCF). By using the graph Laplacian to smooth the document-to-concept mapping, LCCF can extract concepts with respect to the intrinsic manifold structure and thus documents associated with the same concept can be well clustered. The experimental results on TDT2 and Reuters-21578 have shown that the proposed approach provides a better representation and achieves better clustering results in terms of accuracy and mutual information.}
+      \field{issn}{1041-4347}
+      \field{journaltitle}{IEEE Transactions on Knowledge and Data Engineering}
+      \field{month}{3}
+      \field{number}{6}
+      \field{title}{Locally consistent concept factorization for document clustering}
+      \field{volume}{23}
+      \field{year}{2011}
+      \field{pages}{902\bibrangedash 913}
+      \range{pages}{12}
+      \verb{doi}
+      \verb 10.1109/TKDE.2010.165
+      \endverb
+      \keyw{clustering.,concept factorization,graph Laplacian,manifold regularization,Nonnegative matrix factorization}
     \endentry
     \entry{Newsgroups20}{misc}{}
       \name{author}{1}{}{%
@@ -265,42 +275,44 @@
       \field{labeltitlesource}{title}
       \field{title}{Deep K-Means : An End-to-End, Annealing-based Approach for jointly Clustering with K-Means and Learning Representations}
     \endentry
-    \entry{rake}{article}{}
-      \name{author}{4}{}{%
-        {{hash=540157d7052564964e568076a187235e}{%
-           family={Rose},
-           family_i={R\bibinitperiod},
-           given={Stuart},
-           given_i={S\bibinitperiod}}}%
-        {{hash=cc6caef30f9f980e9a91923a2e6d1660}{%
-           family={Engel},
+    \entry{ARI}{article}{}
+      \name{author}{3}{}{%
+        {{hash=c6c018dc925ddd441039069e99b90328}{%
+           family={Vinh},
+           family_i={V\bibinitperiod},
+           given={Nguyen\bibnamedelima Xuan},
+           given_i={N\bibinitperiod\bibinitdelim X\bibinitperiod}}}%
+        {{hash=fbf8abc7f5ef411557e812a20c9f197d}{%
+           family={Epps},
            family_i={E\bibinitperiod},
-           given={Dave},
-           given_i={D\bibinitperiod}}}%
-        {{hash=3a2810eae1b0cde1e8e9ec1566bdc7f5}{%
-           family={Cramer},
-           family_i={C\bibinitperiod},
-           given={Nick},
-           given_i={N\bibinitperiod}}}%
-        {{hash=6f08bbc8173af7c7fec5ebade1d6b5ac}{%
-           family={Cowley},
-           family_i={C\bibinitperiod},
-           given={Wendy},
-           given_i={W\bibinitperiod}}}%
+           given={Julien},
+           given_i={J\bibinitperiod}}}%
+        {{hash=07733491238ab07018926cab410282cb}{%
+           family={Bailey},
+           family_i={B\bibinitperiod},
+           given={James},
+           given_i={J\bibinitperiod}}}%
       }
-      \strng{namehash}{7ebf7af609892f3da9ee2808be11d4af}
-      \strng{fullhash}{8a5548f6e17d324e024b59ffc77db55a}
-      \field{sortinit}{R}
-      \field{sortinithash}{c7387613477035a752d935acfc3e3ea2}
+      \list{publisher}{1}{%
+        {JMLR.org}%
+      }
+      \strng{namehash}{da357973f069ce5ee1ca13139f0f93de}
+      \strng{fullhash}{da357973f069ce5ee1ca13139f0f93de}
+      \field{sortinit}{V}
+      \field{sortinithash}{d18f5ce25ce0b5ca7f924e3f6c04870e}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{booktitle}{Text Mining: Applications and Theory}
-      \field{isbn}{9780470689646}
-      \field{month}{03}
-      \field{title}{Automatic Keyword Extraction from Individual Documents}
+      \field{issn}{1532-4435}
+      \field{journaltitle}{J. Mach. Learn. Res.}
+      \field{month}{12}
+      \field{title}{Information Theoretic Measures for Clusterings Comparison: Variants, Properties, Normalization and Correction for Chance}
+      \field{volume}{11}
       \field{year}{2010}
-      \field{pages}{1\bibrangedash 20}
-      \range{pages}{20}
+      \field{pages}{2837\bibrangedash 2854}
+      \range{pages}{18}
+      \verb{url}
+      \verb http://dl.acm.org/citation.cfm?id=1756006.1953024
+      \endverb
     \endentry
     \entry{Wagstaff:2001:CKC:645530.655669}{inproceedings}{}
       \name{author}{4}{}{%

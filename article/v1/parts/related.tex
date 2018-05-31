@@ -29,8 +29,8 @@ The background knowledge are pairwise constraints :
 \end{itemize}
 A first method to integrate pairwise constraints to the K-Means is to use the 
 COP-KMeans algorithm introduced by Wagstaff\cite{Wagstaff:2001:CKC:645530.655669}.
-In this algorithm, we assign each document to the closest cluster, 
-which did not violate ML and CL constraints.
+In this algorithm, we assign each document to the closest cluster~\ref{algo:cop}, 
+which did not violate ML and CL constraints~\ref{algo:vio}.
 \begin{algorithm}[!h]
   \SetKwInOut{Input}{input}
   \SetKwInOut{Output}{output}
@@ -51,7 +51,7 @@ which did not violate ML and CL constraints.
     }
   }
   \Return{$S_1, S_2, ..., S_k$}
-  \caption{COP-Kmeans}
+  \caption{\label{algo:cop}COP-Kmeans}
 \end{algorithm}
 \begin{algorithm}[!h]
   \SetKwInOut{Input}{input}
@@ -70,7 +70,7 @@ which did not violate ML and CL constraints.
     }
   }
   \Return{False}
-  \caption{Violate-Constraints}
+  \caption{\label{algo:vio}Violate-Constraints}
 \end{algorithm}
 Another method, proposed by Hsu and Kira \cite{2015arXiv151106321H}, consists to 
 use a neural Network based end-to-end clustering framework. This network 
@@ -129,20 +129,62 @@ L(X;\theta) = \lambda L_{NonClust}(C;\theta) + (1-\lambda)L_{Clust}(C; \theta)
 Where $\lambda \in [0 ; 1]$is a constant specifying the weighting between both 
 functions.
 It is an additional hyperparameter for the network training.\\
-Moradi, Thonet and Gaussier \cite{Deap-K-Means} propopsed a method for k-Means 
+Moradi, Thonet and Gaussier \cite{Deap-K-Means} proposed a method for deep $K$-Means 
 clustering based on a continuous reparametrization of the objective function 
 that leads to a truly joint solution. 
 The problem takes the form : 
 \begin{equation}
-L = L_{NonClust}(C;\theta,R ) + \lambda L_{Clust}(C,\alpha;\theta,R)
+L(C ,\alpha;\theta,R) = L_{NonClust}(C;\theta,R ) + \lambda L_{Clust}(C,\alpha;\theta,R)
 \end{equation}
 \begin{equation}
 L_{NonClust}(C;\theta,R ) = \sum_{X \in C} ||X - f(g(X;\theta))||_2^2
 \end{equation}
 \begin{equation}
 \begin{aligned}
-L_{Clust}(C,\alpha;\theta,R) = \sum_{X \in C} ||g(X) - c(g(X, \theta); R) ||_2^2\\
-c(g(X, \theta); R) = \argmin_{k = 1 .. K} || X - r_k||_2^2
+  L_{Clust}(C,\alpha;\theta,R) = F(g(X),c(g(X, \theta); R))\\
+  F(g(X),c(g(X, \theta); R)) = ||g(X) - c(g(X, \theta); R) ||_2^2\\
+  c(g(X; \theta); R) = \argmin_{k = 1 .. K} || X - r_k||_2^2
 \end{aligned}
 \end{equation}
-$c(X ; R)$ is a non differentiable function that assign the document X to its nearest centroid.
+$H(g(X),c(g(X, \theta); R))$ is a differentiable distance function.
+$c(X ; R)$ is a non differentiable function that assigns the document X
+to its nearest centroid.\\
+They transform this representation as follows :
+\begin{equation}
+L_{Clust} = \sum_{k=1}^K F(g(X; \theta), r_k) G_{k, F}(g(X; \theta), \alpha; R)
+\end{equation}
+where
+\begin{equation}
+  \lim\limits_{\alpha \rightarrow \alpha_0}G_{k, F}(g(X; \theta), \alpha; R) = \left\{
+\begin{array}{ll}
+  1 & \mbox{if} r_k = c(g(X, \theta); R)\\
+  0 & \mbox{Otherwise.}
+\end{array}
+\right.
+\end{equation}
+where $\alpha$ play the role of an inverse temperature.\\
+To update $(\theta, R)$, they used the stochastic gradient descent (SGD)
+as follows :
+\begin{equation}
+  (\theta, R) \gets (\theta, R) - \epsilon \frac{1}{|\widetilde{C}|}\nabla_{(\theta, R)} F(g(X),c(g(X, \theta); R))
+\end{equation}
+where $\widetilde{C}$ is a random mini batch of C, and $\epsilon$ the
+learning rate.
+Algorithm \ref{algo:dkm} summarizes the deep k-Means algorithm :
+\begin{algorithm}[!h]
+  \SetKwInOut{Input}{input}
+  \SetKwInOut{Output}{output}
+  \Input{Corpus C , number of clusters K, balancing parameter $\lambda$,
+    scheme for $\alpha$, number of epochs T ,
+    number of minibatches MB , learning rate $\epsilon$}
+  \Output{Auto-Encoder parameter $\theta$, cluster representative R}
+  \ForEach{$\alpha = m_\alpha : M_\alpha$}{
+    \ForEach{t = 1 : T}{
+      \ForEach{n = 1 : MB}{
+        Draw minibatch $\widetilde{C} \subseteq  C$\\
+        Update ($\theta, R$) using SGD
+      } 
+    }  
+  }
+  \caption{\label{algo:dkm}Deep $K$-Means}
+\end{algorithm}

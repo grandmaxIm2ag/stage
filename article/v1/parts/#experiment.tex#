@@ -97,7 +97,7 @@ $H(S) = -\sum_k\frac{|s_k|}{N}log\frac{N|s_k|}{|s_k|}$
 \item The Accuracy is the proportion of true results among the total
   number of cases examined. The Accuracy metric is defined as follows :
 $$
-ACC(S,C) = \frac{1}{N}\sum_k {max}_j|s_k \cap c_j|
+(S,C) = \frac{1}{N}\sum_k {max}_j|s_k \cap c_j|
 $$
 \item Let a : the number of pairs of document in C
   that are in the same cluster in the predicted partition and in the

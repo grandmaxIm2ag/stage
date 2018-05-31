@@ -1,4 +1,3 @@
-
 \section{Proposed Method}
 The idea is to learn a latent space taking into account lexical constraints and
 background knowledge.
@@ -27,8 +26,8 @@ latent space, the representation of document will be biased by keywords.
 We introduce a penalty $\omega_{KW}$ for lexical constraints and
 use squared loss : 
 \begin{equation}\label{eq:omega1}
-  \omega_{KW} = \sum_{i=1}^N || h_{X_i} - g(X_i',\theta) ||_2^2 =
-  \sum_{i=1}^N || h_{X_i} - h_{X_i'}||_2^2
+  \omega_{KW} = \sum_{X \in C} || h_{X} - g(X',\theta) ||_2^2 =
+  \sum_{X \in C} || h_{X} - h_{X'}||_2^2
 \end{equation}
 \subsubsection{Background Knowledge}
 In addition of lexical constraints we introduce background knowledge, so we need
@@ -54,7 +53,7 @@ The penalty is :
 With hyperparameters $\alpha_0\geq 0$ ,$\alpha_1\geq 0$, $\alpha_2\geq 0$.
 \\Then the reconstruct loss function is :
 \begin{equation}\label{eq:AEDK}
-  L_{rec}(C, \theta) = \sum_{i=1}^N(||X_i - f(g(X_i, \theta))||_2^2
+  L_{rec}(C, \theta) = \sum_{X \in C}(||X - f(g(X, \theta))||_2^2
 \end{equation}
 Finally the loss function for the Auto-Encoder is :
 \begin{equation}\label{eq:AE}
@@ -75,5 +74,28 @@ Finally the loss function is :
 \begin{equation}\label{eq:loss_FINALE}
   Min~L(KW, C, K; \theta) = L_{NonClust}(C, KW; \theta) + \lambda.L_{clust}(C,K)
 \end{equation}
-with $0 \leq \lambda \leq 1$.
-
+with $0 \leq \lambda \leq 1$.\\
+For the learning algorithm we can use the Deep $K$-Means algorithm see
+in section 2.3 introducing mini batch for pairwise
+constraint~\ref{algo:cdkm}.
+\begin{algorithm}[!h]
+  \SetKwInOut{Input}{input}
+  \SetKwInOut{Output}{output}
+  \Input{Corpus C , number of clusters K, balancing parameter $\lambda$,
+    scheme for $\alpha$, number of epochs T,
+    number of minibatches MB , learning rate $\epsilon$}
+  \Output{Auto-Encoder parameter $\theta$, cluster representative R}
+  \ForEach{$\alpha = m_\alpha : M_\alpha$}{
+    \ForEach{t = 1 : T}{
+      \ForEach{n = 1 : MB}{
+        Draw minibatch $\widetilde{C} \subseteq  C$\\
+        Draw minibatch $\widetilde{C_{ml}} \subseteq  C x C$ for must-link
+        constraints\\
+        Draw minibatch $\widetilde{C_{cl}} \subseteq  C x C$ for cannot-link
+        constraints\\
+        Update ($\theta, R$) using SGD
+      } 
+    }  
+  }
+  \caption{\label{algo:cdkm}Constrained Deep $K$-Means}
+\end{algorithm}
