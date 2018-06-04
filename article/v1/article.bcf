@@ -2059,6 +2059,7 @@
     <bcf:citekey order="8">NMI_ACC</bcf:citekey>
     <bcf:citekey order="9">ARI</bcf:citekey>
     <bcf:citekey order="10">Deap-K-Means</bcf:citekey>
+    <bcf:citekey order="11">Deap-K-Means</bcf:citekey>
     <bcf:citekey order="0">*</bcf:citekey>
   </bcf:section>
   <bcf:sortlist section="0" name="nty/global" type="entry" sortscheme="nty" sortnamekeyscheme="global">

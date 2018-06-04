@@ -128,6 +128,35 @@
       \endverb
       \keyw{dataset}
     \endentry
+    \entry{Deap-K-Means}{book}{}
+      \name{author}{3}{}{%
+        {{hash=03940916c4caa360e6752bef5cfcce9c}{%
+           family={Fard},
+           family_i={F\bibinitperiod},
+           given={Maziar\bibnamedelima Moradi},
+           given_i={M\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+        {{hash=eefbc4061e9a5d0cd7767d6933c63cd3}{%
+           family={Thonet},
+           family_i={T\bibinitperiod},
+           given={Thibaut},
+           given_i={T\bibinitperiod}}}%
+        {{hash=410910ecb38a1335705bfa19ee963469}{%
+           family={Gaussier},
+           family_i={G\bibinitperiod},
+           given={Eric},
+           given_i={E\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {On submition}%
+      }
+      \strng{namehash}{5dcd6caeb14dd89d516f5bbe2e2c8a8a}
+      \strng{fullhash}{5dcd6caeb14dd89d516f5bbe2e2c8a8a}
+      \field{sortinit}{F}
+      \field{sortinithash}{c6a7d9913bbd7b20ea954441c0460b78}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Deep K-Means : An End-to-End, Annealing-based Approach for jointly Clustering with K-Means and Learning Representations}
+    \endentry
     \entry{Goodfellow-et-al-2016}{book}{}
       \name{author}{3}{}{%
         {{hash=5d2585c11210cf1d4512e6e0a03ec315}{%
@@ -248,32 +277,6 @@
       \verb 10.1109/TIT.1982.1056489
       \endverb
       \keyw{Least-squares approximation;PCM communication;Quantization (signal);Signal quantization}
-    \endentry
-    \entry{Deap-K-Means}{book}{}
-      \name{author}{3}{}{%
-        {{hash=2823cc03d31ae9a6d35f657561012d54}{%
-           family={Moradi},
-           family_i={M\bibinitperiod},
-           given={Maziar},
-           given_i={M\bibinitperiod}}}%
-        {{hash=eefbc4061e9a5d0cd7767d6933c63cd3}{%
-           family={Thonet},
-           family_i={T\bibinitperiod},
-           given={Thibaut},
-           given_i={T\bibinitperiod}}}%
-        {{hash=410910ecb38a1335705bfa19ee963469}{%
-           family={Gaussier},
-           family_i={G\bibinitperiod},
-           given={Eric},
-           given_i={E\bibinitperiod}}}%
-      }
-      \strng{namehash}{8d0b063d5a25e83b14f04b168f69a876}
-      \strng{fullhash}{8d0b063d5a25e83b14f04b168f69a876}
-      \field{sortinit}{M}
-      \field{sortinithash}{2684bec41e9697b92699b46491061da2}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{title}{Deep K-Means : An End-to-End, Annealing-based Approach for jointly Clustering with K-Means and Learning Representations}
     \endentry
     \entry{ARI}{article}{}
       \name{author}{3}{}{%

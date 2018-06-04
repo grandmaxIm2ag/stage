@@ -62,7 +62,7 @@ Finally the loss function for the Auto-Encoder is :
 
 \subsection{Deep $K$-Means}
 
-For the Deep $K$-Means, we can use the approach proposed by Moradi, Thonet and Gaussier 
+For the Deep $K$-Means, we can use the approach proposed by Moradi Fard, Thonet and Gaussier 
 \cite{Deap-K-Means} see in section 2.3.\\
 For the clustering loss we can use squared loss with euclidian distance. We
 denote $R = \begin{pmatrix} r_1 & r_2 & ... & r_K\end{pmatrix}$ the vector of
@@ -76,26 +76,4 @@ Finally the loss function is :
 \end{equation}
 with $0 \leq \lambda \leq 1$.\\
 For the learning algorithm we can use the Deep $K$-Means algorithm see
-in section 2.3 introducing mini batch for pairwise
-constraint~\ref{algo:cdkm}.
-\begin{algorithm}[!h]
-  \SetKwInOut{Input}{input}
-  \SetKwInOut{Output}{output}
-  \Input{Corpus C , number of clusters K, balancing parameter $\lambda$,
-    scheme for $\alpha$, number of epochs T,
-    number of minibatches MB , learning rate $\epsilon$}
-  \Output{Auto-Encoder parameter $\theta$, cluster representative R}
-  \ForEach{$\alpha = m_\alpha : M_\alpha$}{
-    \ForEach{t = 1 : T}{
-      \ForEach{n = 1 : MB}{
-        Draw minibatch $\widetilde{C} \subseteq  C$\\
-        Draw minibatch $\widetilde{C_{ml}} \subseteq  C x C$ for must-link
-        constraints\\
-        Draw minibatch $\widetilde{C_{cl}} \subseteq  C x C$ for cannot-link
-        constraints\\
-        Update ($\theta, R$) using SGD
-      } 
-    }  
-  }
-  \caption{\label{algo:cdkm}Constrained Deep $K$-Means}
-\end{algorithm}
+in section 2.3.
