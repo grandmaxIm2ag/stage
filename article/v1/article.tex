@@ -63,42 +63,29 @@ grestore
 \usepackage{tikz}
 \usepackage{dsfont}
 \usepackage[]{algorithm2e}
+\usepackage{subfiles}
 \usepackage[
   style=numeric,
   natbib=true,
   sortcites=true,
   block=space]{biblatex}
 \bibliography{parts/biblio}%
+
 \DeclareMathOperator*{\argmax}{arg\,max}
 \DeclareMathOperator*{\argmin}{arg\,min}
-% \usepackage{mathptmx}      % use Times fonts if available on your TeX system
-%
-% insert here the call for the packages your document requires
-%\usepackage{latexsym}
-% etc.
-%
-% please place your own definitions here and don't use \def but
-% \newcommand{}{}
-%
-% Insert the name of "your journal" with
-% \journalname{myjournal}
-%
+
 \begin{document}
-
-\input{parts/title.tex}
-\date{\today}
-% The correct dates will be entered by the editor
-
+\subfile{parts/title.tex}
 \maketitle
 \justify
-\input{parts/abstract.tex}
-\input{parts/intro.tex}
-\input{parts/related.tex}
-\input{parts/proposed.tex}
-\input{parts/experiment.tex}
-\input{parts/conclusion.tex}
-\input{parts/futur.tex}
-\input{parts/remercie.tex}
+\subfile{parts/abstract}
+\subfile{parts/intro}
+\subfile{parts/related}
+\subfile{parts/proposed}
+\subfile{parts/experiment}
+\subfile{parts/conclusion}
+\subfile{parts/futur}
+\subfile{parts/remercie}
 \newpage
 \nocite{*}
 \printbibliography[title=References]

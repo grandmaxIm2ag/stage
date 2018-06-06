@@ -250,6 +250,50 @@
       \verb https://doi.org/10.1108/eb026526
       \endverb
     \endentry
+    \entry{Lewis:2004:RNB:1005332.1005345}{article}{}
+      \name{author}{4}{}{%
+        {{hash=3c34a6829a66c1257932ba79c4e4af83}{%
+           family={Lewis},
+           family_i={L\bibinitperiod},
+           given={David\bibnamedelima D.},
+           given_i={D\bibinitperiod\bibinitdelim D\bibinitperiod}}}%
+        {{hash=be6dc43fe1771d8870237ce7a47c6f7f}{%
+           family={Yang},
+           family_i={Y\bibinitperiod},
+           given={Yiming},
+           given_i={Y\bibinitperiod}}}%
+        {{hash=445946e8c5afbad97e3da1338da4c8d0}{%
+           family={Rose},
+           family_i={R\bibinitperiod},
+           given={Tony\bibnamedelima G.},
+           given_i={T\bibinitperiod\bibinitdelim G\bibinitperiod}}}%
+        {{hash=99b3b2e56c8f5ffeb95b882b3da68136}{%
+           family={Li},
+           family_i={L\bibinitperiod},
+           given={Fan},
+           given_i={F\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {JMLR.org}%
+      }
+      \strng{namehash}{fd4446de84a2d4046940045ec05644e0}
+      \strng{fullhash}{fb455d7f3dc5a339bf99ce853deb2aaf}
+      \field{sortinit}{L}
+      \field{sortinithash}{872351f18d0f736066eda0bf18bfa4f7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{1532-4435}
+      \field{journaltitle}{J. Mach. Learn. Res.}
+      \field{month}{12}
+      \field{title}{RCV1: A New Benchmark Collection for Text Categorization Research}
+      \field{volume}{5}
+      \field{year}{2004}
+      \field{pages}{361\bibrangedash 397}
+      \range{pages}{37}
+      \verb{url}
+      \verb http://dl.acm.org/citation.cfm?id=1005332.1005345
+      \endverb
+    \endentry
     \entry{1056489}{article}{}
       \name{author}{1}{}{%
         {{hash=8ebf199f60191f22565bfd96113285ea}{%
@@ -362,81 +406,6 @@
       \verb{url}
       \verb http://dl.acm.org/citation.cfm?id=645530.655669
       \endverb
-    \endentry
-    \entry{2015arXiv151106335X}{article}{}
-      \name{author}{3}{}{%
-        {{hash=cd8a9d66396e0651496a8f08b850420f}{%
-           family={{Xie}},
-           family_i={X\bibinitperiod},
-           given={J.},
-           given_i={J\bibinitperiod}}}%
-        {{hash=e305749deaf6b2662cb799d07c4632b9}{%
-           family={{Girshick}},
-           family_i={G\bibinitperiod},
-           given={R.},
-           given_i={R\bibinitperiod}}}%
-        {{hash=bbaf67eb584babec2720e9c503f00e3f}{%
-           family={{Farhadi}},
-           family_i={F\bibinitperiod},
-           given={A.},
-           given_i={A\bibinitperiod}}}%
-      }
-      \strng{namehash}{1c7c28ea41a6bad9594ee5c61c16b870}
-      \strng{fullhash}{1c7c28ea41a6bad9594ee5c61c16b870}
-      \field{sortinit}{X}
-      \field{sortinithash}{2999ebab86052e6d71b434385f8b4ed2}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{eprintclass}{cs.LG}
-      \field{eprinttype}{arXiv}
-      \field{journaltitle}{ArXiv e-prints}
-      \field{month}{11}
-      \field{title}{{Unsupervised Deep Embedding for Clustering Analysis}}
-      \field{year}{2015}
-      \verb{eprint}
-      \verb 1511.06335
-      \endverb
-      \keyw{Computer Science - Learning,Computer Science - Computer Vision and Pattern Recognition}
-    \endentry
-    \entry{2016arXiv161004794Y}{article}{}
-      \name{author}{4}{}{%
-        {{hash=febed6e998d9aec001d8acf1adf8357a}{%
-           family={{Yang}},
-           family_i={Y\bibinitperiod},
-           given={B.},
-           given_i={B\bibinitperiod}}}%
-        {{hash=bfecb45658ef1f8cc3a6284a480d3b8f}{%
-           family={{Fu}},
-           family_i={F\bibinitperiod},
-           given={X.},
-           given_i={X\bibinitperiod}}}%
-        {{hash=29f344f51c2cb4fa739fc73f0a0c8b50}{%
-           family={{Sidiropoulos}},
-           family_i={S\bibinitperiod},
-           given={N.\bibnamedelimi D.},
-           given_i={N\bibinitperiod\bibinitdelim D\bibinitperiod}}}%
-        {{hash=26e2f31cc052416211efefab36dd6aae}{%
-           family={{Hong}},
-           family_i={H\bibinitperiod},
-           given={M.},
-           given_i={M\bibinitperiod}}}%
-      }
-      \strng{namehash}{3eef392b21873ed576d6b1c24f0318c8}
-      \strng{fullhash}{c0b343a507f8293023f4edfe43e39a24}
-      \field{sortinit}{Y}
-      \field{sortinithash}{3cbc1e3d286284cedb5e5218a3248f94}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{eprintclass}{cs.LG}
-      \field{eprinttype}{arXiv}
-      \field{journaltitle}{ArXiv e-prints}
-      \field{month}{10}
-      \field{title}{{Towards K-means-friendly Spaces: Simultaneous Deep Learning and Clustering}}
-      \field{year}{2016}
-      \verb{eprint}
-      \verb 1610.04794
-      \endverb
-      \keyw{Computer Science - Learning}
     \endentry
   \endsortlist
 \endrefsection

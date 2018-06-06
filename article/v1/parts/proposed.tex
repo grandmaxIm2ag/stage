@@ -66,14 +66,14 @@ For the Deep $K$-Means, we can use the approach proposed by Moradi Fard, Thonet 
 \cite{Deap-K-Means} see in section 2.3.\\
 For the clustering loss we can use squared loss with euclidian distance. We
 denote $R = \begin{pmatrix} r_1 & r_2 & ... & r_K\end{pmatrix}$ the vector of
-centroids, and S the set of cluster :.  
+centroids :  
 \begin{equation}\label{eq:loss_clust}
-  L_{clust}(C, K; \theta, R) = \sum_{X \in C} ||g(X) - c(g(X, \theta); R) ||_2^2 
+  L_{Clust}(C, K; \theta) = \sum_{k=1}^K F(h_X, r_k) G_{k, F}(h_X, \beta; R) 
 \end{equation}
 Finally the loss function is :
 \begin{equation}\label{eq:loss_FINALE}
-  Min~L(KW, C, K; \theta) = L_{NonClust}(C, KW; \theta) + \lambda.L_{clust}(C,K)
+  Min~L(KW, C, K; \theta) = L_{NonClust}(C, KW; \theta) + \lambda.L_{clust}(C,K;\theta)
 \end{equation}
-with $0 \leq \lambda \leq 1$.\\
-For the learning algorithm we can use the Deep $K$-Means algorithm see
-in section 2.3.
+with $\lambda \geq 0$.\\
+For the learning algorithm we can use the Deep $K$-Means algorithm\ref{algo:dkm} see
+in section \ref{seq:DeepClust}.

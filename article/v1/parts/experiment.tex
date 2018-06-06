@@ -3,9 +3,11 @@
 \subsection{Data}
 To experiment our algoritm we use the dataset 20NewsGroup \cite{Newsgroups20}.
 The 20 Newsgroups data set is a collection of approximately 20,000 newsgroup 
-documents, partitioned evenly across 20 different newsgroups.\\
+documents, partitioned evenly across 20 different newsgroups. We use also the 
+RCV1 dataset \cite{Lewis:2004:RNB:1005332.1005345}. The RCV1 dataset is a 
+collection of over 800,000 text documents\\
 Each document are represented by a vector using frequency-inverse document 
-frequency (TFIDF) representation.
+frequency (TFIDF) representation~\cite{doi:10.1108/eb026526}.
 The term frequency-inverse document frequency is a method of weghting depicting 
 the significiance of each word in a document rather a corpus.
 \begin{equation}
@@ -15,7 +17,7 @@ TF(t, X) = \frac{f_{t, X}}{max_{t' \in C}f_{t', X}}
 IDF(t, C) = log(\frac{N}{|X \in C : t \in X|})
 \end{equation}
 \begin{equation}
-TFIDF(t,c,C) = TF(t, X) . IDF(t, C)   
+TFIDF(t,X,C) = TF(t, X) . IDF(t, C)   
 \end{equation}
 \subsection{Generate Constraint}
 \subsubsection{Lexical Constraints}
@@ -28,14 +30,21 @@ document of each class using TFIDF~\ref{algo:gen_kw}
   \Output{KW}
   $KW \gets \{\}$\\
   \ForEach{Class $c_i \in C$}{
-    $rank \gets [0 ... 0]$\\
+    $rank_i \gets [0 ... 0]$\\
     \ForEach{Document $X \in c_i$}{
       \ForEach{Word $w \in X$}{
-        $rank_w \gets TFIDF(w)$\\
+        $rank_{i,w} \gets rank_{i,w} + TFIDF(w,X, C)$\\
       }
     }
+  }
+  \ForEach{Class $c_i, c_j \in C$}{
+    \If{$c_i \neq c_j$}{
+      $rank_i \gets rank_i - rank_j$\\
+    }
+  }
+  \ForEach{Class $c_i \in C$}{
     $KW \gets KW \cup \{\{w_1, w_2 ... w_P\} : \not\exists (v_1, v_2) | v_1 \not\in 
-    \{w_1, w_2 ... w_P\}, v_2 \in \{w_1, w_2 ... w_P\}, rank_{v_1} \ge rank_{v_2}\}$\\
+    \{w_1, w_2 ... w_P\}, v_2 \in \{w_1, w_2 ... w_P\}, rank_{i,v_1} \ge rank_{i,v_2}\}$\\
   }
   \Return{KW}
   \caption{\label{algo:gen_kw}Extract Keywords}
@@ -63,19 +72,8 @@ We generate pairwise constraints randomly~\ref{algo:gen_pair}
   \caption{\label{algo:gen_pair}Extract Pair}
 \end{algorithm}
 \subsection{Evaluation}
-\subsubsection{Reference Algorithm}
-We evaluate our algorithm with four algorithms :
-\begin{itemize}
-\item \textbf{COPKmeans} proposed by Wagstaff \cite{Wagstaff:2001:CKC:645530.655669}.
-\item \textbf{COPKmeans with lexical constraints}, we learn a $k$-means
-  friendly space taking into account lexical constraints. The loss
-  function for this model is :
-  \begin{equation}
-  Min~L(KW, C, K; \theta) = (L_{rec}(C, \theta) + \omega_{KW} )+
-  \lambda L_{clust}(C,K)
-  \end{equation}
-\item \textbf{Deep $K$-Means} see in section 2.3
-\end{itemize}
+\subsubsection{Baseline Algorithm}
+We evaluate our algorithm with Deep $K$-Means see in section~\ref{seq:DeepClust}.
 \subsubsection{Metric}
 To evaluate our algorithm and compare results with reference algorithms we can
 use the NMI Metric, Accuracy Metric \cite{NMI_ACC}, and Adjusted
@@ -111,41 +109,49 @@ hidden layer of encoder and decoder part.
 \begin{figure}[!h]
   \centering
   \tikzset{every picture/.style={scale=1.6}}
-  \input{parts/res/tex/archi.tex}
+  \fbox{\includegraphics[scale=0.3]{parts/res/archi.png}}
   \caption{\label{fig:archi}Architecture}
 \end{figure}
  
 \subsubsection{Hyperparameters}
 For the $\lambda$ hyerparameter we use the value defined in \cite{Deap-K-Means}. 
-For the different hyerparamters $\alpha_i$, we find them values experimently.
-
-\subsubsection{Clustering without Noise}
-We divide the dataset into two corpus $C_1, C_2$. Each corpus contain
-ten classes. We generate keywords \ref{algo:gen_kw} and pairwise
-constraints \ref{algo:gen_pair} from $C_1$. Then we add noise to the corpus
-$C_1$. To add noise, we concatenate document from corpus $C_1$ with document
-from corpus $C_2$.
-\\The purpose of the experiment is to rediscover the different classes of the
-corpus $C_1$ with keywords and background knowledge.
-
-\subsubsection{Clustering with Noise}
-We divide the dataset into two corpus $C_1, C_2$. Each corpus contain
-ten classes. We generate keywords \ref{algo:gen_kw} and pairwise
-constraints \ref{algo:gen_pair} from $C_1$. Then we add noise to the corpus
-$C_1$. To add noise, we concatenate document from corpus $C_1$ with document
-from corpus $C_2$.
-\\The purpose of the experiment is to rediscover the different classes of the
-corpus $C_1$ with keywords and background knowledge.
-
-\subsubsection{Results}
+For the hyerparamter $\alpha_0$, we used Grid Search method for 
+the hyperparameters optimization.
 \begin{figure}[!h]
   \centering
-  \begin{tabular}{| l | l | l | l | l | l | l | l | l | l | l |}
+  \begin{tabular}{| l | l | l | l |}
     \hline
-    & \multicolumn{3}{|c|}{Without noise} & \multicolumn{3}{|c|}{With noise} & \multicolumn{4}{|c|}{Hyperparameters}  \\
-    & ACC &ARI & NMI & ACC & ARI &NMI & $\lambda$ & $\alpha_0$ & $\alpha_1$ & $\alpha_2$\\ \hline
-    Constrained Deep K-Means & 0.501& 0.353 & 0.507 & 0.404& 0.19 & 0.287 & $10^{-4}$ & $10^{4}$ & 0 & 0 \\ \hline
-    Deep K-Means& 0.505 & 0.361 & 0.512 & 0.381 & 0.183 & 0.290 &   $10^{-4}$ & 0 & 0 & 0\\ \hline
+    & 20NEWS Without noise & 20NEWS With noise & RCV1 Without noise  \\ \hline
+    $\lambda$ & $10^{-1}$ & $10^{-1}$ & $10^{-1}$ \\ \hline
+    $\alpha_0$ & 0 & 0 & 0 \\ \hline
+    $\alpha_1$ & 0 & 0 & 0 \\ \hline
+    $\alpha_2$ & 0 & 0 & 0 \\ \hline
+  \end{tabular}
+  \caption{\label{tab2}Hyperparameters}
+\end{figure}
+\subsubsection{\label{section:test1}Clustering without Noise}
+The purpose of the experiment is to rediscover the different classes of the
+dataset with keywords and background knowledge.
+
+\subsubsection{\label{section:test2}Clustering with Noise}
+We divide the dataset into two corpus $C_1, C_2$. Each corpus contain
+ten classes. We generate keywords \ref{algo:gen_kw} and pairwise
+constraints \ref{algo:gen_pair} from $C_1$. Then we add noise to the corpus
+$C_1$. To add noise, we concatenate document from corpus $C_1$ with document
+from corpus $C_2$.
+\\The purpose of the experiment is to rediscover the different classes of the
+corpus $C_1$ with keywords and background knowledge.
+
+\subsection{Results}
+In a first time, only lexical constraints have tested.
+\begin{figure}[!h]
+  \centering
+  \begin{tabular}{| l | l | l | l | l | l | l | l | l | l | }
+    \hline
+    & \multicolumn{3}{|c|}{20NEWS Without noise} & \multicolumn{3}{|c|}{20NEWS With noise} & \multicolumn{3}{|c|}{RCV1 Without noise}  \\
+    & ACC &ARI & NMI & ACC & ARI &NMI &ACC & ARI &NMI  \\ \hline
+    Constrained Deep K-Means & 0.501& 0.353 & 0.507 & 0.404& 0.19 & 0.287 & $10^{-1}$ & $10^{4}$ & 0 \\ \hline
+    Deep K-Means& 0.505 & 0.361 & 0.512 & 0.381 & 0.183 & 0.290 &   $10^{-1}$ & 0 & 0 \\ \hline
   \end{tabular}
 \caption{\label{tab1}Clustering with only lexical constraints}
 \end{figure}

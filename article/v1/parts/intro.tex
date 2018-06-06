@@ -6,38 +6,6 @@ it represents each cluster by a single mean vector. $K$-Means clustering sorts
 n objects into k clusters in which each observation belongs to
 the cluster with the nearest centroid. This problem is computationally
 difficult (NP-hard).
-\begin{algorithm}
-  \SetKwInOut{Input}{input}
-  \SetKwInOut{Output}{output}
-  \Input{Corpus C, the number of cluster K}
-  \Output{Assignment matrix S}
-  Let $r_1^{0}, r_2^{0} , ..., r_k^{0}$ be the initial centroids\\
-  $t \gets 1$\\
-  \Repeat{Convergence}{
-    \ForAll{$X \in C$}{
-      $
-        S_{k}^t \gets \{ X : ||X - r_k^{t-1}||_2^2 \leq ||X - r_l^{t-1}||_2^2 \forall l \neq k, 1 \leq l \leq K \}
-      $\\
-    }
-    \ForEach{centroids $r_k$}{
-      $r_k^t \gets \frac{1}{|S_k|}\sum_{X \in S_k}X$.\\
-    }
-    $t++$\\
-  }
-  \Return{S}
-  \caption{$K$-means}
-\end{algorithm}
-\\Given a corpus C, where each document X is a 
-d-dimensional real vector, k-means clustering aims to partition the n 
-documents into K $S_k$ clusters represented by centroids 
-R = {$r_1, r_2, ..., r_K$}. :
-\begin{equation*}
-  S_{i} = j \implies document~ i \in cluster~ j 
-\end{equation*}
-Formally, the objective is to minimize :
-$$
-\sum_{k =1 }^K \sum_{X \in S_k} ||X - r_k||_2^2
-$$
 In real application domains, users may want to introduce constraints to finding 
 useful properties for clustering data. The difficulty with integration of 
 constraints into $K$-Means algorithm is to find a good representation for data 

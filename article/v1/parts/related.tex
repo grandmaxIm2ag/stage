@@ -1,4 +1,35 @@
 \section{Related Work}\label{sec:related}
+\subsection{$K$-Means}
+Given a corpus C, where each document X is a 
+d-dimensional real vector, k-means clustering aims to partition the n 
+documents into K $S_k$ clusters represented by centroids 
+R = {$r_1, r_2, ..., r_K$}. :
+Formally, the objective is to minimize :
+$$
+\sum_{k =1 }^K \sum_{X \in S_k} ||X - r_k||_2^2
+$$
+We can see $K$-Means algorothm\ref{algo:kmeans}
+\begin{algorithm}
+  \SetKwInOut{Input}{input}
+  \SetKwInOut{Output}{output}
+  \Input{Corpus C, the number of cluster K}
+  \Output{Assignment matrix S}
+  Let $r_1^{0}, r_2^{0} , ..., r_k^{0}$ be the initial centroids\\
+  $t \gets 1$\\
+  \Repeat{Convergence}{
+    \ForAll{$X \in C$}{
+      $
+        S_{k}^t \gets \{ X : ||X - r_k^{t-1}||_2^2 \leq ||X - r_l^{t-1}||_2^2 \forall l \neq k, 1 \leq l \leq K \}
+      $\\
+    }
+    \ForEach{centroids $r_k$}{
+      $r_k^t \gets \frac{1}{|S_k|}\sum_{X \in S_k}X$.\\
+    }
+    $t++$\\
+  }
+  \Return{S}
+  \caption{\label{algo:kmeans}$K$-means}
+\end{algorithm}
 
 \subsection{Auto-Encoder}
 The Auto-Encoder allows to learn a latent space with significantly
@@ -14,8 +45,7 @@ reconstruct loss $L_{rec}$ using MSE :
 
 \begin{figure}[!h]
   \centering
-  \tikzset{every picture/.style={scale=1.6}}
-  \input{parts/res/tex/neural_network_autoencoder.tex}
+  \fbox{\includegraphics[scale=0.4]{parts/res/autoencoder.png}}
   \caption{Auto-Encoder}
   \label{fig:AE}
 \end{figure}
@@ -111,7 +141,7 @@ for similar pairs while maximizing the distance for dissimilar pairs
 \begin{equation}
   L(P,Q) = Loss(P || Q) + Loss(Q || P)
 \end{equation}
-\subsection{Deep Clustering}\label{seq:DeepClust}
+\subsection{\label{seq:DeepClust}Deep Clustering}
 A several approaches for the deep $K$-Means propose to jointy learn the
 representation and perform the $K$-Means algorithm \cite{2018arXiv180107648A}.
 In these approaches, network's loss is divided in two parts :
@@ -126,7 +156,7 @@ The loss function takes the form :
 \begin{equation}
 L(X;\theta) = \lambda L_{NonClust}(C;\theta) + (1-\lambda)L_{Clust}(C; \theta)
 \end{equation}
-Where $\lambda \in [0 ; 1]$is a constant specifying the weighting between both 
+Where $\lambda \in [0 ; 1]$ is a constant specifying the weighting between both 
 functions.
 It is an additional hyperparameter for the network training.\\
 Moradi Fard, Thonet and Gaussier \cite{Deap-K-Means} proposed a method for deep $K$-Means 
@@ -134,35 +164,37 @@ clustering based on a continuous reparametrization of the objective function
 that leads to a truly joint solution. 
 The problem takes the form : 
 \begin{equation}
-L(C ,\alpha;\theta,R) = L_{NonClust}(C;\theta,R ) + \lambda L_{Clust}(C,\alpha;\theta,R)
+L(C ,\beta;\theta,R) = L_{NonClust}(C;\theta,R ) + \lambda L_{Clust}(C,\beta;\theta,R)
 \end{equation}
 \begin{equation}
 L_{NonClust}(C;\theta,R ) = \sum_{X \in C} ||X - f(g(X;\theta))||_2^2
 \end{equation}
 \begin{equation}
 \begin{aligned}
-  L_{Clust}(C,\alpha;\theta,R) = F(g(X),c(g(X, \theta); R))\\
+  L_{Clust}(C,\beta;\theta,R) = F(g(X),c(g(X, \theta); R))\\
   F(g(X),c(g(X, \theta); R)) = ||g(X) - c(g(X, \theta); R) ||_2^2\\
   c(g(X; \theta); R) = \argmin_{k = 1 .. K} || X - r_k||_2^2
 \end{aligned}
 \end{equation}
-$H(g(X),c(g(X, \theta); R))$ is a differentiable distance function.
+$F(g(X),c(g(X, \theta); R))$ is a differentiable distance function.
 $c(X ; R)$ is a non differentiable function that assigns the document X
 to its nearest centroid.\\
 They transform this representation as follows :
 \begin{equation}
-L_{Clust} = \sum_{k=1}^K F(g(X; \theta), r_k) G_{k, F}(g(X; \theta), \alpha; R)
+L_{Clust} = \sum_{k=1}^K F(g(X; \theta), r_k) G_{k, F}(g(X; \theta), \beta; R)
 \end{equation}
-where
+where $G_{k, F}$ is a differentiable function such that :
 \begin{equation}
-  \lim\limits_{\alpha \rightarrow \alpha_0}G_{k, F}(g(X; \theta), \alpha; R) = \left\{
+  \lim\limits_{\beta \rightarrow \beta_0}G_{k, F}(g(X; \theta), \beta; R) = \left\{
 \begin{array}{ll}
   1 & \mbox{if} r_k = c(g(X, \theta); R)\\
   0 & \mbox{Otherwise.}
 \end{array}
 \right.
 \end{equation}
-where $\alpha$ play the role of an inverse temperature.\\
+where $\beta$ play the role of an inverse temperature, and 
+$G_{k, F}(g(X; \theta), \beta; R) = \frac{e^{-\beta F(g(X, \theta),r_k)}}
+{\sum_{k' = 1}^K e^{-\beta F(g(X, \theta),r_k')}}$\\
 To update $(\theta, R)$, they used the stochastic gradient descent (SGD)
 as follows :
 \begin{equation}
@@ -175,10 +207,10 @@ Algorithm \ref{algo:dkm} summarizes the deep k-Means algorithm :
   \SetKwInOut{Input}{input}
   \SetKwInOut{Output}{output}
   \Input{Corpus C , number of clusters K, balancing parameter $\lambda$,
-    scheme for $\alpha$, number of epochs T ,
+    scheme for $\beta$, number of epochs T ,
     number of minibatches MB , learning rate $\epsilon$}
   \Output{Auto-Encoder parameter $\theta$, cluster representative R}
-  \ForEach{$\alpha = m_\alpha : M_\alpha$}{
+  \ForEach{$\beta = m_\beta : M_\beta$}{
     \ForEach{t = 1 : T}{
       \ForEach{n = 1 : MB}{
         Draw minibatch $\widetilde{C} \subseteq  C$\\

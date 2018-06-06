@@ -2055,11 +2055,12 @@
     <bcf:citekey order="4">Deap-K-Means</bcf:citekey>
     <bcf:citekey order="5">Deap-K-Means</bcf:citekey>
     <bcf:citekey order="6">Newsgroups20</bcf:citekey>
-    <bcf:citekey order="7">Wagstaff:2001:CKC:645530.655669</bcf:citekey>
-    <bcf:citekey order="8">NMI_ACC</bcf:citekey>
-    <bcf:citekey order="9">ARI</bcf:citekey>
-    <bcf:citekey order="10">Deap-K-Means</bcf:citekey>
+    <bcf:citekey order="7">Lewis:2004:RNB:1005332.1005345</bcf:citekey>
+    <bcf:citekey order="8">doi:10.1108/eb026526</bcf:citekey>
+    <bcf:citekey order="9">NMI_ACC</bcf:citekey>
+    <bcf:citekey order="10">ARI</bcf:citekey>
     <bcf:citekey order="11">Deap-K-Means</bcf:citekey>
+    <bcf:citekey order="12">Deap-K-Means</bcf:citekey>
     <bcf:citekey order="0">*</bcf:citekey>
   </bcf:section>
   <bcf:sortlist section="0" name="nty/global" type="entry" sortscheme="nty" sortnamekeyscheme="global">

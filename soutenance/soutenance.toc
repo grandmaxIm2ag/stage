@@ -1,0 +1,8 @@
+\beamer@endinputifotherversion {3.36pt}
+\select@language {english}
+\beamer@sectionintoc {1}{Introduction}{2}{0}{1}
+\beamer@sectionintoc {2}{Related Work}{4}{0}{2}
+\beamer@sectionintoc {3}{Proposed Method}{15}{0}{3}
+\beamer@sectionintoc {4}{Experiment}{29}{0}{4}
+\beamer@sectionintoc {5}{Futur Work}{34}{0}{5}
+\beamer@sectionintoc {6}{Conclusion}{36}{0}{6}
