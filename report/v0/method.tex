@@ -1,0 +1,186 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[document]{ragged2e}
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb,amsthm} 
+\usepackage{url}
+\usepackage{xspace}
+\usepackage[left=20mm,top=20mm]{geometry}
+\usepackage{subcaption}
+\usepackage{mathpazo}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{tikz}
+\usepackage{dsfont}
+\usepackage[]{algorithm2e}
+\usepackage[
+  style=numeric,
+  natbib=true,
+  sortcites=true,
+  block=space]{biblatex} 
+\bibliography{ressources/biblio/biblio}
+
+\newcommand{\ie}{ie}
+\newcommand{\eg}{eg}
+\newcommand{\reffig}[1]{Figure~\ref{#1}}
+\newcommand{\refsec}[1]{Section~\ref{#1}}
+
+
+\title{Integrate lexical constraints to K-Means : ML \& CL Method}
+\author{Grand Maxence}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\justify
+
+\section{The proposed Method}
+
+The idea is to produce must-link and cannot-link constraints using
+TFIDF on Key Words and Auto-Encoder.\\ \\
+First, we use an Auto-Encoder to learn a latent
+space where each coponents shows the TFIDF of Key Words without
+loss of information.\\Then, we can use the idea proposed
+by Yen-Chang Hsu and Zsolt Kira \cite{2015arXiv151106321H}.
+We use the softmax function for having a distribution over key works
+and recognise the signficiance of each key word for all documents.
+And then, we use the KL Divergence to produce constraints.\\Finally,
+we perform KMeans in the latent space \cite{2016arXiv161004794Y}.
+\\ \\
+We denote $KW = \begin{pmatrix} kw_1 & kw_2 & ... & kw_{k-1} & kw_{k}
+\end {pmatrix}$
+the set of key words. X a document,
+X' the vector showing the TFIDF each key words
+$\forall_{i=1, 2, .., k}~X'_i =TFIDF(kw_i~in~X)$.
+C the corpus of document, N the size of C, and K the number of cluster.
+
+\section{TFIDF}
+
+The term frequency-inverse document frequency (TFIDF) is a method of
+weghting depicting the significiance of each word in a document rather
+a corpus.
+\\
+To compute the Term Frequency (tf) of a term t in document c we use
+the double normalisation K, with k=0.5 :  
+\begin{equation}\label{eq:tf}
+  tf(t, c) = 0.5 + 0.5.\frac{f_{t,c}}{max_{\{t' \in c \}}f_{t',c}}
+\end{equation}
+
+\begin{equation}\label{eq:idf}
+  idf(t, C) = log(\frac{N}{| \{ c \in C : t \in c \}  |})
+\end{equation}
+
+\begin{equation}\label{eq:tfidf}
+  tfidf(t,c,C) = tf(t,c).idf(t,C)
+\end{equation}
+
+
+\section{Learn the latent space}
+
+The auto-encoder allows to learn a latent space with significiantly
+informations for the clustering without loss of information.
+We use a sparse auto-encoder to learn the latent space of the document.
+\\
+We denote $h=f(X, \theta_1)$ the encoder output, $g(f(X, \theta_1))$
+the decoder output and $\omega(h)$ the sparsity penalty, $L_{sparse}$
+the function loss of the sparse auto-encoder. we use MSE for
+the reconstruct loss.
+\\
+We can see the Auto-Encoder in figure~\ref{fig:archi}.
+\begin{equation*}\label{eq:h}
+  h_x = g(X, \theta_1)
+\end{equation*}
+
+\begin{equation}\label{eq:omega}
+  \omega(h_X) = || h_X - Softmax(X')||_2^2
+\end{equation}
+
+\begin{equation}\label{eq:Sparse}
+  L_{SAE}(C, \theta_1) = \sum_{X \in C}(||X - f(g(X, \theta_1))||_2^2
+  + \omega(h_X))  
+\end{equation}
+
+\begin{figure}[!t]
+  \centering
+  \tikzset{every picture/.style={scale=1.5}}
+  \input{ressources/tex_file/neural_network_autoencoder.tex}
+  \caption{Auto-Encoder}
+  \label{fig:archi}
+\end{figure}
+
+\section{Produce constraints}
+
+We consider that two documents are in the same cluster only if the
+importance of key words are similare, and two documents are not in the
+same cluster only if the importance of each key words are dissimilar.
+\\
+We can use the method proposed by Yen-Chang Hsu and Zsolt Kira
+\cite{2015arXiv151106321H}. We apply the softmax function to the
+encode output layer. The outputs of the whole sofmax layer could be viewed as
+the distribution of the importance of each key words. We can use the
+Kullback-Leibler (KL) divergence to evaluate the similarity between
+distributions.
+\\
+To produce constraints we use a multi layer perceptron taking two
+documents in the latent space$h_p$ and $h_q$ for input and the function I for
+output.
+\\
+We can see the network in figure~\ref{fig:final_archi}.
+\begin{equation}
+  h_p = g(X_p)
+\end{equation}
+\begin{equation}
+  h_q = g(X_q)
+\end{equation}
+
+\begin{equation}\label{eq:Is}
+I(h_p, h_q; \theta_2) = \left\{
+    \begin{array}{ll}
+        1~if~h_p~and~h_q~are~in~the~same~cluster \\
+        0~otherwise
+    \end{array}
+\right.
+\end{equation}
+
+\begin{equation}\label{eq:KL}
+KL(h_p || h_q) = \sum_{i=1}^k {h_p}_i . log(\frac{{h_p}_i}{{h_q}_i}) 
+\end{equation}
+
+We denote $L_{KL}$ the loss function for this network :
+\begin{equation}\label{eq:LossKL}
+  L_{KL}(C ; \theta_2) = \sum_{X_p \in C, X_q \in C}(L(h_p || h_q; \theta_2) +
+  L(h_q || h_p;\theta_2)) 
+\end{equation}
+\begin{equation}\label{eq:KLpq}
+  L(h_p || h_q; \theta_2) = I(h_p, h_q; \theta_2) . KL(h_p || h_q) +
+  (1-I(h_p, h_q; \theta_2)) . min(0, margin - KL(h_p || h_q))
+\end{equation}
+
+\begin{figure}[!t]
+  \centering
+  \tikzset{every picture/.style={scale=1.5}}
+  \input{ressources/tex_file/net_prod.tex}
+  \caption{Produce Constraints}
+  \label{fig:final_archi}
+\end{figure}
+
+\section{Perform K-Means}
+
+We perform KMeans in the latent space :
+
+\begin{equation}\label{eq:clus}
+L_{clust}(C, K) = \sum_{i=1}^K (\sum_{x \in C_i} || g(x) - r_i||^2_2 )
+\end{equation}
+
+Finally the loss function is :
+\begin{equation}\label{eq:loss_FINALE}
+  Min~L(KW, C, K; \theta_1, \theta_2) = \epsilon_0.L_{SAE}(C, KW; \theta_1) 
+  + \epsilon_1.L_{KL}(C; \theta_2) + \epsilon_2.L_{clust}(C,K)
+\end{equation}
+
+with $\epsilon_0 \geq 0$, $\epsilon_1 \leq 0$, $\epsilon_2 \geq 0$.
+\nocite{*}
+\printbibliography[title=References]
+\end{document}

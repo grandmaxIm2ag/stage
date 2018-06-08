@@ -1,6 +1,9 @@
-\beamer@slide {fig:AE}{5}
-\beamer@slide {algo:cop}{9}
-\beamer@slide {algo:vio}{9}
-\beamer@slide {eq:h}{15}
-\beamer@slide {eq:omega1}{17}
-\beamer@slide {eq:Sparse}{23}
+\beamer@slide {fig:AE}{24}
+\beamer@slide {algo:cop}{28}
+\beamer@slide {algo:vio}{28}
+\beamer@slide {fig:archi}{31}
+\beamer@slide {eq:h}{40}
+\beamer@slide {eq:omega1}{42}
+\beamer@slide {eq:Sparse}{48}
+\beamer@slide {algo:gen_kw}{58}
+\beamer@slide {fig:archi}{64}

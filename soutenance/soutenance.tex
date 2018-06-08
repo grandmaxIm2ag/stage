@@ -4,34 +4,52 @@
 \usepackage[english]{babel}
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
+\usepackage{adjustbox}
 \usepackage{graphicx}
 \usepackage{commath}
 \usepackage{amsmath,amssymb,amsthm}
+\usepackage{tikz}
+\usepackage{pgffor}
 \usepackage[lined]{algorithm2e}
 \usetheme{Singapore}
 \newlength{\mylen}
+\resetcounteronoverlays{compt}
+\AtBeginSection[]
+{
+  \begin{frame}<beamer>
+    \tableofcontents[currentsection]
+  \end{frame}
+}
 \begin{document}
 
 \title{Integrate lexical constraints and background knowledge to $K$-Means with Deep Learning}
-\author{Maxence Grand \and \\                                                   
-        Supervised by : \'Eric Gaussier \and Thibaut Thonet \and Marc Tommasi \and Aur\'elien Bellet \and Maziar Moradi Fard} 
+\author{Maxence Grand \\                                                   
+        Supervised by : \'Eric Gaussier  \and Marc Tommasi \and Aur\'elien Bellet \and Thibaut Thonet \and Maziar Moradi Fard} 
 \institute{Laboratoire d'Informatique de Grenoble, Team AMA}
 \date{\today}
 
 \maketitle
 
+\begin{frame}{Overview}
+\tableofcontents
+\end{frame}
 \section{Introduction}
 
 \begin{frame}
-\frametitle{Lexical Constraints}
-
+  \frametitle{Lexical Constraints}
+  \pause
+  \begin{itemize}
+    \setlength\itemsep{2em}
+  \item Set of keywords \pause
+  \item Biais clustering
+  \end{itemize}
 \end{frame}
-
 \begin{frame}
 \frametitle{Background Knowledge}
 \begin{itemize}
+\pause
 \item \textbf{Must-link} constraint $ML$ : $(X, X') \in ML \implies $ X and X' are in the
-  same cluster.
+  same cluster.\pause
 \item \textbf{Cannot-link} constraint $CL$ : $(X, X') \in CL \implies $ X and X' are in
   different cluster.
 \end{itemize}
@@ -50,6 +68,16 @@ $$
 \sum_{k =1 }^K \sum_{X \in S_k} ||X - r_k||_2^2
 $$
 \end{frame}
+
+\foreach \n in {0,...,11}{
+  \begin{frame}
+    \frametitle{$K$-Means}
+  \begin{figure}[!h]
+    \centering
+    \includegraphics[scale=0.45]{kmeans/\n test.png}
+  \end{figure}
+  \end{frame}
+}
 
 \begin{frame}
   \frametitle{Auto-Encoder}
@@ -81,6 +109,7 @@ $$
   \begin{columns}[T] % align columns
     \setlength{\mylen}{0.5\textwidth}
     \begin{column}{\mylen}
+\pause
       \scalebox{.7}{                        %new code
         \begin{algorithm}[H]
           \SetKwInOut{Input}{input}
@@ -108,6 +137,7 @@ $$
     \end{column}%
     \hfill%
     \begin{column}{\dimexpr\textwidth-\mylen}
+\pause
       \scalebox{.7}{                        %new code
         \begin{algorithm}[H]
           \SetKwInOut{Input}{input}
@@ -136,14 +166,23 @@ $$
 
 \begin{frame}
 \frametitle{Background Knowledge - NNClustering}
+\begin{figure}[!h]
+  \centering
+  \tikzset{every picture/.style={scale=0.8}}
+  \input{nnclust.tex}
+  \label{fig:archi}
+\end{figure}
+\end{frame}
+\begin{frame}
+\frametitle{Background Knowledge - NNClustering}
 \begin{equation*}
   P = f(x_p), ~ Q = f(x_q)
 \end{equation*}
-
+\pause
 \begin{equation*}
   KL(P||Q) = \sum_i^k P_ilog\frac{P_i}{Q_i}
 \end{equation*}
-
+\pause
 \begin{equation*}
   I_s = \left\{
 \begin{array}{ll}
@@ -227,6 +266,7 @@ KW = \begin{pmatrix} kw_1 & kw_2 & ... & kw_{k-1} & kw_{k}
 \end {pmatrix}
 \end{equation*}
 \pause
+Introducing $X'$ such that
 \begin{equation*}
 \forall_{i=1,2,..,n}X_i' = \left\{
 \begin{array}{ll}
@@ -284,26 +324,120 @@ with $\lambda \geq 0$
 \section{Experiment}
 
 \begin{frame}
-\frametitle{Data}
+  \frametitle{Data}
+  \pause
+  \begin{itemize}
+    \setlength\itemsep{2em}
+  \item 20 newsgroup \pause
+  \item RCV1 
+  \end{itemize}
 \end{frame}
 
 \begin{frame}
-\frametitle{Lexical Constraints}
+\frametitle{Generate Lexical Constraints}
+\scalebox{.7}{
+\begin{algorithm}[H]
+  \SetKwInOut{Input}{input}
+  \SetKwInOut{Output}{output}
+  \Input{Corpus C, The number of keywords per classes $P$}
+  \Output{KW}
+  $KW \gets \{\}$\\
+  \ForEach{Class $c_i \in C$}{
+    $rank_i \gets [0 ... 0]$\\
+    \ForEach{Document $X \in c_i$}{
+      \ForEach{Word $w \in X$}{
+        $rank_{i,w} \gets rank_{i,w} + TFIDF(w,X, C)$\\
+      }
+    }
+  }
+  \ForEach{Class $c_i, c_j \in C$}{
+    \If{$c_i \neq c_j$}{
+      $rank_i \gets rank_i - rank_j$\\
+    }
+  }
+  \ForEach{Class $c_i \in C$}{
+    $KW \gets KW \cup \{\{w_1, w_2 ... w_P\} : \not\exists (v_1, v_2) | v_1 \not\in 
+    \{w_1, w_2 ... w_P\}, v_2 \in \{w_1, w_2 ... w_P\}, rank_{i,v_1} \ge rank_{i,v_2}\}$\\
+  }
+  \Return{KW}
+  \caption{\label{algo:gen_kw}Extract Keywords}
+\end{algorithm}
+}
+\end{frame}
+
+\begin{frame}
+\frametitle{Metric}
+\pause
+\begin{itemize}
+\item NMI :
+$$NMI(S,C) = \frac{I(S,C)}{[H(S)+H(C)]/2}$$ 
+with
+$I(S,C) =\sum_k \sum_f\frac{|s_k \cap c_f|}{N}log\frac{N|s_k \cap c_f|}{|s_k| |c_f|}$
+and
+$H(S) = -\sum_k\frac{|s_k|}{N}log\frac{N|s_k|}{|s_k|}$
+\pause
+\item Accuracy :
+$$
+ACC(S,C) = \frac{1}{N}\sum_k {max}_j|s_k \cap c_j|
+$$
+\pause
+\item Adjusted Rand Index :
+$$ARI = \frac{a+b}{\binom{N}{2}}$$
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Baseline Algorithm}
+Deep $K$-Means algorithm.
 \end{frame}
 
 \begin{frame}
 \frametitle{Architecture}
+\begin{figure}[!h]
+  \centering
+  \fbox{\includegraphics[scale=0.2]{archi.png}}
+  \caption{\label{fig:archi}Architecture}
+\end{figure}
 \end{frame}
 
 \begin{frame}
 \frametitle{Hyperparameters}
+\begin{table}[!h]
+\centering
+\resizebox{\textwidth}{!}{%
+  \begin{tabular}{| l | l | l | l |}
+    \hline
+               & 20NEWS Without noise & 20NEWS With noise & RCV1 Without noise  \\ \hline
+    $\lambda$  & $10^{-1}$            & $10^{-1}$         & $10^{-2}$           \\ \hline
+    $\alpha_0$ & $10^{-2}$            & $5.10^{-3}$       & $10^{-1}$           \\ \hline
+    $\alpha_1$ & 0                    & 0                 & 0                   \\ \hline
+    $\alpha_2$ & 0                    & 0                 & 0                   \\ \hline
+    $\eta$     & 0                    & 0                 & 0                   \\ \hline
+  \end{tabular}
+}
+\end{table}
 \end{frame}
 
 \begin{frame}
 \frametitle{Results}
+\begin{table}[!h]
+\resizebox{\textwidth}{!}{%
+  \begin{tabular}{| l |l | l | l| l | l | l | l | l | l | }
+    \hline
+    & \multicolumn{3}{|c|}{20NEWS Without noise} & \multicolumn{3}{|c|}{20NEWS With noise}             & \multicolumn{3}{|c|}{RCV1 Without noise}\\
+    & ACC            &ARI             & NMI            & ACC           & ARI           &NMI &ACC            & ARI           &NMI \\ \hline
+Deep $K$-Means &$52.0\pm 2.3$&$34.2\pm 1.7$&$50.5\pm 1.5$&$41.5\pm 2.3$&$19.8\pm 1.5$&$28.3\pm 0.8$&$52.8\pm 3$&$24.1\pm 3.9$&$30.7\pm$\\ \hline
+Constrained Deep $K$-Means&\boldmath$53.3\pm 2.1$&\boldmath$35.9\pm 1.2$&\boldmath$50.9\pm 0.8$&\boldmath$43.3\pm 2.6$&\boldmath$22.1\pm 2.4$&\boldmath$31.4\pm 1.5$ &\boldmath$63.2\pm 4.7$&\boldmath$31.4\pm 3.7$&\boldmath$37.5\pm 4.4$\\ \hline
+  \end{tabular}
+}
+\end{table}
 \end{frame}
 
-\section{Futur Work}
+\section{Conclusion \& Future Works}
+
+\begin{frame}
+\frametitle{Conclusion}
+\end{frame}
 
 \begin{frame}
 \frametitle{Pairwise Constraints}
@@ -313,19 +447,12 @@ with $\lambda \geq 0$
 \frametitle{More Baseline Algorithm}
 \end{frame}
 
-\section{Conclusion}
-
 \begin{frame}
-\frametitle{Conclusion}
+\frametitle{Robustness}
 \end{frame}
 
 \begin{frame}
-Any Question ?
+Any Questions ?
 \end{frame}
 
-\section*{Conclusion}
-
-\begin{frame}
-\frametitle{Additionnal}
-\end{frame}
 \end{document}

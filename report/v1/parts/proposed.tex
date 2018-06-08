@@ -1,0 +1,82 @@
+\section{Proposed Method}
+The idea is to learn a latent space taking into account lexical constraints and
+background knowledge.
+\\We denote $KW = \begin{pmatrix} kw_1 & kw_2 & ... & kw_{N_{kw}-1} & kw_{N_{kw}}
+\end {pmatrix}$
+the set of index of keywords. X a document of size N,
+X' the vector showing only informations about keywords such that :
+\begin{equation*}
+\forall_{i=1,2,..,N}X_i' = \left\{
+\begin{array}{ll}
+  X_i & \mbox{if } i \in KW \\
+  0 & \mbox{Otherwise.}
+\end{array}
+\right.
+\end{equation*}
+C the corpus, N the size of C, and K the number of cluster.
+\subsection{Auto-Encoder}
+We denote $h_X$ the encoder output : 
+\begin{equation}\label{eq:h}
+  h_X = g(X,\theta)
+\end{equation}
+\subsubsection{Lexical Constraints}
+To learn the latent space we add a penalty such that the representation
+of the document X is close of the representation of X'. In this way, in the
+latent space, the representation of document will be biased by keywords.
+We introduce a penalty $\omega_{KW}$ for lexical constraints and
+use squared loss : 
+\begin{equation}\label{eq:omega1}
+  \omega_{KW} = \sum_{X \in C} || h_{X} - g(X',\theta) ||_2^2 =
+  \sum_{X \in C} || h_{X} - h_{X'}||_2^2
+\end{equation}
+\subsubsection{Background Knowledge}
+In addition of lexical constraints we introduce background knowledge, so we need
+a representation taking into account these constraints.\\
+For must-link constraints we want close representations for each pair $X_i$, $X_j$
+in the set ML. We introduce a penalty $\omega_{ML}$ for must-link
+constraints and use squared loss :
+\begin{equation}\label{eq:omegaML}
+  \omega_{ML} = \sum_{\forall{(X_i,X_j)\in ML}} || h_{X_i} - h_{X_j} ||_2^2
+\end{equation}
+For cannot-link constraints we want distant representations for each pair $X_i$,
+$X_j$ in the set CL.
+We can use the hinge loss.
+We introduce a penalty $\omega_{CL}$ for cannot-link constraints.
+\begin{equation}\label{eq:omegaCL}
+  \omega_{CL} = \sum_{\forall{(X_i,X_j)\in CL}} max(0,
+  \eta - || h_{X_i} - h_{X_j} ||_2^2)
+\end{equation}
+where $\eta \le 0$ is a hyperparameter.\\
+The penalty is :
+\begin{equation}\label{eq:Sparse}
+  \Omega(C,KW;\theta) = \alpha_0\omega_{KW} + \alpha_1\omega_{CL} + \alpha_2\omega_{ML}  
+\end{equation}
+With hyperparameters $\alpha_0\geq 0$ ,$\alpha_1\geq 0$, $\alpha_2\geq 0$.
+\\Then the reconstruct loss function is :
+\begin{equation}\label{eq:AEDK}
+  L_{rec}(C, \theta) = \sum_{X \in C}(||X - f(g(X, \theta))||_2^2
+\end{equation}
+Finally the loss function for the Auto-Encoder is :
+\begin{equation}\label{eq:AE}
+  L_{NonClust}(C,KW; \theta) = L_{rec}(C, \theta) + \Omega(C)  
+\end{equation}
+
+\subsection{Deep $K$-Means}
+
+For the Deep $K$-Means, we can use the approach proposed by Moradi Fard, Thonet and Gaussier 
+\cite{Deap-K-Means} see in section 2.3.\\
+For the clustering loss we can use squared loss with euclidian distance. We
+denote $R = \begin{pmatrix} r_1 & r_2 & ... & r_K\end{pmatrix}$ the vector of
+centroids :  
+\begin{equation}\label{eq:loss_clust}
+  L_{Clust}(C, K;R, \theta) = \sum_{X \in C}\sum_{k=1}^K F(h_X, r_k) G_{k, F}(h_X, \beta; R) 
+\end{equation}
+Finally the loss function is :
+\begin{equation}\label{eq:loss_FINALE}
+  Min~L(KW, C, K; \theta) = L_{NonClust}(C, KW; \theta) + \lambda.L_{Clust}(C, K;R, \theta)
+\end{equation}
+with $\lambda \geq 0$.\\
+For the learning algorithm we can use the Deep $K$-Means algorithm with 
+pretraining~\ref{algo:dkm} see in section \ref{seq:DeepClust}. In the 
+pretraining phase we learn a representation minimizing $L_{NonCLust}$. It allows
+to initialize centroïds with biaise representation.

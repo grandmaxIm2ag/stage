@@ -1,0 +1,21 @@
+\section{Future Works}
+In future works, we plan to test pairwise constraints(Eq \ref{eq:omegaML}, 
+\ref{eq:omegaCL}).
+To test these  constraints, we need another baseline algorithm. For
+lexical constraint we only used deep $K$-Means algorithm. We can use this
+algorithm, but we have to also use algorithm taking into account pair. We can 
+use COP$K$-Means algorithm like baseline.\\ 
+To test the integration of pairwise constraints with lexical constraints we can 
+use an alternative form of the  COP$K$-Means algorithm. We learn a $k$-means 
+friendly space taking into account lexical constraints and perform COP$K$-Means
+in the learned latent space. The loss function for this model is :
+\begin{equation}
+  Min~L(KW, C, K; \theta) = (L_{rec}(C, \theta) + \omega_{KW} )+
+  \lambda.L_{Clust}(X, K;R, \theta)
+\end{equation}
+Then, we can test the robustness of our model in different ways.
+First we can change the number of extracted keywords by class, in
+our tests, we extracted 3 keywords by class, but we can imagine, experiments 
+where the number of keywords is higher or lower, or where the number of 
+extracted keywords for each class is different. Then we can change the number
+of clusters.
