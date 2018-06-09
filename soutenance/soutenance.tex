@@ -109,7 +109,6 @@ $$
   \begin{columns}[T] % align columns
     \setlength{\mylen}{0.5\textwidth}
     \begin{column}{\mylen}
-\pause
       \scalebox{.7}{                        %new code
         \begin{algorithm}[H]
           \SetKwInOut{Input}{input}
@@ -137,7 +136,6 @@ $$
     \end{column}%
     \hfill%
     \begin{column}{\dimexpr\textwidth-\mylen}
-\pause
       \scalebox{.7}{                        %new code
         \begin{algorithm}[H]
           \SetKwInOut{Input}{input}
@@ -262,7 +260,7 @@ background knowledge.
 \begin{frame}
 \frametitle{Lexical Constraints}
 \begin{equation*}
-KW = \begin{pmatrix} kw_1 & kw_2 & ... & kw_{k-1} & kw_{k}
+KW = \begin{pmatrix} kw_1 & kw_2 & ... & kw_{N_k-1} & kw_{N_k}
 \end {pmatrix}
 \end{equation*}
 \pause
@@ -294,7 +292,7 @@ Introducing $X'$ such that
 \begin{frame}
 \frametitle{Non Clustering Loss}
 \begin{equation*}\label{eq:Sparse}
-  \Omega(C) = \alpha_0\omega_{KW} + \alpha_1\omega_{CL} + \alpha_2\omega_{ML}  
+  \Omega(C, KW;\theta) = \alpha_0\omega_{KW} + \alpha_1\omega_{CL} + \alpha_2\omega_{ML}  
 \end{equation*}
 \pause
 \begin{equation*}
@@ -312,11 +310,11 @@ Introducing $X'$ such that
 $$R = \begin{pmatrix} r_1 & r_2 & ... & r_K\end{pmatrix}$$
 \pause
 \begin{equation*}
-  L_{Clust}(C, K; \theta) = \sum_{k=1}^K F(h_X, r_k) G_{k, F}(h_X, \beta; R) 
+  L_{Clust}(C, K, \beta; \theta, R) = \sum{X \in C}\sum_{k=1}^K F(h_X, r_k) G_{k, F}(h_X, \beta; R) 
 \end{equation*}
 \pause
 \begin{equation*}
-  Min~L(KW, C, K; \theta) = L_{NonClust}(C, KW; \theta) + \lambda.L_{clust}(C,K;\theta)
+  Min~L(KW, C, K; \theta) = L_{NonClust}(C, KW; \theta) + \lambda.L_{clust}(C, K, \beta; \theta, R)
 \end{equation*}
 with $\lambda \geq 0$
 \end{frame}
@@ -328,7 +326,7 @@ with $\lambda \geq 0$
   \pause
   \begin{itemize}
     \setlength\itemsep{2em}
-  \item 20 newsgroup \pause
+  \item 20 newsgroup
   \item RCV1 
   \end{itemize}
 \end{frame}
@@ -436,19 +434,17 @@ Constrained Deep $K$-Means&\boldmath$53.3\pm 2.1$&\boldmath$35.9\pm 1.2$&\boldma
 \section{Conclusion \& Future Works}
 
 \begin{frame}
-\frametitle{Conclusion}
+  \frametitle{Conclusion}
+  We have presented and tested in this study an approach to integrate lexical 
 \end{frame}
 
 \begin{frame}
-\frametitle{Pairwise Constraints}
-\end{frame}
-
-\begin{frame}
-\frametitle{More Baseline Algorithm}
-\end{frame}
-
-\begin{frame}
-\frametitle{Robustness}
+\frametitle{Future Works}
+\begin{itemize}
+\item Test pairwise constraints
+\item More baseline Algorithm
+\item Rebostness
+\end{itemize}
 \end{frame}
 
 \begin{frame}

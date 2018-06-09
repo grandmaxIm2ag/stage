@@ -2,6 +2,6 @@
 \select@language {english}
 \beamer@sectionintoc {1}{Introduction}{3}{0}{1}
 \beamer@sectionintoc {2}{Related Work}{10}{0}{2}
-\beamer@sectionintoc {3}{Proposed Method}{39}{0}{3}
-\beamer@sectionintoc {4}{Experiment}{54}{0}{4}
-\beamer@sectionintoc {5}{Conclusion \& Future Works}{67}{0}{5}
+\beamer@sectionintoc {3}{Proposed Method}{37}{0}{3}
+\beamer@sectionintoc {4}{Experiment}{52}{0}{4}
+\beamer@sectionintoc {5}{Conclusion \& Future Works}{64}{0}{5}

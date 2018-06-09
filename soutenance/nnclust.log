@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.4.17)  8 JUN 2018 12:58
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.4.17)  9 JUN 2018 23:25
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -16,8 +16,8 @@ Type  H <return>  for immediate help.
                                                   
 l.14 \begin{tikzpicture}
                         
-? s
-OK, entering \scrollmode...
+? q
+OK, entering \batchmode...
 ! Undefined control sequence.
 l.15 \pgftransformxscale
                         {1.000000}
