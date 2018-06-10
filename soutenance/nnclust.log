@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.4.17)  9 JUN 2018 23:25
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.9.30)  10 JUN 2018 19:57
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1716,7 +1716,7 @@ l.50 ...96\du}{0\du}}{\pgfpoint{0\du}{1.385996\du}
 Here is how much of TeX's memory you used:
  7 strings out of 493029
  147 string characters out of 6136234
- 53075 words of memory out of 5000000
+ 53084 words of memory out of 5000000
  3643 multiletter control sequences out of 15000+600000
  3640 words of font info for 14 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191

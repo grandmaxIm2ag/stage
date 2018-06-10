@@ -22,7 +22,7 @@
 }
 \begin{document}
 
-\title{Integrate lexical constraints and background knowledge to $K$-Means with Deep Learning}
+\title{Integrating lexical constraints and background knowledge to $K$-Means with Deep Learning}
 \author{Maxence Grand \\                                                   
         Supervised by : \'Eric Gaussier  \and Marc Tommasi \and Aur\'elien Bellet \and Thibaut Thonet \and Maziar Moradi Fard} 
 \institute{Laboratoire d'Informatique de Grenoble, Team AMA}
@@ -231,14 +231,14 @@ L(C ,\beta;\theta,R) = L_{NonClust}(C;\theta,R ) + \lambda L_{Clust}(C,\beta;\th
 L_{NonClust}(C;\theta,R ) = \sum_{X \in C} ||X - f(g(X;\theta))||_2^2
 \end{equation*}
 \begin{equation*}
-  L_{Clust}(C,\beta;\theta,R) = F(g(X),c(g(X, \theta); R))
+  L_{Clust}(C,\beta;\theta,R) = \sum_{X \in C} F(g(X),c(g(X, \theta); R))
 \end{equation*}
 \end{frame}
 
 \begin{frame}
   \frametitle{Deep $K$-Means }
 \begin{equation*}
-L_{Clust} = \sum_{k=1}^K F(g(X; \theta), r_k) G_{k, F}(g(X; \theta), \beta; R)
+L_{Clust} = \sum_{X \in C} \sum_{k=1}^K F(g(X; \theta), r_k) G_{k, F}(g(X; \theta), \beta; R)
 \end{equation*}
 \begin{equation*}
 G_{k, F}(g(X; \theta), \beta; R) = \frac{e^{-\beta F(g(X, \theta),r_k)}}
@@ -260,7 +260,7 @@ background knowledge.
 \begin{frame}
 \frametitle{Lexical Constraints}
 \begin{equation*}
-KW = \begin{pmatrix} kw_1 & kw_2 & ... & kw_{N_k-1} & kw_{N_k}
+KW = \begin{pmatrix} kw_1 & kw_2 & ... & kw_{N_{kw}-1} & kw_{N_{kw}}
 \end {pmatrix}
 \end{equation*}
 \pause
@@ -310,7 +310,7 @@ Introducing $X'$ such that
 $$R = \begin{pmatrix} r_1 & r_2 & ... & r_K\end{pmatrix}$$
 \pause
 \begin{equation*}
-  L_{Clust}(C, K, \beta; \theta, R) = \sum{X \in C}\sum_{k=1}^K F(h_X, r_k) G_{k, F}(h_X, \beta; R) 
+  L_{Clust}(C, K, \beta; \theta, R) = \sum_{X \in C}\sum_{k=1}^K F(h_X, r_k) G_{k, F}(h_X, \beta; R) 
 \end{equation*}
 \pause
 \begin{equation*}
@@ -323,7 +323,6 @@ with $\lambda \geq 0$
 
 \begin{frame}
   \frametitle{Data}
-  \pause
   \begin{itemize}
     \setlength\itemsep{2em}
   \item 20 newsgroup
@@ -443,7 +442,7 @@ Constrained Deep $K$-Means&\boldmath$53.3\pm 2.1$&\boldmath$35.9\pm 1.2$&\boldma
 \begin{itemize}
 \item Test pairwise constraints
 \item More baseline Algorithm
-\item Rebostness
+\item Rebustness
 \end{itemize}
 \end{frame}
 

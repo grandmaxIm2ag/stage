@@ -1,0 +1,204 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 2.6 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \sortlist[entry]{nty/global}
+    \entry{Goodfellow-et-al-2016}{book}{}
+      \name{author}{3}{}{%
+        {{hash=5d2585c11210cf1d4512e6e0a03ec315}{%
+           family={Goodfellow},
+           family_i={G\bibinitperiod},
+           given={Ian},
+           given_i={I\bibinitperiod}}}%
+        {{hash=40a8e4774982146adc2688546f54efb2}{%
+           family={Bengio},
+           family_i={B\bibinitperiod},
+           given={Yoshua},
+           given_i={Y\bibinitperiod}}}%
+        {{hash=ccec1ccd2e1aa86960eb2e872c6b7020}{%
+           family={Courville},
+           family_i={C\bibinitperiod},
+           given={Aaron},
+           given_i={A\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {MIT Press}%
+      }
+      \strng{namehash}{3ae53fe582e8a815b118d26947eaa326}
+      \strng{fullhash}{3ae53fe582e8a815b118d26947eaa326}
+      \field{sortinit}{G}
+      \field{sortinithash}{1c854ef9177a91bf894e66485bdbd3ed}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{\url{http://www.deeplearningbook.org}}
+      \field{title}{Deep Learning}
+      \field{year}{2016}
+    \endentry
+    \entry{2015arXiv151106321H}{article}{}
+      \name{author}{2}{}{%
+        {{hash=422be11e774015bb9104b28a60e7977a}{%
+           family={{Hsu}},
+           family_i={H\bibinitperiod},
+           given={Y.-C.},
+           given_i={Y\bibinithyphendelim C\bibinitperiod}}}%
+        {{hash=b1fbb8bef2e9ce64c72c607db1fe74f4}{%
+           family={{Kira}},
+           family_i={K\bibinitperiod},
+           given={Z.},
+           given_i={Z\bibinitperiod}}}%
+      }
+      \strng{namehash}{13aede729ff25eeac42a4791cb662b83}
+      \strng{fullhash}{13aede729ff25eeac42a4791cb662b83}
+      \field{sortinit}{H}
+      \field{sortinithash}{82012198d5dfa657b8c4a168793268a6}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{cs.LG}
+      \field{eprinttype}{arXiv}
+      \field{journaltitle}{ArXiv e-prints}
+      \field{month}{11}
+      \field{title}{{Neural network-based clustering using pairwise constraints}}
+      \field{year}{2015}
+      \verb{eprint}
+      \verb 1511.06321
+      \endverb
+      \keyw{Computer Science - Learning,Statistics - Machine Learning}
+    \endentry
+    \entry{doi:10.1108/eb026526}{article}{}
+      \name{author}{1}{}{%
+        {{hash=e0175d8b38b7aa911685ab83d1572ee5}{%
+           family={JONES},
+           family_i={J\bibinitperiod},
+           given={KAREN\bibnamedelima SPARCK},
+           given_i={K\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+      }
+      \strng{namehash}{e0175d8b38b7aa911685ab83d1572ee5}
+      \strng{fullhash}{e0175d8b38b7aa911685ab83d1572ee5}
+      \field{sortinit}{J}
+      \field{sortinithash}{ec3950a647c092421b9fcca6d819504a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{The exhaustivity of document descriptions and the specificity of index terms are usually regarded as independent. It is suggested that specificity should be interpreted statistically, as a function of term use rather than of term meaning. The effects on retrieval of variations in term specificity are examined, experiments with three test collections showing in particular that frequently‐occurring terms are required for good overall performance. It is argued that terms should be weighted according to collection frequency, so that matches on less frequent, more specific, terms are of greater value than matches on frequent terms. Results for the test collections show that considerable improvements in performance are obtained with this very simple procedure.}
+      \field{journaltitle}{Journal of Documentation}
+      \field{number}{1}
+      \field{title}{A STATISTICAL INTERPRETATION OF TERM SPECIFICITY AND ITS APPLICATION IN RETRIEVAL}
+      \field{volume}{28}
+      \field{year}{1972}
+      \field{pages}{11\bibrangedash 21}
+      \range{pages}{11}
+      \verb{doi}
+      \verb 10.1108/eb026526
+      \endverb
+      \verb{eprint}
+      \verb https://doi.org/10.1108/eb026526
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1108/eb026526
+      \endverb
+    \endentry
+    \entry{Wagstaff:2001:CKC:645530.655669}{inproceedings}{}
+      \name{author}{4}{}{%
+        {{hash=5cebf2e445161dae317e2c3c4421cf30}{%
+           family={Wagstaff},
+           family_i={W\bibinitperiod},
+           given={Kiri},
+           given_i={K\bibinitperiod}}}%
+        {{hash=8e15f6d4f21d19148e2145753f040e4b}{%
+           family={Cardie},
+           family_i={C\bibinitperiod},
+           given={Claire},
+           given_i={C\bibinitperiod}}}%
+        {{hash=c952b2599a67bc252cd55ca458894a43}{%
+           family={Rogers},
+           family_i={R\bibinitperiod},
+           given={Seth},
+           given_i={S\bibinitperiod}}}%
+        {{hash=ebe8f465bb4d247fd901d44dd8b66de6}{%
+           family={Schrödl},
+           family_i={S\bibinitperiod},
+           given={Stefan},
+           given_i={S\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {San Francisco, CA, USA}%
+      }
+      \list{publisher}{1}{%
+        {Morgan Kaufmann Publishers Inc.}%
+      }
+      \strng{namehash}{9837585423f3c290cefdb7eba783bfee}
+      \strng{fullhash}{17e3880e620b8e966207f4de24f2f46a}
+      \field{sortinit}{W}
+      \field{sortinithash}{99e3ba1b3f78bb6f073e7fa7ac11636b}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Proceedings of the Eighteenth International Conference on Machine Learning}
+      \field{isbn}{1-55860-778-1}
+      \field{series}{ICML '01}
+      \field{title}{Constrained K-means Clustering with Background Knowledge}
+      \field{year}{2001}
+      \field{pages}{577\bibrangedash 584}
+      \range{pages}{8}
+      \verb{url}
+      \verb http://dl.acm.org/citation.cfm?id=645530.655669
+      \endverb
+    \endentry
+    \entry{2016arXiv161004794Y}{article}{}
+      \name{author}{4}{}{%
+        {{hash=febed6e998d9aec001d8acf1adf8357a}{%
+           family={{Yang}},
+           family_i={Y\bibinitperiod},
+           given={B.},
+           given_i={B\bibinitperiod}}}%
+        {{hash=bfecb45658ef1f8cc3a6284a480d3b8f}{%
+           family={{Fu}},
+           family_i={F\bibinitperiod},
+           given={X.},
+           given_i={X\bibinitperiod}}}%
+        {{hash=29f344f51c2cb4fa739fc73f0a0c8b50}{%
+           family={{Sidiropoulos}},
+           family_i={S\bibinitperiod},
+           given={N.\bibnamedelimi D.},
+           given_i={N\bibinitperiod\bibinitdelim D\bibinitperiod}}}%
+        {{hash=26e2f31cc052416211efefab36dd6aae}{%
+           family={{Hong}},
+           family_i={H\bibinitperiod},
+           given={M.},
+           given_i={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{3eef392b21873ed576d6b1c24f0318c8}
+      \strng{fullhash}{c0b343a507f8293023f4edfe43e39a24}
+      \field{sortinit}{Y}
+      \field{sortinithash}{3cbc1e3d286284cedb5e5218a3248f94}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{cs.LG}
+      \field{eprinttype}{arXiv}
+      \field{journaltitle}{ArXiv e-prints}
+      \field{month}{10}
+      \field{title}{{Towards K-means-friendly Spaces: Simultaneous Deep Learning and Clustering}}
+      \field{year}{2016}
+      \verb{eprint}
+      \verb 1610.04794
+      \endverb
+      \keyw{Computer Science - Learning}
+    \endentry
+  \endsortlist
+\endrefsection
+\endinput
+
