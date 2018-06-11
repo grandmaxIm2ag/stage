@@ -52,11 +52,11 @@ def plot(C, S, t, cent):
     c=['blue', 'red', 'green']
     plt.figure()
     for i, target_name in zip (range(k), target_names):
-        plt.scatter(x_r[S == i, 0], x_r[S == i, 1], label=target_name, color=c[i])
+        plt.scatter(x_r[S == i, 0], x_r[S == i, 1], label=target_name, color=c[i],s=3)
         plt.legend(loc='best')
         plt.title("Iteration "+str(t))
     c_r1, c_r2 = zip(*c_r)
-    plt.scatter(c_r1,c_r2, color='black')
+    plt.scatter(c_r1,c_r2,marker='^', color='black', s=50)
     plt.savefig(str(t)+"test.png")
     
 

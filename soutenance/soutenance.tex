@@ -11,20 +11,34 @@
 \usepackage{tikz}
 \usepackage{pgffor}
 \usepackage[lined]{algorithm2e}
+\usepackage[
+  style=numeric,
+  natbib=true,
+  sortcites=true,
+  block=space,
+  citestyle=verbose]{biblatex}
+\bibliography{biblio}%
 \usetheme{Singapore}
 \newlength{\mylen}
 \resetcounteronoverlays{compt}
 \AtBeginSection[]
 {
   \begin{frame}<beamer>
+    \frametitle{Overview}
     \tableofcontents[currentsection]
   \end{frame}
+}
+\addtobeamertemplate{navigation symbols}{}{%
+    \usebeamerfont{footline}%
+    \usebeamercolor[fg]{footline}%
+    \hspace{1em}%
+    \insertframenumber/\inserttotalframenumber
 }
 \begin{document}
 
 \title{Integrating lexical constraints and background knowledge to $K$-Means with Deep Learning}
 \author{Maxence Grand \\                                                   
-        Supervised by : \'Eric Gaussier  \and Marc Tommasi \and Aur\'elien Bellet \and Thibaut Thonet \and Maziar Moradi Fard} 
+        Supervised by : Thibaut Thonet \and \'Eric Gaussier  \and Marc Tommasi \and Aur\'elien Bellet \and  Maziar Moradi Fard} 
 \institute{Laboratoire d'Informatique de Grenoble, Team AMA}
 \date{\today}
 
@@ -36,12 +50,34 @@
 \section{Introduction}
 
 \begin{frame}
+\frametitle{$K$-Means}
+Given a corpus C, where each document X is a 
+N-dimensional real vector, k-means clustering aims to partition the n 
+documents into K $S_k$ clusters represented by centroids 
+R = {$r_1, r_2, ..., r_K$}. :
+Formally, the objective is to minimize :
+$$
+\sum_{k =1 }^K \sum_{X \in S_k} ||X - r_k||_2^2
+$$
+\end{frame}
+
+\foreach \n in {0,...,7}{
+  \begin{frame}
+    \frametitle{$K$-Means}
+  \begin{figure}[!h]
+    \centering
+    \includegraphics[scale=0.45]{kmeans/\n test.png}
+  \end{figure}
+  \end{frame}
+}
+
+\begin{frame}
   \frametitle{Lexical Constraints}
   \pause
   \begin{itemize}
     \setlength\itemsep{2em}
   \item Set of keywords \pause
-  \item Biais clustering
+  \item Bias clustering
   \end{itemize}
 \end{frame}
 \begin{frame}
@@ -55,61 +91,12 @@
 \end{itemize}
 \end{frame}
 
-\section{Related Work}
-
-\begin{frame}
-\frametitle{$K$-Means}
-Given a corpus C, where each document X is a 
-d-dimensional real vector, k-means clustering aims to partition the n 
-documents into K $S_k$ clusters represented by centroids 
-R = {$r_1, r_2, ..., r_K$}. :
-Formally, the objective is to minimize :
-$$
-\sum_{k =1 }^K \sum_{X \in S_k} ||X - r_k||_2^2
-$$
-\end{frame}
-
-\foreach \n in {0,...,11}{
-  \begin{frame}
-    \frametitle{$K$-Means}
-  \begin{figure}[!h]
-    \centering
-    \includegraphics[scale=0.45]{kmeans/\n test.png}
-  \end{figure}
-  \end{frame}
-}
-
-\begin{frame}
-  \frametitle{Auto-Encoder}
-  \begin{columns}[T] % align columns
-    \setlength{\mylen}{0.4\textwidth}
-    \begin{column}{\mylen}
-      \begin{figure}[!h]
-        \centering
-        \fbox{\includegraphics[scale=0.28]{autoencoder.png}}
-        \caption{Auto-Encoder}
-        \label{fig:AE}
-      \end{figure}
-    \end{column}%
-    \hfill%
-    \begin{column}{\dimexpr\textwidth-\mylen}
-      \pause
-      \begin{itemize}
-        \setlength\itemsep{2em}
-      \item Encode Function $g(X; \theta)$ \pause
-      \item Decode Function $f(g(X; \theta)$ \pause
-      \item $L_{rec}(X, \theta) = || X - f(g(X, \theta)) ||_2^2$
-      \end{itemize}
-    \end{column}%
-  \end{columns}
-\end{frame}
-
 \begin{frame}
   \frametitle{Background Knowledge - COP$K$-Means}
   \begin{columns}[T] % align columns
     \setlength{\mylen}{0.5\textwidth}
     \begin{column}{\mylen}
-      \scalebox{.7}{                        %new code
+      \scalebox{.6}{                        %new code
         \begin{algorithm}[H]
           \SetKwInOut{Input}{input}
           \SetKwInOut{Output}{output}
@@ -156,25 +143,17 @@ $$
           \Return{False}
           \caption{\label{algo:vio}Violate-Constraints}
         \end{algorithm}
-
-      } 
+        
+      }
     \end{column}%
   \end{columns}
+\footnote{Wagstaff et al}
 \end{frame}
 
-\begin{frame}
-\frametitle{Background Knowledge - NNClustering}
-\begin{figure}[!h]
-  \centering
-  \tikzset{every picture/.style={scale=0.8}}
-  \input{nnclust.tex}
-  \label{fig:archi}
-\end{figure}
-\end{frame}
 \begin{frame}
 \frametitle{Background Knowledge - NNClustering}
 \begin{equation*}
-  P = f(x_p), ~ Q = f(x_q)
+  P = f_{NN}(X_p), ~ Q = f_{NN}(X_q)
 \end{equation*}
 \pause
 \begin{equation*}
@@ -184,7 +163,7 @@ $$
 \begin{equation*}
   I_s = \left\{
 \begin{array}{ll}
-  1 & \mbox{if $x_p$ and $x_q$ is a similar pair}\\
+  1 & \mbox{if ($X_p, X_q$) $\in$ ML }\\
   0 & \mbox{Otherwise.}
 \end{array}
 \right.
@@ -193,68 +172,44 @@ $$
 \begin{equation*}
   I_{ds} = \left\{
 \begin{array}{ll}
-  1 & \mbox{if $x_p$ and $x_q$ is a dissimilar pair}\\
+  1 & \mbox{if ($X_p, X_q$) $\in$ CL}\\
   0 & \mbox{Otherwise.}
 \end{array}
 \right.
 \end{equation*}
 \begin{equation*}
-  Loss(P || Q) = I_s(x_p, x_q)KL(P || Q) + I_{ds}(x_p, x_q)max(0,
+  Loss(P || Q) = I_s(X_p, X_q)KL(P || Q) + I_{ds}(X_p, X_q)max(0,
   \eta-KL(P||Q))
 \end{equation*}
 \begin{equation*}
   L(P,Q) = Loss(P || Q) + Loss(Q || P)
 \end{equation*}
+\footnote{Hsu et al}
 \end{frame}
 
-
+%Bas de page pour COP-KMeans et NNclust
 \begin{frame}
-\frametitle{Deep Clustering - General Form}
 \begin{itemize}
-\item \textbf{Non-Clustering loss} : $L_{NonClust}(C;\theta)$
-\item \textbf{Clustering loss} : $L_{Clust}(C;\theta)$
+  \setlength\itemsep{1em}
+\item Encode Function $h_{\theta}(X) = g(X; \theta)$
+\item Decode Function $f(Y; \theta)$
+\item $L_{rec}(X, \theta) = || X - f(Y; \theta)||_2^2$
 \end{itemize}
-\pause
-The loss function takes the form :
-\begin{equation*}
-L(X;\theta) = \lambda L_{NonClust}(C;\theta) + (1-\lambda)L_{Clust}(C; \theta)
-\end{equation*}
-Where $\lambda \in [0 ; 1]$
-
-\end{frame}
-\begin{frame}
-  \frametitle{Deep $K$-Means }
-\begin{equation*}
-L(C ,\beta;\theta,R) = L_{NonClust}(C;\theta,R ) + \lambda L_{Clust}(C,\beta;\theta,R)
-\end{equation*}
-\begin{equation*}
-L_{NonClust}(C;\theta,R ) = \sum_{X \in C} ||X - f(g(X;\theta))||_2^2
-\end{equation*}
-\begin{equation*}
-  L_{Clust}(C,\beta;\theta,R) = \sum_{X \in C} F(g(X),c(g(X, \theta); R))
-\end{equation*}
+  \frametitle{Auto-Encoder}
+  \begin{figure}[!h]
+    \centering
+    \fbox{\includegraphics[scale=0.2]{autoencoder.png}}
+    \label{fig:AE}
+  \end{figure}
 \end{frame}
 
-\begin{frame}
-  \frametitle{Deep $K$-Means }
-\begin{equation*}
-L_{Clust} = \sum_{X \in C} \sum_{k=1}^K F(g(X; \theta), r_k) G_{k, F}(g(X; \theta), \beta; R)
-\end{equation*}
-\begin{equation*}
-G_{k, F}(g(X; \theta), \beta; R) = \frac{e^{-\beta F(g(X, \theta),r_k)}}
-{\sum_{k' = 1}^K e^{-\beta F(g(X, \theta),r_k')}}
-\end{equation*}
-\end{frame}
 \section{Proposed Method}
 
+%Remplacer \Omega par L_{const}
 \begin{frame}
 \frametitle{The Idea}
 Learn a latent space taking into account lexical constraints and
 background knowledge.
-\pause
-\begin{equation*}\label{eq:h}
-  h_X = g(X,\theta)
-\end{equation*}
 \end{frame}
 
 \begin{frame}
@@ -266,7 +221,7 @@ KW = \begin{pmatrix} kw_1 & kw_2 & ... & kw_{N_{kw}-1} & kw_{N_{kw}}
 \pause
 Introducing $X'$ such that
 \begin{equation*}
-\forall_{i=1,2,..,n}X_i' = \left\{
+\forall_{i=1,2,..,N}X_i' = \left\{
 \begin{array}{ll}
   X_i & \mbox{if } i \in KW \\
   0 & \mbox{Otherwise.}
@@ -275,48 +230,54 @@ Introducing $X'$ such that
 \end{equation*}
 \pause
 \begin{equation*}\label{eq:omega1}
-  \omega_{KW} = \sum_{X \in C} || h_{X} - h_{X'}||_2^2
+  \omega_{KW} = \sum_{X \in C} || h_{\theta}(X) - h_{\theta}(X')||_2^2
 \end{equation*}
 \end{frame}
 
 \begin{frame}
-\frametitle{Background Knowledge}
+\frametitle{Pairwise Constraints}
 \pause
 \begin{itemize}
-\item Must-Link : $$\omega_{ML} = \sum_{\forall{(X_i,X_j)\in ML}} || h_{X_i} - h_{X_j} ||_2^2$$ \pause
+\item Must-Link : $$\omega_{ML} = \sum_{\forall{(X_i,X_j)\in ML}} || h_{\theta}(X_i) - h_{\theta}(X_j) ||_2^2$$ \pause
 \item Cannot-Link : $$\omega_{CL} = \sum_{\forall{(X_i,X_j)\in CL}} max(0,
-  \eta - || h_{X_i} - h_{X_j} ||_2^2)$$
+  \eta - || h_{\theta}(X_i) - h_{\theta}(X_j) ||_2^2)$$
 \end{itemize}
 \end{frame}
 
 \begin{frame}
-\frametitle{Non Clustering Loss}
-\begin{equation*}\label{eq:Sparse}
-  \Omega(C, KW;\theta) = \alpha_0\omega_{KW} + \alpha_1\omega_{CL} + \alpha_2\omega_{ML}  
-\end{equation*}
-\pause
+  \frametitle{Deep $K$-Means }
 \begin{equation*}
-  L_{rec}(C, \theta) = \sum_{X \in C}(||X - f(g(X, \theta))||_2^2
+  L_{Clust}(C,\beta;\theta,R) = \sum_{X \in C} ||h_\theta(X)-c(h_\theta(X); R)||_2^2
 \end{equation*}
-\pause
 \begin{equation*}
-  L_{NonClust}(C,KW; \theta) = L_{rec}(C, \theta) + \Omega(C)  
+  c(h_\theta(X); R) = argmin_{r \in R}||h_\theta(X) - r||_2^2
 \end{equation*}
-
 \end{frame}
 
 \begin{frame}
-\frametitle{Deep $K$-Means}
-$$R = \begin{pmatrix} r_1 & r_2 & ... & r_K\end{pmatrix}$$
-\pause
+  \frametitle{Deep $K$-Means }
 \begin{equation*}
-  L_{Clust}(C, K, \beta; \theta, R) = \sum_{X \in C}\sum_{k=1}^K F(h_X, r_k) G_{k, F}(h_X, \beta; R) 
+L_{Clust}(C, K, \beta; \theta, R) = \sum_{X \in C} \sum_{k=1}^K ||h_{\theta}(X) - r_k||_2^2 G_{k, F}(h_{\theta}(X)-\beta; R||_2^2
+\end{equation*}
+\begin{equation*}
+G_{k, F}(h_{\theta}(X), \beta; R) = \frac{e^{-\beta ||g(X, \theta) - r_k||_2^2}}
+{\sum_{k' = 1}^K e^{-\beta ||g(X, \theta) - r_k||_2^2}}
+\end{equation*}
+\end{frame}
+
+\begin{frame}
+\frametitle{Final Loss}
+\begin{equation*}
+  L_{const}(C, KW;\theta) = \alpha_0\omega_{KW} + \alpha_1\omega_{CL} + \alpha_2\omega_{ML}  
 \end{equation*}
 \pause
 \begin{equation*}
-  Min~L(KW, C, K; \theta) = L_{NonClust}(C, KW; \theta) + \lambda.L_{clust}(C, K, \beta; \theta, R)
+  L_{rec}(C, \theta) = \sum_{X \in C}(||X - f(h_\theta(X))||_2^2
 \end{equation*}
-with $\lambda \geq 0$
+\pause
+\begin{equation*}
+  L(C,KW; \theta) = L_{rec}(C, \theta) + L_{const}(C, KW;\theta) + L_{Clust}(C, K, \beta; \theta, R)   
+\end{equation*}
 \end{frame}
 
 \section{Experiment}
@@ -325,7 +286,7 @@ with $\lambda \geq 0$
   \frametitle{Data}
   \begin{itemize}
     \setlength\itemsep{2em}
-  \item 20 newsgroup
+  \item 20 newsgroups
   \item RCV1 
   \end{itemize}
 \end{frame}
@@ -364,22 +325,10 @@ with $\lambda \geq 0$
 
 \begin{frame}
 \frametitle{Metric}
-\pause
 \begin{itemize}
-\item NMI :
-$$NMI(S,C) = \frac{I(S,C)}{[H(S)+H(C)]/2}$$ 
-with
-$I(S,C) =\sum_k \sum_f\frac{|s_k \cap c_f|}{N}log\frac{N|s_k \cap c_f|}{|s_k| |c_f|}$
-and
-$H(S) = -\sum_k\frac{|s_k|}{N}log\frac{N|s_k|}{|s_k|}$
-\pause
-\item Accuracy :
-$$
-ACC(S,C) = \frac{1}{N}\sum_k {max}_j|s_k \cap c_j|
-$$
-\pause
-\item Adjusted Rand Index :
-$$ARI = \frac{a+b}{\binom{N}{2}}$$
+\item NMI
+\item Accuracy
+\item Adjusted Rand Index
 \end{itemize}
 \end{frame}
 
@@ -399,9 +348,16 @@ Deep $K$-Means algorithm.
 
 \begin{frame}
 \frametitle{Hyperparameters}
+\begin{equation*}
+L(C,KW, K; \theta) = L_{rec}(C, \theta) + L_{const}(C, KW;\theta) + L_{Clust}(C, K, \beta; \theta, R)
+\end{equation*}
+with
+\begin{equation*}
+L_{const}(C, KW;\theta) = \alpha_0\omega_{KW} + \alpha_1\omega_{CL} + \alpha_2\omega_{ML}
+\end{equation*}
 \begin{table}[!h]
 \centering
-\resizebox{\textwidth}{!}{%
+\resizebox{\textwidth}{!}{%Details sur le line search
   \begin{tabular}{| l | l | l | l |}
     \hline
                & 20NEWS Without noise & 20NEWS With noise & RCV1 Without noise  \\ \hline
@@ -418,13 +374,14 @@ Deep $K$-Means algorithm.
 \begin{frame}
 \frametitle{Results}
 \begin{table}[!h]
-\resizebox{\textwidth}{!}{%
-  \begin{tabular}{| l |l | l | l| l | l | l | l | l | l | }
+\resizebox{\textwidth}{!}{%Inverser lignes/colonnes
+  \begin{tabular}{|l|l|l|l|l|l|l|}
     \hline
-    & \multicolumn{3}{|c|}{20NEWS Without noise} & \multicolumn{3}{|c|}{20NEWS With noise}             & \multicolumn{3}{|c|}{RCV1 Without noise}\\
-    & ACC            &ARI             & NMI            & ACC           & ARI           &NMI &ACC            & ARI           &NMI \\ \hline
-Deep $K$-Means &$52.0\pm 2.3$&$34.2\pm 1.7$&$50.5\pm 1.5$&$41.5\pm 2.3$&$19.8\pm 1.5$&$28.3\pm 0.8$&$52.8\pm 3$&$24.1\pm 3.9$&$30.7\pm$\\ \hline
-Constrained Deep $K$-Means&\boldmath$53.3\pm 2.1$&\boldmath$35.9\pm 1.2$&\boldmath$50.9\pm 0.8$&\boldmath$43.3\pm 2.6$&\boldmath$22.1\pm 2.4$&\boldmath$31.4\pm 1.5$ &\boldmath$63.2\pm 4.7$&\boldmath$31.4\pm 3.7$&\boldmath$37.5\pm 4.4$\\ \hline
+    & \multicolumn{3}{|c|}{DKM} & \multicolumn{3}{|c|}{CDKM}\\
+    & ACC         &ARI          & NMI         & ACC         & ARI          &NMI  \\ \hline
+20NEWS without noise   &$51.7\pm 1.9$&$33.6\pm 1.1$&$47.1\pm 0.9$&\boldmath$53.4\pm 2.2$&\boldmath$35.4\pm 1.2$ &\boldmath$47.4\pm 0.9$ \\ \hline
+20NEWS with noise   &$42.8\pm 3.3$&$20.7\pm 1.9$&$28.3\pm 0.8$&\boldmath$45.3\pm 3$  &\boldmath$23.23\pm 2.3$&\boldmath$30.0\pm 1.7$ \\ \hline
+RCV1 without noise   &$55.3\pm 3.4$&$24.1\pm 5.5$&$30.5\pm 5.3$&\boldmath$62.7\pm 5$  &\boldmath$31.7\pm 3.9$ &\boldmath$37.2\pm 4$   \\ \hline
   \end{tabular}
 }
 \end{table}
@@ -433,16 +390,24 @@ Constrained Deep $K$-Means&\boldmath$53.3\pm 2.1$&\boldmath$35.9\pm 1.2$&\boldma
 \section{Conclusion \& Future Works}
 
 \begin{frame}
-  \frametitle{Conclusion}
-  We have presented and tested in this study an approach to integrate lexical 
-\end{frame}
-
-\begin{frame}
-\frametitle{Future Works}
+  \frametitle{Conclusion \& Future Works}
+\begin{itemize}
+\item We have presented and tested in this study an approach to integrate lexical to $K$-Means algorithm. \pause 
+\item Future Works
 \begin{itemize}
 \item Test pairwise constraints
 \item More baseline Algorithm
-\item Rebustness
+\begin{itemize}
+\item COP$K$-Means
+\item Deep COP$K$-Means
+\item Change number of cluster
+\end{itemize}
+\item Robustness
+\begin{itemize}
+\item Change number of keywords
+\item Change number of cluster
+\end{itemize}
+\end{itemize}
 \end{itemize}
 \end{frame}
 
@@ -450,4 +415,90 @@ Constrained Deep $K$-Means&\boldmath$53.3\pm 2.1$&\boldmath$35.9\pm 1.2$&\boldma
 Any Questions ?
 \end{frame}
 
+\begin{frame}
+\frametitle{$G_{F,k}$ \& $\beta$}
+\begin{equation*}
+G_{k, F}(h_{\theta}(X), \beta; R) = \frac{e^{-\beta ||g(X, \theta) - r_k||_2^2}}
+{\sum_{k' = 1}^K e^{-\beta ||g(X, \theta) - r_k||_2^2}}
+\end{equation*}
+\begin{equation*}
+  \lim\limits_{\beta \rightarrow \beta_0}G_{k, F}(g(X; \theta), \beta; R) = \left\{
+\begin{array}{ll}
+  1 & \mbox{if }r_k = c(h_\theta(X); R)\\
+  0 & \mbox{Otherwise.}
+\end{array}
+\right.
+\end{equation*}
+where $\beta$ play the role of an inverse temperature.
+\end{frame}
+
+\begin{frame}
+\frametitle{Stochastic gradient descent (SGD)}
+\begin{equation*}
+  (\theta, R) \gets (\theta, R) - \epsilon \frac{1}{|\widetilde{C}|}
+  \nabla_{(\theta, R)} L(C, \beta; \theta, R)
+\end{equation*}
+where $\widetilde{C}$ is a random mini batch of C, and $\epsilon$ the
+learning rate.
+\end{frame}
+\begin{frame}
+\frametitle{Training dkm}
+\scalebox{0.7}{
+\begin{algorithm}[H]
+  \SetKwInOut{Input}{input}
+  \SetKwInOut{Output}{output}
+  \Input{Corpus C , number of clusters K, balancing parameter $\lambda$,
+    scheme for $\beta$, number of epochs T ,
+    number of minibatches MB , learning rate $\epsilon$}
+  \Output{Auto-Encoder parameter $\theta$, cluster representative R}
+  Initialise $\theta$ and $r_k$, $1 \leq k \leq K$ (randomly or through 
+  pretraining)\\
+  \ForEach{$\beta = m_\beta : M_\beta$}{
+    \ForEach{t = 1 : T}{
+      \ForEach{n = 1 : MB}{
+        Draw minibatch $\widetilde{C} \subseteq  C$\\
+        Update ($\theta, R$) using SGD
+      } 
+    }  
+  }
+\end{algorithm}
+}
+\end{frame}
+
+\begin{frame}
+\frametitle{Deep COP$K$-Means}
+\begin{equation*}
+  L( C, KW, K; \theta) = L_{rec}(C, \theta) + \omega_{KW} + \lambda.L_{Clust}(X, K;R, \theta)
+\end{equation*}
+\end{frame}
+
+\begin{frame}
+\frametitle{Metric - NMI}
+The NMI Metric is defined as follows
+$$NMI(S,C) = \frac{I(S,C)}{[H(S)+H(C)]/2}$$ 
+with
+$I(S,C) =\sum_k \sum_f\frac{|s_k \cap c_f|}{N}log\frac{N|s_k \cap c_f|}{|s_k| |c_f|}$
+and
+$H(S) = -\sum_k\frac{|s_k|}{N}log\frac{N|s_k|}{|s_k|}$
+\end{frame}
+
+\begin{frame}
+\frametitle{Metric - Accuracy}
+The Accuracy is the proportion of true results among the total
+  number of cases examined. The Accuracy metric is defined as follows :
+$$
+ACC(S,C) = \frac{1}{N}\sum_k {max}_j|s_k \cap c_j|
+$$
+\end{frame}
+
+\begin{frame}
+\frametitle{Metric - Adjusted Rand Index}
+Let a be the number of pairs of document in C
+  that are in the same cluster in the predicted partition and in the
+  same cluster in the real partition, and b be the number of pairs of
+  document in C that are in different clusters in predicted partition
+  and in different cluster in real partition.
+  The Adjusted Rand index is defined as follows :
+  $$ARI = \frac{a+b}{\binom{N}{2}}$$
+\end{frame}
 \end{document}
