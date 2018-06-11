@@ -193,7 +193,7 @@ $$
   \setlength\itemsep{1em}
 \item Encode Function $h_{\theta}(X) = g(X; \theta)$
 \item Decode Function $f(Y; \theta)$
-\item $L_{rec}(X, \theta) = || X - f(Y; \theta)||_2^2$
+\item $L_{rec}(X, \theta) = || X - f(h_{\theta}(X); \theta)||_2^2$
 \end{itemize}
   \frametitle{Auto-Encoder}
   \begin{figure}[!h]
@@ -257,7 +257,7 @@ Introducing $X'$ such that
 \begin{frame}
   \frametitle{Deep $K$-Means }
 \begin{equation*}
-L_{Clust}(C, K, \beta; \theta, R) = \sum_{X \in C} \sum_{k=1}^K ||h_{\theta}(X) - r_k||_2^2 G_{k, F}(h_{\theta}(X)-\beta; R||_2^2
+L_{Clust}(C, K, \beta; \theta, R) = \sum_{X \in C} \sum_{k=1}^K ||h_{\theta}(X) - r_k||_2^2 G_{k, F}(h_{\theta}(X), \beta; R)
 \end{equation*}
 \begin{equation*}
 G_{k, F}(h_{\theta}(X), \beta; R) = \frac{e^{-\beta ||g(X, \theta) - r_k||_2^2}}
@@ -276,7 +276,7 @@ G_{k, F}(h_{\theta}(X), \beta; R) = \frac{e^{-\beta ||g(X, \theta) - r_k||_2^2}}
 \end{equation*}
 \pause
 \begin{equation*}
-  L(C,KW; \theta) = L_{rec}(C, \theta) + L_{const}(C, KW;\theta) + L_{Clust}(C, K, \beta; \theta, R)   
+  L(C,KW; \theta) = L_{rec}(C, \theta) + L_{const}(C, KW;\theta) + \lambda.L_{Clust}(C, K, \beta; \theta, R)   
 \end{equation*}
 \end{frame}
 
@@ -349,7 +349,7 @@ Deep $K$-Means algorithm.
 \begin{frame}
 \frametitle{Hyperparameters}
 \begin{equation*}
-L(C,KW, K; \theta) = L_{rec}(C, \theta) + L_{const}(C, KW;\theta) + L_{Clust}(C, K, \beta; \theta, R)
+L(C,KW, K; \theta) = L_{rec}(C, \theta) + L_{const}(C, KW;\theta) + \lambda.L_{Clust}(C, K, \beta; \theta, R)
 \end{equation*}
 with
 \begin{equation*}
@@ -392,7 +392,7 @@ RCV1 without noise   &$55.3\pm 3.4$&$24.1\pm 5.5$&$30.5\pm 5.3$&\boldmath$62.7\p
 \begin{frame}
   \frametitle{Conclusion \& Future Works}
 \begin{itemize}
-\item We have presented and tested in this study an approach to integrate lexical to $K$-Means algorithm. \pause 
+\item We have presented and tested in this study an approach to integrate lexical constraints to $K$-Means algorithm. \pause 
 \item Future Works
 \begin{itemize}
 \item Test pairwise constraints
@@ -400,7 +400,6 @@ RCV1 without noise   &$55.3\pm 3.4$&$24.1\pm 5.5$&$30.5\pm 5.3$&\boldmath$62.7\p
 \begin{itemize}
 \item COP$K$-Means
 \item Deep COP$K$-Means
-\item Change number of cluster
 \end{itemize}
 \item Robustness
 \begin{itemize}
@@ -418,11 +417,11 @@ Any Questions ?
 \begin{frame}
 \frametitle{$G_{F,k}$ \& $\beta$}
 \begin{equation*}
-G_{k, F}(h_{\theta}(X), \beta; R) = \frac{e^{-\beta ||g(X, \theta) - r_k||_2^2}}
+G_{k, F}(h_{\theta}(X), \beta; R) = \frac{e^{-\beta ||h_\theta(X) - r_k||_2^2}}
 {\sum_{k' = 1}^K e^{-\beta ||g(X, \theta) - r_k||_2^2}}
 \end{equation*}
 \begin{equation*}
-  \lim\limits_{\beta \rightarrow \beta_0}G_{k, F}(g(X; \theta), \beta; R) = \left\{
+  \lim\limits_{\beta \rightarrow \beta_0}G_{k, F}(h_\theta(X), \beta; R) = \left\{
 \begin{array}{ll}
   1 & \mbox{if }r_k = c(h_\theta(X); R)\\
   0 & \mbox{Otherwise.}
@@ -468,7 +467,7 @@ learning rate.
 \begin{frame}
 \frametitle{Deep COP$K$-Means}
 \begin{equation*}
-  L( C, KW, K; \theta) = L_{rec}(C, \theta) + \omega_{KW} + \lambda.L_{Clust}(X, K;R, \theta)
+  L( C, KW, K; \theta) = L_{rec}(C, \theta) + \omega_{KW} + \lambda.L_{Clust}(X, K, \beta;\theta, R)
 \end{equation*}
 \end{frame}
 

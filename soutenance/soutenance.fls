@@ -1,4 +1,4 @@
-PWD /media/maxence/SD_MAXENCE/cours/m1Informatique/S2/stage/soutenance
+PWD /home/maxence/Documents/stage/soutenance
 INPUT /etc/texmf/web2c/texmf.cnf
 INPUT /usr/share/texmf/web2c/texmf.cnf
 INPUT /usr/share/texlive/texmf-dist/web2c/texmf.cnf
@@ -529,6 +529,7 @@ INPUT /usr/share/texmf/fonts/type1/public/lm/lmbsy10.pfb
 INPUT /usr/share/texmf/fonts/type1/public/lm/lmex10.pfb
 INPUT /usr/share/texmf/fonts/type1/public/lm/lmmi10.pfb
 INPUT /usr/share/texmf/fonts/type1/public/lm/lmmi12.pfb
+INPUT /usr/share/texmf/fonts/type1/public/lm/lmmi6.pfb
 INPUT /usr/share/texmf/fonts/type1/public/lm/lmmi8.pfb
 INPUT /usr/share/texmf/fonts/type1/public/lm/lmmib10.pfb
 INPUT /usr/share/texmf/fonts/type1/public/lm/lmss10.pfb
