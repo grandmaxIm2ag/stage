@@ -1,9 +1,0 @@
-[1] Config.pm:340> INFO - This is Biber 2.4
-[5] Config.pm:343> INFO - Logfile is 'soutenance.blg'
-[260] biber:287> INFO - === lun. juin 11, 2018, 11:56:09
-[632] Biber.pm:348> INFO - Reading 'soutenance.bcf'
-[1251] Biber.pm:742> INFO - Found 0 citekeys in bib section 0
-[1252] Utils.pm:147> WARN - The file 'soutenance.bcf' does not contain any citations!
-[1310] bbl.pm:519> INFO - Writing 'soutenance.bbl' with encoding 'UTF-8'
-[1323] bbl.pm:615> INFO - Output to soutenance.bbl
-[1329] Biber.pm:109> INFO - WARNINGS: 1

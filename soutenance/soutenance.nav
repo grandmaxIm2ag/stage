@@ -1,196 +1,99 @@
-\defcounter {refsection}{0}\relax 
 \beamer@endinputifotherversion {3.36pt}
-\defcounter {refsection}{0}\relax 
 \headcommand {\slideentry {0}{0}{1}{1/1}{}{0}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {1}{1}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\slideentry {0}{0}{2}{2/2}{}{0}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {2}{2}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\sectionentry {1}{Introduction}{3}{Introduction}{0}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@sectionpages {1}{2}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@subsectionpages {1}{2}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\slideentry {1}{0}{1}{3/3}{}{0}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {3}{3}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\slideentry {1}{0}{2}{4/4}{}{0}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {4}{4}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\slideentry {1}{0}{3}{5/5}{}{0}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {5}{5}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\slideentry {1}{0}{4}{6/6}{}{0}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {6}{6}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\slideentry {1}{0}{5}{7/7}{}{0}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {7}{7}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\slideentry {1}{0}{6}{8/8}{}{0}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {8}{8}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\slideentry {1}{0}{7}{9/9}{}{0}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {9}{9}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\slideentry {1}{0}{8}{10/10}{}{0}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {10}{10}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\slideentry {1}{0}{9}{11/11}{}{0}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {11}{11}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\slideentry {1}{0}{10}{12/12}{}{0}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {12}{12}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\slideentry {1}{0}{11}{13/15}{}{0}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {13}{15}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\slideentry {1}{0}{12}{16/18}{}{0}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {16}{18}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\slideentry {1}{0}{13}{19/19}{}{0}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {19}{19}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\slideentry {1}{0}{14}{20/22}{}{0}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {20}{22}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\slideentry {1}{0}{15}{23/23}{}{0}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {23}{23}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\sectionentry {2}{Proposed Method}{24}{Proposed Method}{0}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@sectionpages {3}{23}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@subsectionpages {3}{23}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\slideentry {2}{0}{1}{24/24}{}{0}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {24}{24}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\slideentry {2}{0}{2}{25/25}{}{0}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {25}{25}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\slideentry {2}{0}{3}{26/28}{}{0}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {26}{28}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\slideentry {2}{0}{4}{29/31}{}{0}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {29}{31}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\slideentry {2}{0}{5}{32/32}{}{0}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {32}{32}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\slideentry {2}{0}{6}{33/33}{}{0}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {33}{33}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\slideentry {2}{0}{7}{34/36}{}{0}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {34}{36}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\sectionentry {3}{Experiment}{37}{Experiment}{0}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@sectionpages {24}{36}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@subsectionpages {24}{36}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\slideentry {3}{0}{1}{37/37}{}{0}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {37}{37}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\slideentry {3}{0}{2}{38/38}{}{0}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {38}{38}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\slideentry {3}{0}{3}{39/39}{}{0}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {39}{39}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\slideentry {3}{0}{4}{40/40}{}{0}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {40}{40}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\slideentry {3}{0}{5}{41/41}{}{0}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {41}{41}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\slideentry {3}{0}{6}{42/42}{}{0}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {42}{42}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\slideentry {3}{0}{7}{43/43}{}{0}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {43}{43}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\slideentry {3}{0}{8}{44/44}{}{0}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {44}{44}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\sectionentry {4}{Conclusion \& Future Works}{45}{Conclusion \& Future Works}{0}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@sectionpages {37}{44}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@subsectionpages {37}{44}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\slideentry {4}{0}{1}{45/45}{}{0}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {45}{45}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\slideentry {4}{0}{2}{46/47}{}{0}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {46}{47}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\slideentry {4}{0}{3}{48/48}{}{0}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {48}{48}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\slideentry {4}{0}{4}{49/49}{}{0}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {49}{49}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\slideentry {4}{0}{5}{50/50}{}{0}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {50}{50}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\slideentry {4}{0}{6}{51/51}{}{0}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {51}{51}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\slideentry {4}{0}{7}{52/52}{}{0}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {52}{52}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\slideentry {4}{0}{8}{53/53}{}{0}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {53}{53}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\slideentry {4}{0}{9}{54/54}{}{0}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {54}{54}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\slideentry {4}{0}{10}{55/55}{}{0}}
-\defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {55}{55}}
 \headcommand {\beamer@partpages {1}{55}}
 \headcommand {\beamer@subsectionpages {45}{55}}

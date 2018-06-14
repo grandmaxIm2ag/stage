@@ -1,0 +1,201 @@
+\documentclass[a4paper]{article}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amsthm, amssymb}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{multirow}
+\usepackage[left=25mm,top=25mm]{geometry}
+\usepackage[]{algorithm2e}
+\usepackage{tikz}
+\newcommand{\cross}{\mathbin{\tikz [x=1.4ex,y=1.4ex,line width=.2ex] \draw (0,0) -- (1,1) (0,1) -- (1,0);}}%
+\title{Results}
+
+\author{Maxence Grand}
+
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{Loss}
+
+\subsection{Lexical Constraints}
+\begin{equation}\label{eq:omega1}
+  \omega_{KW} = \sum_{X \in C} || h_\theta(X) - h_\theta(X')||_2^2
+\end{equation}
+where 
+\begin{equation*}
+\forall_{i=1,2,..,N}X_i' = \left\{
+\begin{array}{ll}
+  X_i & \mbox{if } i \in KW \\
+  0 & \mbox{Otherwise.}
+\end{array}
+\right.
+\end{equation*}
+\subsection{Pairewise Constraints}
+
+\begin{equation}\label{eq:omegaML}
+  \omega_{ML} = \sum_{\forall{(X_i,X_j)\in ML}} || h_\theta(X_i) - h_\theta(X_j) ||_2^2
+\end{equation}
+
+\begin{equation}\label{eq:omegaCL}
+  \omega_{CL} = \sum_{\forall{(X_i,X_j)\in CL}} max(0,
+  \eta - || h_\theta(X_j) - h_\theta(X_j) ||_2^2)
+\end{equation}
+
+\subsection{Final Loss}
+
+\begin{equation}\label{eq:const}
+L_{const}(C,KW;\theta) = \alpha_0\omega_{KW} + \alpha_1\omega_{CL} + \alpha_2\omega_{ML}
+\end{equation}
+
+\begin{equation}\label{eq:rec}
+  L_{rec}(C, \theta) = \sum_{X \in C}(||X - f(h_\theta(X))||_2^2
+\end{equation}
+
+\begin{equation}\label{eq:loss_clust}
+  L_{Clust}(C, K;R, \theta) = \sum_{X \in C}\sum_{k=1}^K F(h_\theta(X), r_k) G_{k, F}(h_\theta(X), \beta; R) 
+\end{equation}
+
+where $F(h_\theta(X), r_k)=||h_\theta(X) - r_k||_2^2$ and $G_{k, F}(g(X; \theta), \beta; R) = \frac{e^{-\beta F(h_\theta(X),r_k)}}
+{\sum_{k' = 1}^K e^{-\beta F(h_\theta(X),r_k')}}$
+
+\begin{equation}\label{eq:loss_FINALE}
+  Min~L(KW, C, K; \theta) = L_{rec}(C, \theta) + L_{const}(C,KW;\theta) + \lambda.L_{Clust}(C, K;R, \theta)
+\end{equation}
+\newpage
+\section{Lexical constraints}
+\subsection{Training}
+We can see the algorithm for training in \ref{algo:pretrain}. For the pretraining part, we use
+the reconstruction loss [Eq. \ref{eq:rec}~] and the loss for constraints [Eq. \ref{eq:const}~]
+with $\alpha_1 =0$ and $\alpha_2 =0$.
+\begin{algorithm}[!h]
+  \SetKwInOut{Input}{input}
+  \SetKwInOut{Output}{output}
+  \Input{Corpus C , number of clusters K, balancing parameter $\lambda$,
+    scheme for $\beta$, number of epochs $T_1$ for pretraining,
+    number of epochs $T_2$ for clustering,
+    number of minibatches MB , learning rate $\epsilon$}
+  \Output{Auto-Encoder parameter $\theta$, cluster representative R}
+  \ForEach{t = 1 : $T_1$}{
+    \ForEach{n = 1 : MB}{
+      Draw minibatch $\widetilde{C} \subseteq  C$\\
+      Update ($\theta$) using SGD
+    } 
+  }  
+  Initialise $r_k$, $1 \leq k \leq K$\\
+  \ForEach{$\beta = m_\beta : M_\beta$}{
+    \ForEach{t = 1 : $T_2$}{
+      \ForEach{n = 1 : MB}{
+        Draw minibatch $\widetilde{C} \subseteq  C$\\
+        Update ($\theta, R$) using SGD
+      } 
+    }
+    \caption{\label{algo:pretrain}}
+  }
+\end{algorithm}
+\subsection{Hyperparameters optimization}
+We used Line Search strategy for 
+$\alpha_0$ optimization. We searched on the range  $[10^{-3},5.10^{-3},10^{-2},
+5.10^{-2},10^{-1},5.10^{-1}]$ with 10 runs.   
+The results of Line Search are reported in table~\ref{tab2}.
+\begin{table}[!h]
+  \centering
+    \begin{tabular}{| l | l | l | l |}
+      \hline
+      & 20NEWS Without noise & 20NEWS With noise & RCV1 Without noise  \\ \hline
+      $\lambda$  & $10^{-1}$ & $10^{-1}$         & $10^{-2}$           \\ \hline
+      $\alpha_0$ & $10^{-2}$ & $5.10^{-2}$       & $10^{-3}$           \\ \hline
+    \end{tabular}
+    \caption{\label{tab2}Best results of Line Search for the optimization of
+      hyperparameters for each dataset.}
+\end{table}
+
+\subsection{Tests}
+Results for lexical constraints are available in table \ref{tab:res}.  
+\begin{table}[h]
+\resizebox{\textwidth}{!}{%Inverser lignes/colonnes
+  \begin{tabular}{|l|l|l|l|l|l|l|}
+    \hline
+    & \multicolumn{3}{|c|}{DKM} & \multicolumn{3}{|c|}{CDKM}\\
+    & ACC         &ARI          & NMI         & ACC         & ARI          &NMI  \\ \hline
+20NEWS without noise   &$51.7\pm 2.4$&$34.4\pm 1.1$&$47.4\pm 0.8$&\boldmath$54.8 \pm 2.8$&\boldmath$36.2 \pm 1.5$ &\boldmath$48.3 \pm 1.2$\\ \hline
+20NEWS with noise   &$43.4\pm 1.6$&$21.6\pm 0.9$&$28.5\pm 1.0$&\boldmath$44.5 \pm 1.5$  &\boldmath$21.9 \pm 1.0$&\boldmath$29.6 \pm 1.3$ \\ \hline
+RCV1 without noise   &$54.4\pm 4.9$&$23.9\pm 3.5$&$29.6\pm 3.6$&\boldmath$62.7\pm 5$  &\boldmath$31.7\pm 3.9$ &\boldmath$37.2\pm 4$   \\ \hline
+  \end{tabular}
+}
+  \caption{\label{tab:res}Clustering with only lexical constraints applies to 
+different learned latent space to measure the efficiency of lexical constraints
+for $K$-Means algorithm. Performance is measured in terms of NMI, Adjusted Rand 
+Index and clustering Accuracy, higher is better. Each cell contains the average
+and the standard deviation computed over 10 runs. The best result for each 
+metric/dataset is underlined. In a first time, only lexical constraints have 
+been tested.}
+\end{table}
+\newpage
+\section{Pairwise Constraints}
+\subsection{Training}
+We can see the algorithm for training in \ref{algo:pretrain}. For the pretraining part, we use
+the reconstruction loss [Eq. \ref{eq:rec}~] and the loss for constraints [Eq. \ref{eq:const}~] with 
+$\alpha_0 =0$. To draw $\widetilde{C}_{ML}$ (resp $\widetilde{C}_{CL}$) we choose randomly $N_{ml}$
+(resp $N_{cl}$) pairs where 
+$N_{ml} = \frac{Number~of~ML~pair}{MB}$ (resp $N_{cl} = \frac{Number~of~CL~pair}{MB}$)
+\begin{algorithm}[!h]
+  \SetKwInOut{Input}{input}
+  \SetKwInOut{Output}{output}
+  \Input{Corpus C , number of clusters K, balancing parameter $\lambda$,
+    scheme for $\beta$, number of epochs $T_1$ for pretraining,
+    number of epochs $T_2$ for clustering,
+    number of minibatches MB , learning rate $\epsilon$}
+  \Output{Auto-Encoder parameter $\theta$, cluster representative R}
+  \ForEach{t = 1 : $T_1$}{
+    \ForEach{n = 1 : MB}{
+      Draw minibatch $\widetilde{C} \subseteq  C$\\
+      Draw minibatch $\widetilde{C}_{ML} \subseteq  C \cross C$\\
+      Draw minibatch $\widetilde{C}_{CL} \subseteq  C \cross C$\\
+      Update ($\theta$) using SGD
+    } 
+  }  
+  Initialise $r_k$, $1 \leq k \leq K$\\
+  \ForEach{$\beta = m_\beta : M_\beta$}{
+    \ForEach{t = 1 : $T_2$}{
+      \ForEach{n = 1 : MB}{
+        Draw minibatch $\widetilde{C} \subseteq  C$\\
+        Draw minibatch $\widetilde{C}_{ML} \subseteq  C \cross C$\\
+        Draw minibatch $\widetilde{C}_{CL} \subseteq  C \cross C$\\
+        Update ($\theta, R$) using SGD
+      } 
+    }
+    \caption{\label{algo:pretrain}}
+  }
+\end{algorithm}
+\subsection{Tests}
+\begin{table}[!h]
+  \begin{tabular}{|l|l|l|l|l|l|l|l|}
+    \hline
+    &ACC  & ARI  & NMI & $\lambda$ & $\alpha_1$ & $\alpha_2$ & $\eta$   \\ \hline
+    
+    Pretrain only       &71.3 & 60.5 & 85.6 &\multirow{2}{*}{$10^{-1}$}&\multirow{2}{*}{$10^{-2}$}&\multirow{2}{*}{$5.10^{-3}$}&\multirow{2}{*}{4}\\
+    Pretrain+$L_{clust}$&17.6 & 13.0 & 13.0 &&&&\\\hline  
+  
+    Pretrain only       &67.0 & 56.6 & 76.8 &\multirow{2}{*}{$10^{-1}$}&\multirow{2}{*}{$10^{-2}$}&\multirow{2}{*}{$5.10^{-3}$}&\multirow{2}{*}{5}\\
+    Pretrain+$L_{clust}$&50.2 & 43.6 & 68.8 &&&&\\\hline
+
+    Pretrain only       &70.6 & 69.2 & 86.5 &\multirow{2}{*}{$10^{-3}$}&\multirow{2}{*}{$10^{-2}$}&\multirow{2}{*}{$5.10^{-3}$}&\multirow{2}{*}{4}\\
+    Pretrain+$L_{clust}$&67.1 & 69.7 & 88.4 &&&&\\\hline
+
+    Pretrain only       &67.5 & 69.0 & 86.1 &\multirow{2}{*}{$10^{-4}$}&\multirow{2}{*}{$10^{-2}$}&\multirow{2}{*}{$5.10^{-3}$}&\multirow{2}{*}{4}\\
+    Pretrain+$L_{clust}$&73.4 & 75.4 & 89.7 &&&&\\\hline
+\end{tabular}
+\caption{\label{tab:res2}Clustering with only pairwise constraints for 
+20 newsgroups dataset. Performance is measured in terms of NMI, 
+Adjusted Rand 
+Index and clustering Accuracy, higher is better. These results are not
+replicable because tests have been done on GPU server with only one run. 
+}
+\end{table}
+
+\end{document}
