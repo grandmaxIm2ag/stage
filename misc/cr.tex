@@ -1,0 +1,104 @@
+\documentclass[a4paper]{article}
+
+\usepackage[french]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amsthm, amssymb}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{multirow}
+\usepackage{esvect}
+\usepackage[]{algorithm2e}
+\usepackage{tikz}
+\newcommand{\cross}{\mathbin{\tikz [x=1.4ex,y=1.4ex,line width=.2ex] \draw (0,0) -- (1,1) (0,1) -- (1,0);}}%
+\makeatletter
+\newcommand{\Spvek}[2][r]{%
+  \gdef\@VORNE{1}
+  \left(\hskip-\arraycolsep%
+    \begin{array}{#1}\vekSp@lten{#2}\end{array}%
+  \hskip-\arraycolsep\right)}
+
+\def\vekSp@lten#1{\xvekSp@lten#1;vekL@stLine;}
+\def\vekL@stLine{vekL@stLine}
+\def\xvekSp@lten#1;{\def\temp{#1}%
+  \ifx\temp\vekL@stLine
+  \else
+    \ifnum\@VORNE=1\gdef\@VORNE{0}
+    \else\@arraycr\fi%
+    #1%
+    \expandafter\xvekSp@lten
+  \fi}
+\makeatother
+
+\title{Compte Rendu Réunion}
+\date{\today}
+\begin{document}
+\maketitle
+\section{Classe Ajoutée}
+La méthode pour les contraintes lexicales utilisant les masques des mots clés est la suivant :
+\begin{equation*}
+\sum_{X \in C} ||h_{\theta}(X) - h_{\theta}(X') ||_2^2
+\end{equation*} où X' est le document masqué par les mots clés :
+\begin{equation*}
+\forall_{i=1,2,..,N}X_i' = \left\{
+\begin{array}{ll}
+  X_i & \mbox{Si } i \in KW \\
+  0 & \mbox{Sinon.}
+\end{array}
+\right.
+\end{equation*}
+L'avantage de cette méthode est que nous avons autant de contraintes que de document. 
+Néanmoins, il est possible en pratique que nous ayons un nombre élevé de vecteur X'
+null, c'est à dire un nombre élevé de document X ne contenant aucun de nos mot clés.
+Il pourrait être interessant de capturer ces documents dans un nouvelle classe ayant 
+pour représentant la version dans l'embedding d'un document nulle. Soit    
+$R=(r_0, r_1, ...., r_K)$ nos K+1 représentants de clusters, nous définnissons 
+$r_0$ le représentant de la classe ajoutée comme suit : 
+$$r_0 = h_\theta(\vv{0})$$
+Pour la seconde méthode, définit comme suit :
+$$ \sum_{k=1} || r_k - \sum_w \alpha(w)h_\theta(w)||_2^2$$
+$r_0$ n'est pas introduit dans la loss.
+\section{Classe connue}
+Il est possible que l'utilisateur connaissent plus de d'iformation que les simples
+mots cles. En effet, l'utilisateur peut connaître les classes des mots.
+Pour la méthode utilisant les masques, nous définissons KW de la façons suivante :
+\begin{equation*}
+KW = \begin{pmatrix}KW_1  \\ ... \\ KW_k \\ ...\\ ... \\ KW_{K}\end{pmatrix}
+\end{equation*}
+où $KW_k$ est l'ensemble des mots clés pour la kème classe. Et nous définissons
+X' tel que :
+\begin{equation*}
+X' = \begin{pmatrix}mask_1(X)  \\ ... \\ mask_k(X) \\ ...\\ ... \\ mask_K(X)\end{pmatrix}
+\end{equation*}
+où $mask_k(X)$ est la version masquée du document X  par les mots clés de la kème classe.
+La fonction objectictive prend la forme suivant : 
+$$
+\sum_{X \in C} \sum_{k = 1}^k softmax(|| h_\theta(X) - h_\theta(X'_k)||_2^2)|| h_\theta(X) - h_\theta(X'_k)||_2^2
+$$
+Pour la seconde méthod, la fonction objective prend la forme suivant :
+$$
+|| r_k - \sum_{k'=1}^K softmax_\alpha(||r_k - \sum_{w \in S'_k} \beta(w, k)||_2^2) \sum_{w \in S'_k} \beta(w, k)||_2^2
+$$
+$$
+\sum_{k=1}^K \sum_{k'=1}^K softmax_\alpha(||r_k - \sum_{w \in S'_k} \beta(w, k)||_2^2)||r_k - \sum_{w \in S'_k} \beta(w, k)||_2^2
+$$
+
+\section{Methode d'extraction}
+Il peut être intéressant de modifier la méthode d'extraction des mots clés,
+il y a plusieurs possibilités :
+\begin{itemize}
+\item Enlever le coté discriminant des mots clés, dans l'algorithme d'extraction des mots clés,
+après avoir sommé les TFIDF des mots des documents d'une même classe, nous avons soustrait les 
+TFIDF des autres documents, nous pourrions enlever cette soustraction, pour ne plus avoir cette
+partie discriminante.
+\item Nous pourrions avoir des classes sans mots clés, en générale, l'utilisateur n'aura pas
+de connaissances sur tout le corpus.
+\item Varier le nombre de mots clés.
+\item Nous pourrions aussi récupérer les mots clés via des simulations. Nous pourrions demandés à 
+de potentiel utilisateurs de nous donner un ensemble de mots clés en tenant compte des labels de nos
+classes. 
+\end{itemize}
+Il pourrait etre aussi intéressant d'avoir plus de corpus pour nos tests, nous pourrions utiliser 
+le corpus Ohsumed (http://davis.wpi.edu/xmdv/datasets/ohsumed), ou extraire des document depuis
+Wikipedia. De plus il pourrait être intéressant de faire varier le niveau de bruit sur les documents
+bruités (20NEWS noise). Enfin il faudrait tester d'autre représentation que TFIDF (word embedding).
+\end{document}
