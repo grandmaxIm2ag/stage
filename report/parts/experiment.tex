@@ -1,8 +1,8 @@
 \section{Experiment}
 
 \subsection{Data}
-To experiment our algorithm we use the dataset 20NewsGroup \cite{Newsgroups20}.
-The 20 Newsgroups data set is a collection of approximately 20,000 newsgroup 
+To experiment our algorithm we use the dataset 20Newsgroups \cite{Newsgroups20}.
+The 20 Newsgroups data set is a collection of approximately 20,000 Newsgroups 
 documents, partitioned evenly across 20 different newsgroups. We use also the 
 RCV1 dataset \cite{Lewis:2004:RNB:1005332.1005345}. The RCV1 dataset is a 
 collection of over 800,000 text documents. For RCV1 dataset, we use only a 
@@ -44,10 +44,11 @@ For our tests, we extract 3 keywords per classes.
       }
     }
   }
-  \ForEach{Class $c_i \in C$}{
-    \If{$Discriminating\_ Extraction$}{
+  \If{$Discriminating\_ Extraction$}{
+    \ForEach{Class $c_i \in C$}{
       ${rank'}_i \gets rank_i - \sum\limits_{\forall c_j, cj \neq c_i}rank_j$\\
     }
+    $rank \gets rank'$
   }
   \ForEach{Class $c_i \in C$}{
     $KW \gets KW \cup \{\{w_1, w_2 ... w_P\} : \not\exists (v_1, v_2) | v_1 \not\in 
@@ -119,7 +120,7 @@ hidden layer of encoder and decoder part.
  
 \subsubsection{Hyperparameters}
 For the $\lambda$ hyperparameter we use the value defined in \cite{Deap-K-Means}. 
-For the hyperparamter $\alpha_0$, we used Line Search~\cite{SWANN1969S39} strategy for 
+For the hyperparameter $\alpha_0$, we used Line Search~\cite{SWANN1969S39} strategy for 
 $\alpha_0$ optimization. The Line search was done in two steps :
 first, we searched on several range with 2 runs. Then we search on the range 
 $[10^{-3},5.10^{-3},10^{-2},5.10^{-2},10^{-1}]$ with 5 runs.   
@@ -156,11 +157,6 @@ from corpus $C_2$.
 corpus $C_1$ with keywords and background knowledge.
 
 \subsection{Results}
-The results of these experiments are reported in table~\ref{tab:res}. We can  
-observe that lexical constraints improve clustering effectiveness. Then,
-the most significantly improve is for RCV1 dataset, this is because the number
-of cluster for RCV1 is low. For the 20 newsgroup dataset, we can observe that 
-the gain is higher when the data is not noised.
 \begin{table}[h]
 \caption{\label{tab:res}Clustering with only lexical constraints applies to 
 different learned latent space to measure the efficiency of lexical constraints
@@ -184,7 +180,7 @@ metric/dataset is bold.}
     \hline
     & ACC          &ARI          & NMI          \\ \hline
     20NEWS without noise    & $54.9\pm 1.7$&$37.6\pm 1.1$&$51.6\pm 0.6$ \\ \hline
-    20NEWS with noise       & $43.4\pm 1.6$&$21.6\pm 0.9$&$28.5\pm 1.0$ \\ \hline
+    20NEWS with noise       & $44.5\pm 2.4$&$23.6\pm 2.4$&$30.2\pm 2.0$ \\ \hline
     RCV1 without noise      &$54.4\pm 4.9$ &$23.9\pm 3.5$&$29.6\pm 3.6$ \\ \hline
   \end{tabular}
 %}
@@ -193,9 +189,9 @@ metric/dataset is bold.}
   \begin{tabular}{|l|l|l|l|}
     \hline
     & ACC                  &ARI                   & NMI                   \\ \hline
-    20NEWS without noise   &\boldmath$54\pm 1.6$  &\boldmath$36\pm 1$    &\boldmath$47.9\pm 0.7$ \\ \hline
+    20NEWS without noise   &$55.7\pm 2.3$  &$39.1\pm 1.1$    &$51.9\pm 0.7$ \\ \hline
     20NEWS with noise      &\boldmath$45\pm 1.8$  &\boldmath$22.8\pm 1.1$&\boldmath$28.9\pm 0.8$ \\ \hline
-    RCV1 without noise     &\boldmath$64.3\pm 5.6$&\boldmath$32.7\pm 4.3$&\boldmath$37.5 \pm 4$  \\ \hline
+    RCV1 without noise     &\boldmath$64.6\pm 5.7$&\boldmath$31.0\pm 5.0$&\boldmath$36.7 \pm 4.2$  \\ \hline
   \end{tabular}
 %}
 \subcaption*{Constrained Deep K-means, Lexical Pretrain}
@@ -203,9 +199,9 @@ metric/dataset is bold.}
   \begin{tabular}{|l|l|l|l|}
     \hline
     & ACC                  &ARI                   & NMI                   \\ \hline
-    20NEWS without noise   &\boldmath$54\pm 1.6$  &\boldmath$36\pm 1$    &\boldmath$47.9\pm 0.7$ \\ \hline
-    20NEWS with noise      &\boldmath$45\pm 1.8$  &\boldmath$22.8\pm 1.1$&\boldmath$28.9\pm 0.8$ \\ \hline
-    RCV1 without noise     &\boldmath$64.3\pm 5.6$&\boldmath$32.7\pm 4.3$&\boldmath$37.5 \pm 4$  \\ \hline
+    20NEWS without noise   &$57.6\pm 2.2$  &$39.8\pm 1.2$    &$52.6\pm 0.6$ \\ \hline
+    20NEWS with noise      &\boldmath$44.5\pm 2.5$  &\boldmath$24.0\pm 2.3$&\boldmath$30.5\pm 2.$ \\ \hline
+    RCV1 without noise     &$57.4\pm 6.4$&$29.1\pm 4.3$&$34.8 \pm 5.3$  \\ \hline
   \end{tabular}
 %}
 \subcaption*{Constrained Deep K-means,  Simple Pretrain}
@@ -224,7 +220,7 @@ metric/dataset is bold.}
     \hline
     & ACC                  &ARI                   & NMI                   \\ \hline
     20NEWS without noise   &\boldmath$58.8\pm 2$  &\boldmath$41.3\pm 1.4$    &\boldmath$53.5\pm 0.8$ \\ \hline
-    20NEWS with noise      &\boldmath$43.7\pm 1.6$  &$24.3\pm 1.3$&\boldmath$30.7\pm 1.2$ \\ \hline
+    20NEWS with noise      &$43.7\pm 1.6$  &$24.3\pm 1.3$&\boldmath$30.7\pm 1.2$ \\ \hline
     RCV1 without noise     &$52.2\pm 5.3$&$22.9\pm 4$&$29.4 \pm 3.7$  \\ \hline
   \end{tabular}
 %}
@@ -239,44 +235,127 @@ class) for each dataset.
 We can see results  in 
 figures \ref{fig:rcv1}, \ref{fig:20news}, \ref{fig:20news_noise}.
 \begin{figure}[!h]
+\begin{subfigure}[b]{\textwidth}
 \begin{minipage}{0.5\linewidth}
 \centering
-  \includegraphics[scale=0.5]{parts/res/dat_file/RCV1.jpg}     
+  \includegraphics[scale=0.49]{parts/res/dat_file/acc/RCV1.jpg}     
 \subcaption{Lexical Pretrain}  
 \end{minipage}
   \begin{minipage}{0.5\linewidth}
 \centering
-   \includegraphics[scale=0.5]{parts/res/dat_file/RCV1_simple.jpg}     
+   \includegraphics[scale=0.49]{parts/res/dat_file/acc/RCV1_simple.jpg}     
    \subcaption{Simple Pretrain}
 \end{minipage}
+\end{subfigure}
+\begin{subfigure}[b]{\textwidth}
+\begin{minipage}{0.5\linewidth}
+\centering
+  \includegraphics[scale=0.49]{parts/res/dat_file/ari/RCV1.jpg}     
+\subcaption{Lexical Pretrain}  
+\end{minipage}
+  \begin{minipage}{0.5\linewidth}
+\centering
+   \includegraphics[scale=0.49]{parts/res/dat_file/ari/RCV1_simple.jpg}     
+   \subcaption{Simple Pretrain}
+\end{minipage}
+\end{subfigure}
+\begin{subfigure}[b]{\textwidth}
+\begin{minipage}{0.5\linewidth}
+\centering
+  \includegraphics[scale=0.49]{parts/res/dat_file/nmi/RCV1.jpg}     
+\subcaption{Lexical Pretrain}  
+\end{minipage}
+  \begin{minipage}{0.5\linewidth}
+\centering
+   \includegraphics[scale=0.49]{parts/res/dat_file/nmi/RCV1_simple.jpg}     
+   \subcaption{Simple Pretrain}
+\end{minipage}
+\end{subfigure}
 \caption{\label{fig:rcv1}Results for RCV1 dataset}
-\end{figure}\
+\end{figure}
+
+
+
 \begin{figure}[!h]
+\begin{subfigure}[b]{\textwidth}
 \begin{minipage}{0.5\linewidth}
 \centering
-  \includegraphics[scale=0.5]{parts/res/dat_file/20NEWS.jpg}     
+  \includegraphics[scale=0.49]{parts/res/dat_file/acc/20NEWS.jpg}     
 \subcaption{Lexical Pretrain}  
 \end{minipage}
   \begin{minipage}{0.5\linewidth}
 \centering
-   \includegraphics[scale=0.5]{parts/res/dat_file/20NEWS_simple.jpg}     
+   \includegraphics[scale=0.49]{parts/res/dat_file/acc/20NEWS_simple.jpg}     
    \subcaption{Simple Pretrain}
 \end{minipage}
-\caption{\label{fig:20news}Results for 20 newsgroups dataset without noise}
-\end{figure}
-\begin{figure}[!h]
+\end{subfigure}
+\begin{subfigure}[b]{\textwidth}
 \begin{minipage}{0.5\linewidth}
 \centering
-  \includegraphics[scale=0.5]{parts/res/dat_file/20NEWS_noisy.jpg}     
+  \includegraphics[scale=0.49]{parts/res/dat_file/ari/20NEWS.jpg}     
 \subcaption{Lexical Pretrain}  
 \end{minipage}
   \begin{minipage}{0.5\linewidth}
 \centering
-   \includegraphics[scale=0.5]{parts/res/dat_file/20NEWS_noisy_simple.jpg}     
+   \includegraphics[scale=0.49]{parts/res/dat_file/ari/20NEWS_simple.jpg}     
    \subcaption{Simple Pretrain}
 \end{minipage}
-\caption{\label{fig:20news_noise}Results for 20 newsgroups dataset without noise}
+\end{subfigure}
+\begin{subfigure}[b]{\textwidth}
+\begin{minipage}{0.5\linewidth}
+\centering
+  \includegraphics[scale=0.49]{parts/res/dat_file/nmi/20NEWS.jpg}     
+\subcaption{Lexical Pretrain}  
+\end{minipage}
+  \begin{minipage}{0.5\linewidth}
+\centering
+   \includegraphics[scale=0.49]{parts/res/dat_file/nmi/20NEWS_simple.jpg}     
+   \subcaption{Simple Pretrain}
+\end{minipage}
+\end{subfigure}\caption{\label{fig:20news}Results for 20 newsgroups dataset without noise}
 \end{figure}
+
+
+
+\begin{figure}[!h]
+\begin{subfigure}[b]{\textwidth}
+\begin{minipage}{0.5\linewidth}
+\centering
+  \includegraphics[scale=0.49]{parts/res/dat_file/acc/20NEWS_noisy.jpg}     
+\subcaption{Lexical Pretrain}  
+\end{minipage}
+  \begin{minipage}{0.5\linewidth}
+\centering
+   \includegraphics[scale=0.49]{parts/res/dat_file/acc/20NEWS_noisy_simple.jpg}     
+   \subcaption{Simple Pretrain}
+\end{minipage}
+\end{subfigure}
+\begin{subfigure}[b]{\textwidth}
+\begin{minipage}{0.5\linewidth}
+\centering
+  \includegraphics[scale=0.49]{parts/res/dat_file/ari/20NEWS_noisy.jpg}     
+\subcaption{Lexical Pretrain}  
+\end{minipage}
+  \begin{minipage}{0.5\linewidth}
+\centering
+   \includegraphics[scale=0.49]{parts/res/dat_file/ari/20NEWS_noisy_simple.jpg}     
+   \subcaption{Simple Pretrain}
+\end{minipage}
+\end{subfigure}
+\begin{subfigure}[b]{\textwidth}
+\begin{minipage}{0.5\linewidth}
+\centering
+  \includegraphics[scale=0.49]{parts/res/dat_file/nmi/20NEWS_noisy.jpg}     
+\subcaption{Lexical Pretrain}  
+\end{minipage}
+  \begin{minipage}{0.5\linewidth}
+\centering
+   \includegraphics[scale=0.49]{parts/res/dat_file/nmi/20NEWS_noisy_simple.jpg}     
+   \subcaption{Simple Pretrain}
+\end{minipage}
+\end{subfigure}\caption{\label{fig:20news_noise}Results for 20 newsgroups dataset with noise}
+\end{figure}
+
 \subsection{Previous Results}
 In this, we can see results when there are not stemming step in 
 the preprocessing step. We can see results in figure \ref{fig:previous} and in table \ref{tab:res_prev}.
@@ -305,19 +384,14 @@ the preprocessing step. We can see results in figure \ref{fig:previous} and in t
 \subcaption*{Deep K-Means}
 \end{table}
 \begin{figure}[!h]
-  \begin{minipage}{0.3\linewidth}
+  \begin{minipage}{0.5\linewidth}
     \centering
-    \includegraphics[scale=0.4]{parts/res/dat_file/20NEWS_old.png}     
+    \includegraphics[scale=0.6]{parts/res/dat_file/20NEWS_old.png}     
     \subcaption{20 Newsgroups without noise}  
   \end{minipage}
-  \begin{minipage}{0.3\linewidth}
+  \begin{minipage}{0.5\linewidth}
     \centering
-    \includegraphics[scale=0.4]{parts/res/dat_file/20NEWS_noisy.jpeg}     
-    \subcaption{20 Newsgroups with noise}
-  \end{minipage}
-  \begin{minipage}{0.3\linewidth}
-    \centering
-    \includegraphics[scale=0.4]{parts/res/dat_file/RCV1_old.png}     
+    \includegraphics[scale=0.6]{parts/res/dat_file/RCV1_old.png}     
     \subcaption{RCV1 without noise}
   \end{minipage}
   \caption{\label{fig:previous}Previous results}

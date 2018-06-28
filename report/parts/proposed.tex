@@ -25,7 +25,7 @@ where $\eta \ge 0$ is a hyperparameter.\\
 There are two ways to see this problem, the first is that the user gives a set 
 of keywords and it's up to our algorithm to find the classes that best fit our 
 set of keywords. A second way of seeing, is that the user gives keywords with 
-classes, in other word he gives for each of the classes a set of words.
+classes, in other word he gives for each class a set of keywords.
 \subsubsection{First Method}
 We begin with the method where the user gives the keywords without information
 about classes. In this method we want a latent space where the representation
@@ -55,7 +55,7 @@ However, it is possible, in practice, to have a large number of null vector X',
 in other word a large number of  document X without any keywords.
 It might be interesting to capture these documents in a new class having
 for representative the embedding for null document $\vv{0}$. We denote    
-$R=(r_0, r_1, ...., r_K)$ our K+1 representative, we denote 
+$R=(r_0, r_1, ...., r_K)$ our K+1 representatives, we denote 
 $r_0$ the representative of the adding class as follows : 
 \begin{equation}
 r_0 = h_\theta(\vv{0})
@@ -82,8 +82,7 @@ h_\theta(X'_k)||_2^2)  ||_2^2
 However, the argmin function is not differentiable, and we cant use SGD algorithm
 to learn this function. To approximate the $\argmin$ function we can use the 
 parameterized softmax function \cite{doi:10.1117/1.2819119}. The softmax 
-function can be used as a differentiable substitute to $\argmin$. And adding an 
-inverse temperature parameter $\beta$ for hard assignment.
+function can be used as a differentiable substitute to $\argmin$. 
 \\The penalty takes the form : 
 \begin{equation}\label{eq:omega_kw_soft}
 \begin{array}{l}
@@ -112,7 +111,7 @@ The penalty is :
 With hyperparameters $\alpha_0\geq 0$ ,$\alpha_1\geq 0$, $\alpha_2\geq 0$.
 \\Then the reconstruct loss function is :
 \begin{equation}\label{eq:AEDK}
-  L_{rec}(C, \theta) = \sum\limits_{X \in C}(||X - f(h_theta(X))||_2^2
+  L_{rec}(C, \theta) = \sum\limits_{X \in C}(||X - f(h_\theta(X))||_2^2
 \end{equation}
 Finally the Non clustering loss function is :
 \begin{equation}\label{eq:AE}

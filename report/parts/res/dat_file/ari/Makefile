@@ -2,9 +2,7 @@ CC= python
 SCRIPT=script_plot.py 
 OLD_SCRIPT=script_plot_old.py
 OLD_SCRIPT2=script_plot_old2.py
-NMI_REP=nmi
-ACC_REP=acc
-ARI_REP=ari
+
 SRC=$(wildcard *.dat)
 OBJ=$(SRC:.dat=.png)
 SRC_old=$(wildcard *.dat_old)
@@ -12,7 +10,7 @@ OBJ_old=$(SRC_old:.dat_old=.jpeg)
 SRC_old2=$(wildcard *.dat_old2)
 OBJ_old2=$(SRC_old2:.dat_old2=.jpg)
 
-TARGET=main main_old main_old2 nmi_ ari_ acc_
+TARGET=main main_old main_old2
 
 all:${TARGET}
 
@@ -31,28 +29,5 @@ main_old2: ${OBJ_old2}
 %.jpg: %.dat_old2
 	${CC} ${OLD_SCRIPT2} $^ $@
 
-nmi_:
-	cd ${NMI_REP} ; \
-	make all
-
-clean_nmi:
-	cd ${NMI_REP} ; \
-	make clean
-
-ari_:
-	cd ${ARI_REP} ; \
-	make all
-
-clean_ari:
-	cd ${ARI_REP} ; \
-	make clean
-
-acc_:
-	cd ${ACC_REP} ; \
-	make all
-
-clean_acc:
-	cd ${ACC_REP} ; \
-	make clean
 clean:
-	rm -f ${OBJ_old2} ${OBJ_old} ${OBJ} ${TARGET} *~
+	rm -rf ${OBJ_old2} ${OBJ_old} ${OBJ} ${TARGET} *~

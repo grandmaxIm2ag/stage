@@ -198,14 +198,14 @@ L_{NonClust}(C;\theta,R ) = \sum\limits_{X \in C} ||X - f(g(X;\theta))||_2^2
   c(g(X; \theta); R) = \argmin_{k = 1 .. K} || h_\theta(X) - r_k||_2^2
 \end{aligned}
 \end{equation}
-$F(g(X),c(g(X, \theta); R))$ is a differential distance function.
-$c(X ; R)$ is a non differential function that assigns the document X
+$F(g(X),c(g(X, \theta); R))$ is a differentiable distance function.
+$c(X ; R)$ is a non differentiable function that assigns the document X
 to its nearest centroid.\\
 They transform this representation as follows :
 \begin{equation}
 L_{Clust} = \sum\limits_{X \in C}\sum\limits_{k=1}^K F(g(X; \theta), r_k) G_{k, F}(h_\theta(X), \beta; R)
 \end{equation}
-where $G_{k, F}$ is a differential function such that :
+where $G_{k, F}$ is a differentiable function such that :
 \begin{equation}
   \lim\limits_{\beta \rightarrow \beta_0}G_{k, F}(h_\theta(X), \beta; R) = \left\{
 \begin{array}{ll}
