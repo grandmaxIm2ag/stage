@@ -47,7 +47,7 @@ reconstruct loss $L_{rec}$ using MSE :
 \begin{figure}[!h]
   \centering
   \resizebox{\hsize}{!}{
-    \fbox{\includegraphics{parts/res/autoencoder.png}}
+    \fbox{\includegraphics{parts/res/archi.png}}
   } 
   \caption{Auto-Encoder}
   \label{fig:autoenc}
@@ -144,7 +144,7 @@ Then they introduce indicator functions $I_s$ and $I_{ds}$ :
 \right.
 \end{equation}
 For similar pair they minimize the statistical distance between P and Q, and for
-dissimilar pair they maximize statistical distance using hinge loss 
+dissimilar pair they maximmize statistical distance using hinge loss 
 \cite{doi:10.1162/089976604773135104}.
 \begin{equation}
 \begin{array}{l l}
@@ -234,7 +234,7 @@ Algorithm \ref{algo:dkm} summarizes the deep k-Means algorithm :
     scheme for $\beta$, number of epochs T ,
     number of minibatches MB , learning rate $\epsilon$}
   \Output{Auto-Encoder parameter $\theta$, cluster representative R}
-  Initialize $\theta$ and $r_k$, $1 \leq k \leq K$ (randomly or through 
+  Initialise $\theta$ and $r_k$, $1 \leq k \leq K$ (randomly or through 
   pretraining)\\
   \ForEach{$\beta = m_\beta : M_\beta$}{
     \ForEach{t = 1 : T}{

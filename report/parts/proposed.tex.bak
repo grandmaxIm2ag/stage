@@ -3,7 +3,8 @@ The idea is to learn a latent space taking into account lexical constraints and
 background knowledge.
 \\We denote  X a document of size d,
 C the corpus, N the size of C, and K the number of cluster.
-\subsection{Pairwise Constraints}
+\subsection{Auto-Encoder}
+\subsubsection{Pairwise Constraints}
 We introduce background knowledge, so we need
 a representation taking into account these constraints.\\
 For must-link constraints we want close representations for each pair $X_i$, $X_j$
@@ -21,15 +22,15 @@ We introduce a penalty $\omega_{CL}$ for cannot-link constraints.
   \eta - ||h_\theta(X_i) - h_\theta(X_j) ||_2^2)
 \end{equation}
 where $\eta \ge 0$ is a hyperparameter.\\
-\subsection{Lexical Constraints}
+\subsubsection{Lexical Constraints}
 There are two ways to see this problem, the first is that the user gives a set 
 of keywords and it's up to our algorithm to find the classes that best fit our 
-set of keywords. A second way of seeing, is that the user gives keywords with 
+set of keywords. A second way of seeing, is that'user gives keywords with 
 classes, in other word he gives for each of the classes a set of words.
-\subsubsection{First Method}
+\paragraph{First Method}
 We begin with the method where the user gives the keywords without information
 about classes. In this method we want a latent space where the representation
-of the document X is biasing by keywords.\\
+of the document X is baising by keywords.\\
 We denote $KW = \begin{pmatrix} kw_1 & kw_2 & ... & kw_{N_{kw}-1} & kw_{N_{kw}}
 \end {pmatrix}$
 the set of index of keywords, X' the vector showing only information about 
@@ -60,7 +61,7 @@ $r_0$ the representative of the adding class as follows :
 \begin{equation}
 r_0 = h_\theta(\vv{0})
 \end{equation}
-\subsubsection{Second Method}
+\paragraph{Second Method}
 It is possible that the user will know more than
 information as simple keywords. Indeed, the user can know the 
 classes of keywords.
@@ -82,7 +83,7 @@ h_\theta(X'_k)||_2^2)  ||_2^2
 However, the argmin function is not differentiable, and we cant use SGD algorithm
 to learn this function. To approximate the $\argmin$ function we can use the 
 parameterized softmax function \cite{doi:10.1117/1.2819119}. The softmax 
-function can be used as a differentiable substitute to $\argmin$. And adding an 
+function can be used as a differentiable subtitute to $\argmin$. And adding an 
 inverse temperature parameter $\beta$ for hard assignment.
 \\The penalty takes the form : 
 \begin{equation}\label{eq:omega_kw_soft}
@@ -123,7 +124,7 @@ Finally the Non clustering loss function is :
 
 For the Deep $K$-Means, we can use the approach proposed by Moradi Fard, Thonet and Gaussier 
 \cite{Deap-K-Means} see in section 2.3.\\
-For the clustering loss we can use squared loss with euclidean distance. We
+For the clustering loss we can use squared loss with euclidian distance. We
 denote $R = \begin{pmatrix} r_1 & r_2 & ... & r_K\end{pmatrix}$ the vector of
 centroids :  
 \begin{equation}\label{eq:loss_clust}
@@ -139,9 +140,7 @@ Finally the loss function is :
 with $\lambda \geq 0$.\\
 For the learning algorithm we can use the Deep $K$-Means algorithm with 
 pretraining~\ref{algo:dkm} see in section \ref{seq:DeepClust}. We use two 
-methods for pretraining, a simple pretraining minimizing only reconstruct loss :
-$\sum\limits_{X \in X} || X - f(h_\theta(X))||_2^2$
+methods for pretraining, a simple pretraining minimizing only reconstruct loss.
 And a lexical pretrain, with the second method we learn a representation 
-minimizing $\sum\limits_{X \in X} || X - f(h_\theta(X))||_2^2 + 
-\alpha_0 \sum\limits_{X \in C} || h_\theta(X) - h_\theta(X')||_2^2$. 
-It allows to initialize centroïds with bias  representation.
+minimizing $L_{NonCLust}$. It allows to initialize centroïds with bias 
+representation.

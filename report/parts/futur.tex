@@ -10,8 +10,10 @@ use an alternative form of the  COP$K$-Means algorithm. We learn a $k$-means
 friendly space taking into account lexical constraints and perform COP$K$-Means
 in the learned latent space. The loss function for this model is :
 \begin{equation}
-  Min~L(KW, C, K; \theta) = (L_{rec}(C, \theta) + \omega_{KW} )+
-  \lambda.L_{Clust}(X, K;R, \theta)
+\begin{array}{l l}
+  Min~L(KW, C, K; \theta) = &(L_{rec}(C, \theta) + \omega_{KW} )
+\\ & + \lambda.L_{Clust}(X, K;R, \theta)
+\end{array}
 \end{equation}
 Then, we can test the robustness of our model in different ways.
 First we can change the number of extracted keywords by class, in

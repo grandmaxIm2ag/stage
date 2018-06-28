@@ -1,0 +1,52 @@
+
+\begin{comment}
+\begin{figure}[!h]
+  \centering
+  \begin{subfigure}{.5\textwidth}
+    \centering
+    \fbox{\includegraphics[scale=0.5]{parts/res/dat_file/20NEWS.jpg}}
+    \caption{\label{20news}20 Newsgroups without noise}
+  \end{subfigure}
+  \begin{subfigure}{.5\textwidth}
+    \centering
+    \fbox{\includegraphics[scale=0.5]{parts/res/dat_file/20NEWS_noisy.jpg}}
+    \caption{\label{20news_noise}20 Newsgroups with noise}
+  \end{subfigure}
+  \begin{subfigure}{.5\textwidth}
+    \centering
+    \fbox{\includegraphics[scale=0.5]{parts/res/dat_file/RCV1.jpg}}
+    \caption{\label{rcv1}RCV1 without noise}
+  \end{subfigure}
+  \caption{\label{fig:first_discr} We can see in \ref{20news} the accuracy value for 20 newsgroups 
+    when lexical pretrain is used, in \ref{20news_noise} the accuracy value for 20 newsgroups with ise 
+    when lexical pretrain is used in \ref{rcv1} the accuracy value for 20 rcv1
+    when lexical pretrain is used. For all figures, we compare the value for discriminative/non 
+    discriminative extraction and with/without adding class $r_0$. the number of keywords varies
+    between one and five.}
+\end{figure}
+
+\begin{figure}[!h]
+  \centering
+  \begin{subfigure}{.5\textwidth}
+    \centering
+    \fbox{\includegraphics[scale=0.5]{parts/res/dat_file/20NEWS_simple.jpg}}
+    \caption{\label{20news_simple}20 Newsgroups without noise}
+  \end{subfigure}
+  \begin{subfigure}{.5\textwidth}
+    \centering
+    \fbox{\includegraphics[scale=0.5]{parts/res/dat_file/20NEWS_noisy_simple.jpg}}
+    \caption{\label{20news_noise_simple}20 Newsgroups with noise}
+  \end{subfigure}
+  \begin{subfigure}{.5\textwidth}
+    \centering
+    \fbox{\includegraphics[scale=0.5]{parts/res/dat_file/RCV1_simple.jpg}}
+    \caption{\label{rcv1_simple}RCV1 without noise}
+  \end{subfigure}
+  \caption{\label{fig:first_non_discr} We can see in \ref{20news_simple} the accuracy value for 20 newsgroups 
+    when simple pretrain is used, in \ref{20news_noise_simple} the accuracy value for 20 newsgroups with ise 
+    when simple pretrain is used in \ref{rcv1_simple} the accuracy value for 20 rcv1
+    when simple pretrain is used. For all figures, we compare the value for discriminative/non 
+    discriminative extraction and with/without adding class $r_0$. the number of keywords varies
+    between one and five.}
+\end{figure}
+\end{comment}
