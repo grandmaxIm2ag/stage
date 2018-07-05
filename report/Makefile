@@ -10,7 +10,6 @@ all: pdf
 pdf: ${SRC} res
 	${CC} ${OBJ}
 	biber ${OBJ}
-	${CC} ${OBJ}
 	latex_count=8 ; \
 	while egrep -s 'Rerun (LaTeX|to get cross-references right)' ${OBJ}.log && [ $$latex_count -gt 0 ] ;\
 	    do \
@@ -18,7 +17,6 @@ pdf: ${SRC} res
 	      ${CC} ${OBJ} ;\
 	      latex_count=`expr $$latex_count - 1` ;\
 	    done
-	${CC} ${OBJ}
 
 res:
 	cd ${RES_REP} ; \

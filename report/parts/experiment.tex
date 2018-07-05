@@ -29,7 +29,9 @@ the 2000 words with the top TFIDF scores. We use also a stemming step
 \subsubsection{Lexical Constraints}
 To generate the set of keywords $KW$ we rank each word of each 
 document of each class using TFIDF according to algorithm~\ref{algo:gen_kw}.
-For our tests, we extract 3 keywords per classes.
+We add for each document of each class the tfidf of each word, in this manner
+we find the most important word of each class. Furthermore, we substract 
+the tdidf of other class, so that the keywords are the most discriminating.
 \begin{algorithm}
   \SetKwInOut{Input}{input}
   \SetKwInOut{Output}{output}
@@ -117,14 +119,14 @@ and an embedding layer (with dimension K, the number of cluster).
 The decoder is a mirrored version of the encoder~\ref{fig:autoenc}.
 The ReLu activation function is used on layers, except for the third
 hidden layer of encoder and decoder part.
- 
+\\When we add the additional class, metrics are computed only with
+documents that do not belong to the additional class.
 \subsubsection{Hyperparameters}
-For the $\lambda$ hyperparameter we use the value defined in \cite{Deap-K-Means}. 
-For the hyperparameter $\alpha_0$, we used Line Search~\cite{SWANN1969S39} strategy for 
-$\alpha_0$ optimization. The Line search was done in two steps :
-first, we searched on several range with 2 runs. Then we search on the range 
-$[10^{-3},5.10^{-3},10^{-2},5.10^{-2},10^{-1}]$ with 5 runs.   
-The results of Line Search are reported 
+We used Grid Search~\cite{SWANN1969S39} strategy for 
+$\lambda_0$ and $\lambda_1$ optimization. We search on the range 
+$[10^{-4},10^{-3},10^{-2},10^{-1}]$ for $\lambda_0$ and on the range
+$[10^{-3},5.10^{-3},10^{-2},5.10^{-2},10^{-1}]$ for $\lambda_1$ with 10 runs.   
+The results of Grid Search are reported 
 in table~\ref{tab:res}. Hyperparameters $alpha_1$, $alpha_2$ and $\eta$ 
 are set to 0, because we focused on the lexical constraints in the experiments. 
 \begin{table}[!h]
@@ -140,25 +142,21 @@ are set to 0, because we focused on the lexical constraints in the experiments.
 \\ \hline
   \end{tabular}
 %}
-  \caption{\label{tab2}Best results of Line Search for the optimization of
+  \caption{\label{tab2}Best results of Grid Search for the optimization of
 hyperparameters for each dataset.}
 \end{table}
-\subsubsection{\label{section:test1}Clustering without Noise}
-The purpose of the experiment is to rediscover the different classes of the
-dataset with keywords and background knowledge.
-
-\subsubsection{\label{section:test2}Clustering with Noise}
-We divide the dataset into two corpus $C_1, C_2$. Each corpus contain
-ten classes. We generate keywords \ref{algo:gen_kw} from $C_1$. Then we 
-add noise to the corpus
-$C_1$. To add noise, we concatenate document from corpus $C_1$ with document
-from corpus $C_2$.
-\\The purpose of the experiment is to rediscover the different classes of the
-corpus $C_1$ with keywords and background knowledge.
 
 \subsection{Results}
+The purpose of the experiment is to rediscover the different classes of 
+datasets with keywords.\\
+To add noise to 20 newsgroups datasetw e divide the dataset into two corpus $C_1, C_2$. 
+Each corpus contain ten classes. We generate keywords \ref{algo:gen_kw} 
+from $C_1$. Then we concatenate document from corpus $C_1$ with document
+from corpus $C_2$. The clustering processed on corpus $C_1$. For this experiment
+we extract 3 keywords per class (see algorithm \ref{algo:gen_kw}).
+\\Results are reported in table \ref{tab:res}.
 \begin{table}[h]
-\caption{\label{tab:res}Clustering with only lexical constraints applies to 
+\caption{\label{tab:res}Clustering applies to 
 different learned latent space to measure the efficiency of lexical constraints
 for $K$-Means algorithm. Performance is measured in terms of NMI, Adjusted Rand 
 Index and clustering Accuracy, higher is better. Each cell contains the average
@@ -178,6 +176,26 @@ metric/dataset is bold.}
 %\resizebox{\hsize}{!}{
   \begin{tabular}{|l|l|l|l|}
     \hline
+    & ACC          &ARI           & NMI           \\ \hline
+    20NEWS without noise   &$53.1 \pm 2.3$&$35.0 \pm 1.4$&$49.3 \pm 1.0$ \\ \hline
+    20NEWS with noise      &$\boldmath45.2 \pm 3.3$&$23.0 \pm 2.5$ &$30.0 \pm 2.0$ \\ \hline
+    RCV1 without noise     &$51.3 \pm 3.5$&$17.5 \pm 5.8$&$24.5 \pm 5.1$ \\ \hline
+  \end{tabular}
+%}
+\subcaption*{Simple pretrain + K-Means}
+%\resizebox{\hsize}{!}{
+  \begin{tabular}{|l|l|l|l|}
+    \hline
+    & ACC          &ARI           & NMI           \\ \hline
+    20NEWS without noise   &$52.1 \pm 2.2$&$34.6 \pm 1.1$&$47.9 \pm 0.8$ \\ \hline
+    20NEWS with noise      &$44.8 \pm 2.9$&$23.0 \pm 2.2$ &$29.3 \pm 1.7$ \\ \hline
+    RCV1 without noise     &$62.0 \pm 5.3$&$27.8 \pm 5.2$&$33.0 \pm 6.4$ \\ \hline
+  \end{tabular}
+%}
+\subcaption*{Lexical pretrain + K-Means}
+%\resizebox{\hsize}{!}{
+  \begin{tabular}{|l|l|l|l|}
+    \hline
     & ACC          &ARI          & NMI          \\ \hline
     20NEWS without noise    & $54.9\pm 1.7$&$37.6\pm 1.1$&$51.6\pm 0.6$ \\ \hline
     20NEWS with noise       & $44.5\pm 2.4$&$23.6\pm 2.4$&$30.2\pm 2.0$ \\ \hline
@@ -190,21 +208,21 @@ metric/dataset is bold.}
     \hline
     & ACC                  &ARI                   & NMI                   \\ \hline
     20NEWS without noise   &$55.7\pm 2.3$  &$39.1\pm 1.1$    &$51.9\pm 0.7$ \\ \hline
-    20NEWS with noise      &\boldmath$45\pm 1.8$  &\boldmath$22.8\pm 1.1$&\boldmath$28.9\pm 0.8$ \\ \hline
+    20NEWS with noise      &$44.3\pm 2.6$  &$23.5\pm 1.9$&$29.8\pm 1.7$ \\ \hline
     RCV1 without noise     &\boldmath$64.6\pm 5.7$&\boldmath$31.0\pm 5.0$&\boldmath$36.7 \pm 4.2$  \\ \hline
   \end{tabular}
 %}
-\subcaption*{Constrained Deep K-means, Lexical Pretrain}
+\subcaption*{Constrained Deep K-means, Lexical Pretrain, Unclustered keywords}
 %\resizebox{\hsize}{!}{
   \begin{tabular}{|l|l|l|l|}
     \hline
     & ACC                  &ARI                   & NMI                   \\ \hline
     20NEWS without noise   &$57.6\pm 2.2$  &$39.8\pm 1.2$    &$52.6\pm 0.6$ \\ \hline
-    20NEWS with noise      &\boldmath$44.5\pm 2.5$  &\boldmath$24.0\pm 2.3$&\boldmath$30.5\pm 2.$ \\ \hline
+    20NEWS with noise      &$44.5\pm 2.5$  &$24.0\pm 2.3$&\boldmath$30.5\pm 2.$ \\ \hline
     RCV1 without noise     &$57.4\pm 6.4$&$29.1\pm 4.3$&$34.8 \pm 5.3$  \\ \hline
   \end{tabular}
 %}
-\subcaption*{Constrained Deep K-means,  Simple Pretrain}
+\subcaption*{Constrained Deep K-means,  Simple Pretrain, Unclustered keywords}
 %\resizebox{\hsize}{!}{
   \begin{tabular}{|l|l|l|l|}
     \hline
@@ -214,7 +232,7 @@ metric/dataset is bold.}
     RCV1 without noise     &$53.3\pm 5.2$&$26.3\pm 5.2$&$32.8 \pm 4.2$  \\ \hline
   \end{tabular}
 %}
-\subcaption*{Constrained Deep K-means, Lexical Pretrain with adding class $r_0$}
+\subcaption*{Constrained Deep K-means, Lexical Pretrain, Unclustered keywords with additionnal class}
 %\resizebox{\hsize}{!}{
   \begin{tabular}{|l|l|l|l|}
     \hline
@@ -224,177 +242,82 @@ metric/dataset is bold.}
     RCV1 without noise     &$52.2\pm 5.3$&$22.9\pm 4$&$29.4 \pm 3.7$  \\ \hline
   \end{tabular}
 %}
-\subcaption*{Constrained Deep K-means, Simple Pretrain with adding class $r_0$}
+\subcaption*{Constrained Deep K-means, Simple Pretrain, Unclustered keywords with additionnal class}
 \end{table}
 
 \subsection{Robustness}
 We can also test the robustness of our algorithm. To test this, we
-can vary the number of key words by classes. In addition we compare
+can vary the number of keywords by classes. In addition we compare
 the results of each version of our two methods (simple/lexical pretrain, adding 
 class) for each dataset.
 We can see results  in 
 figures \ref{fig:rcv1}, \ref{fig:20news}, \ref{fig:20news_noise}.
 \begin{figure}[!h]
-\begin{subfigure}[b]{\textwidth}
-\begin{minipage}{0.5\linewidth}
-\centering
-  \includegraphics[scale=0.49]{parts/res/dat_file/acc/RCV1.jpg}     
-\subcaption{Lexical Pretrain}  
-\end{minipage}
-  \begin{minipage}{0.5\linewidth}
-\centering
-   \includegraphics[scale=0.49]{parts/res/dat_file/acc/RCV1_simple.jpg}     
-   \subcaption{Simple Pretrain}
-\end{minipage}
-\end{subfigure}
-\begin{subfigure}[b]{\textwidth}
-\begin{minipage}{0.5\linewidth}
-\centering
-  \includegraphics[scale=0.49]{parts/res/dat_file/ari/RCV1.jpg}     
-\subcaption{Lexical Pretrain}  
-\end{minipage}
-  \begin{minipage}{0.5\linewidth}
-\centering
-   \includegraphics[scale=0.49]{parts/res/dat_file/ari/RCV1_simple.jpg}     
-   \subcaption{Simple Pretrain}
-\end{minipage}
-\end{subfigure}
-\begin{subfigure}[b]{\textwidth}
-\begin{minipage}{0.5\linewidth}
-\centering
-  \includegraphics[scale=0.49]{parts/res/dat_file/nmi/RCV1.jpg}     
-\subcaption{Lexical Pretrain}  
-\end{minipage}
-  \begin{minipage}{0.5\linewidth}
-\centering
-   \includegraphics[scale=0.49]{parts/res/dat_file/nmi/RCV1_simple.jpg}     
-   \subcaption{Simple Pretrain}
-\end{minipage}
-\end{subfigure}
-\caption{\label{fig:rcv1}Results for RCV1 dataset}
-\end{figure}
-
-
-
-\begin{figure}[!h]
-\begin{subfigure}[b]{\textwidth}
-\begin{minipage}{0.5\linewidth}
-\centering
-  \includegraphics[scale=0.49]{parts/res/dat_file/acc/20NEWS.jpg}     
-\subcaption{Lexical Pretrain}  
-\end{minipage}
-  \begin{minipage}{0.5\linewidth}
-\centering
-   \includegraphics[scale=0.49]{parts/res/dat_file/acc/20NEWS_simple.jpg}     
-   \subcaption{Simple Pretrain}
-\end{minipage}
-\end{subfigure}
-\begin{subfigure}[b]{\textwidth}
-\begin{minipage}{0.5\linewidth}
-\centering
-  \includegraphics[scale=0.49]{parts/res/dat_file/ari/20NEWS.jpg}     
-\subcaption{Lexical Pretrain}  
-\end{minipage}
-  \begin{minipage}{0.5\linewidth}
-\centering
-   \includegraphics[scale=0.49]{parts/res/dat_file/ari/20NEWS_simple.jpg}     
-   \subcaption{Simple Pretrain}
-\end{minipage}
-\end{subfigure}
-\begin{subfigure}[b]{\textwidth}
-\begin{minipage}{0.5\linewidth}
-\centering
-  \includegraphics[scale=0.49]{parts/res/dat_file/nmi/20NEWS.jpg}     
-\subcaption{Lexical Pretrain}  
-\end{minipage}
-  \begin{minipage}{0.5\linewidth}
-\centering
-   \includegraphics[scale=0.49]{parts/res/dat_file/nmi/20NEWS_simple.jpg}     
-   \subcaption{Simple Pretrain}
-\end{minipage}
-\end{subfigure}\caption{\label{fig:20news}Results for 20 newsgroups dataset without noise}
-\end{figure}
-
-
-
-\begin{figure}[!h]
-\begin{subfigure}[b]{\textwidth}
-\begin{minipage}{0.5\linewidth}
-\centering
-  \includegraphics[scale=0.49]{parts/res/dat_file/acc/20NEWS_noisy.jpg}     
-\subcaption{Lexical Pretrain}  
-\end{minipage}
-  \begin{minipage}{0.5\linewidth}
-\centering
-   \includegraphics[scale=0.49]{parts/res/dat_file/acc/20NEWS_noisy_simple.jpg}     
-   \subcaption{Simple Pretrain}
-\end{minipage}
-\end{subfigure}
-\begin{subfigure}[b]{\textwidth}
-\begin{minipage}{0.5\linewidth}
-\centering
-  \includegraphics[scale=0.49]{parts/res/dat_file/ari/20NEWS_noisy.jpg}     
-\subcaption{Lexical Pretrain}  
-\end{minipage}
-  \begin{minipage}{0.5\linewidth}
-\centering
-   \includegraphics[scale=0.49]{parts/res/dat_file/ari/20NEWS_noisy_simple.jpg}     
-   \subcaption{Simple Pretrain}
-\end{minipage}
-\end{subfigure}
-\begin{subfigure}[b]{\textwidth}
-\begin{minipage}{0.5\linewidth}
-\centering
-  \includegraphics[scale=0.49]{parts/res/dat_file/nmi/20NEWS_noisy.jpg}     
-\subcaption{Lexical Pretrain}  
-\end{minipage}
-  \begin{minipage}{0.5\linewidth}
-\centering
-   \includegraphics[scale=0.49]{parts/res/dat_file/nmi/20NEWS_noisy_simple.jpg}     
-   \subcaption{Simple Pretrain}
-\end{minipage}
-\end{subfigure}\caption{\label{fig:20news_noise}Results for 20 newsgroups dataset with noise}
-\end{figure}
-
-\subsection{Previous Results}
-In this, we can see results when there are not stemming step in 
-the preprocessing step. We can see results in figure \ref{fig:previous} and in table \ref{tab:res_prev}.
-\begin{table}[h]
-\caption{\label{tab:res_prev}Previous results for $K$-Means and Deep $K$-Means}
-\centering
-%\resizebox{\hsize}{!}{
-  \begin{tabular}{|l|l|l|l|}
-    \hline
-    & ACC          &ARI           & NMI           \\ \hline
-    20NEWS without noise   &$33.3 \pm 1.9$&$11.6 \pm 1.2$&$36.3 \pm 1.3$ \\ \hline
-    20NEWS with noise      &$34.5 \pm 1.5$&$8.7 \pm 0.8$ &$26.3 \pm 2.1$ \\ \hline
-    RCV1 without noise     &$48.8 \pm 6.6$&$18.4 \pm 6.0$&$29.7 \pm 5.8$ \\ \hline
-  \end{tabular}
-%}
-\subcaption*{K-Means}
-%\resizebox{\hsize}{!}{
-  \begin{tabular}{|l|l|l|l|}
-    \hline
-    & ACC          &ARI          & NMI          \\ \hline
-    20NEWS without noise    & $51.7\pm 2.4$&$34.4\pm 1.1$&$47.4\pm 0.8$ \\ \hline
-    20NEWS with noise       & $43.4\pm 1.6$&$21.6\pm 0.9$&$28.5\pm 1.0$ \\ \hline
-    RCV1 without noise      &$54.4\pm 4.9$ &$23.9\pm 3.5$&$29.6\pm 3.6$ \\ \hline
-  \end{tabular}
-%}
-\subcaption*{Deep K-Means}
-\end{table}
-\begin{figure}[!h]
-  \begin{minipage}{0.5\linewidth}
+  \begin{subfigure}[b]{\textwidth}
     \centering
-    \includegraphics[scale=0.6]{parts/res/dat_file/20NEWS_old.png}     
-    \subcaption{20 Newsgroups without noise}  
-  \end{minipage}
-  \begin{minipage}{0.5\linewidth}
+    \includegraphics[scale=0.82]{parts/res/dat_file/acc/RCV1_ACC.png}     
+  \end{subfigure}
+  \begin{subfigure}[b]{\textwidth}
     \centering
-    \includegraphics[scale=0.6]{parts/res/dat_file/RCV1_old.png}     
-    \subcaption{RCV1 without noise}
-  \end{minipage}
-  \caption{\label{fig:previous}Previous results}
+    \includegraphics[scale=0.82]{parts/res/dat_file/ari/RCV1_ARI.png}     
+  \end{subfigure}
+  \begin{subfigure}[b]{\textwidth}
+    \centering
+    \includegraphics[scale=0.82]{parts/res/dat_file/nmi/RCV1_NMI.png}     
+  \end{subfigure}
+  \caption{\label{fig:rcv1}Results for RCV1 dataset}
 \end{figure}
-\subsection{Add Class new version}
-In this part, we test another way to integrate adding class.
+
+\begin{figure}[!h]
+  \begin{subfigure}[b]{\textwidth}
+    \centering
+    \includegraphics[scale=0.82]{parts/res/dat_file/acc/20NEWS_ACC.png}     
+  \end{subfigure}
+  \begin{subfigure}[b]{\textwidth}
+    \centering
+    \includegraphics[scale=0.82]{parts/res/dat_file/ari/20NEWS_ARI.png}     
+  \end{subfigure}
+  \begin{subfigure}[b]{\textwidth}
+    \centering
+    \includegraphics[scale=0.82]{parts/res/dat_file/nmi/20NEWS_NMI.png}     
+  \end{subfigure}\caption{\label{fig:20news}Results for 20 newsgroups dataset}
+\end{figure}
+
+\begin{figure}[!h]
+  \begin{subfigure}[b]{\textwidth}
+    \centering
+    \includegraphics[scale=0.82]{parts/res/dat_file/acc/20NEWS_noisy_ACC.png}     
+  \end{subfigure}
+  \begin{subfigure}[b]{\textwidth}
+    \centering
+    \includegraphics[scale=0.82]{parts/res/dat_file/ari/20NEWS_noisy_ARI.png}     
+  \end{subfigure}
+  \begin{subfigure}[b]{\textwidth}
+    \centering
+    \includegraphics[scale=0.82]{parts/res/dat_file/nmi/20NEWS_noisy_NMI.png}
+  \end{subfigure}\caption{\label{fig:20news_noise}Results for 20 newsgroups dataset with noise}
+\end{figure}
+
+\subsection{User Test}
+For user test, we extract keywords without taking into account class information. In other 
+word, We add for each document the tfidf of each word. We can see the algorithm in 
+\ref{algo:gen_kw_user}. This test allows to know the performance of our algorithm
+in practical condition.
+\begin{algorithm}
+  \SetKwInOut{Input}{input}
+  \SetKwInOut{Output}{output}
+  \Input{Corpus C, The number of keywords $P$}
+  \Output{KW}
+  $KW \gets \{\}$\\
+  \ForEach{Document $X \in c_i$}{
+    \ForEach{Word $w \in X$}{
+      $rank_{w} \gets rank_{w} + TFIDF(w,X,C)$\\
+    }
+  }
+  \ForEach{Class $c_i \in C$}{
+    $KW \gets KW \cup \{\{w_1, w_2 ... w_P\} : \not\exists (v_1, v_2) | v_1 \not\in 
+    \{w_1, w_2 ... w_P\}, v_2 \in \{w_1, w_2 ... w_P\}, rank_{v_1} \ge rank_{v_2}\}$\\
+  }
+  \Return{KW}
+  \caption{\label{algo:gen_kw_user}Extract Keywords II}
+\end{algorithm}

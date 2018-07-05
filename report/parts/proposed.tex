@@ -1,47 +1,25 @@
-\section{Proposed Method}
+\section{Integrating Lexical Constraints}
 The idea is to learn a latent space taking into account lexical constraints and
 background knowledge.
 \\We denote  X a document of size d,
 C the corpus, N the size of C, and K the number of cluster.
-\subsection{Pairwise Constraints}
-We introduce background knowledge, so we need
-a representation taking into account these constraints.\\
-For must-link constraints we want close representations for each pair $X_i$, $X_j$
-in the set ML. We introduce a penalty $\omega_{ML}$ for must-link
-constraints and use squared loss :
-\begin{equation}\label{eq:omegaML}
-  \omega_{ML} = \sum_{\forall{(X_i,X_j)\in ML}} || h_\theta(X_i) - h_\theta(X_j) ||_2^2
-\end{equation}
-For cannot-link constraints we want distant representations for each pair $X_i$,
-$X_j$ in the set CL.
-We can use the hinge loss.
-We introduce a penalty $\omega_{CL}$ for cannot-link constraints.
-\begin{equation}\label{eq:omegaCL}
-  \omega_{CL} = \sum\limits_{\forall{(X_i,X_j)\in CL}} max(0,
-  \eta - ||h_\theta(X_i) - h_\theta(X_j) ||_2^2)
-\end{equation}
-where $\eta \ge 0$ is a hyperparameter.\\
-\subsection{Lexical Constraints}
 There are two ways to see this problem, the first is that the user gives a set 
 of keywords and it's up to our algorithm to find the classes that best fit our 
 set of keywords. A second way of seeing, is that the user gives keywords with 
-classes, in other word he gives for each class a set of keywords.
-\subsubsection{First Method}
+classes, in other word he gives for each class a set of keywords.\\
+We denote :
+\begin{equation}
+KW = \begin{pmatrix}KW_1  \\ ... \\ KW_k \\ ...\\ ... \\ KW_{K}\end{pmatrix}
+\end{equation}
+where $KW_k$ the set of keyword for the $k^{th}$ class. Also, we denote X' such that :
+\begin{equation}
+X' = \begin{pmatrix}mask_1(X)  \\ ... \\ mask_k(X) \\ ...\\ ... \\ mask_K(X)\end{pmatrix}
+\end{equation}
+where $mask_k(X)$ is the document X masked by keywords from the $k^{th}$ class.
+\subsection{Unclustered Keywords}
 We begin with the method where the user gives the keywords without information
 about classes. In this method we want a latent space where the representation
 of the document X is biasing by keywords.\\
-We denote $KW = \begin{pmatrix} kw_1 & kw_2 & ... & kw_{N_{kw}-1} & kw_{N_{kw}}
-\end {pmatrix}$
-the set of index of keywords, X' the vector showing only information about 
-keywords such that :
-\begin{equation}
-\forall_{i=1,2,..,d}X_i' = \left\{
-\begin{array}{ll}
-  X_i & \mbox{if } i \in KW \\
-  0 & \mbox{Otherwise.}
-\end{array}
-\right.
-\end{equation}
 To learn the latent space we add a penalty such that the representation
 of the document X is close of the representation of X'. In this way, in the
 latent space, the representation of document will be biased by keywords.
@@ -50,72 +28,28 @@ use squared loss :
 \begin{equation}\label{eq:omega1}
   \omega_{KW} = \sum\limits_{X \in C} || h_\theta(X) - h_\theta(X')||_2^2
 \end{equation}
-The plus of this method is that we have as many constraints as document. 
-However, it is possible, in practice, to have a large number of null vector X', 
-in other word a large number of  document X without any keywords.
-It might be interesting to capture these documents in a new class having
-for representative the embedding for null document $\vv{0}$. We denote    
-$R=(r_0, r_1, ...., r_K)$ our K+1 representatives, we denote 
-$r_0$ the representative of the adding class as follows : 
-\begin{equation}
-r_0 = h_\theta(\vv{0})
-\end{equation}
-\subsubsection{Second Method}
+\subsection{Clustered Keywords}
 It is possible that the user will know more than
 information as simple keywords. Indeed, the user can know the 
-classes of keywords.
-We denote 
-\begin{equation}
-KW = \begin{pmatrix}KW_1  \\ ... \\ KW_k \\ ...\\ ... \\ KW_{K}\end{pmatrix}
-\end{equation}
-where $KW_k$ the set of keyword for the $k^{th}$ class. Also, we denote X' such that :
-\begin{equation}
-X' = \begin{pmatrix}mask_1(X)  \\ ... \\ mask_k(X) \\ ...\\ ... \\ mask_K(X)\end{pmatrix}
-\end{equation}
-where $mask_k(X)$ is the document X  masked by keywords from the $k^{th}$ class. 
+classes of keywords. 
 For this method we want representation where document X is close of the closest
 $X'_k$ : 
 \begin{equation}
-|| h_\theta(X) - \argmin\limits_{X'_k \in X'}(|| h_\theta(X) - 
-h_\theta(X'_k)||_2^2)  ||_2^2
+|| h_\theta(X) - h_\theta(c'(X ; X' )) ||_2^2
 \end{equation}
-However, the argmin function is not differentiable, and we cant use SGD algorithm
+where $c'(X ; X') = \argmin\limits_{X'_k \in X'} ||h_\theta(X) - h_\theta(X'_k) ||_2^2$\\ 
+However, the  function $c'$ is not differentiable, and we cant use SGD algorithm
+\cite{doi:10.1080/01621459.1982.10477894}
 to learn this function. To approximate the $\argmin$ function we can use the 
 parameterized softmax function \cite{doi:10.1117/1.2819119}. The softmax 
 function can be used as a differentiable substitute to $\argmin$. 
 \\The penalty takes the form : 
 \begin{equation}\label{eq:omega_kw_soft}
 \begin{array}{l}
-  \omega_{KW} = \\ \sum\limits_{X \in C} \sum\limits_{k = 1}^K \frac{e^{-\beta|| h_\theta(X) - 
-h_\theta(X'_k)||_2^2}}{\sum\limits_{k' = 1}^K e^{-\beta|| h_\theta(X) - 
+  \sum\limits_{X \in C} \sum\limits_{k = 1}^K \frac{e^{-\alpha|| h_\theta(X) - 
+h_\theta(X'_k)||_2^2}}{\sum\limits_{k' = 1}^K e^{-\alpha|| h_\theta(X) - 
 h_\theta(X'_{k'})||_2^2}}|| h_\theta(X) - h_\theta(X'_{k})||_2^2
 \end{array}
-\end{equation}
-With this method, we can have the same problem as in the previous version.
-We can add $X'_0$ such $X'_0 = \vv{0}$, the penalty takes the form :
-\begin{equation}\label{eq:k_add}
-\begin{array}{l}
-  \omega_{KW} = \\ \sum\limits_{X \in C} \sum\limits_{k = 0}^K \frac{e^{|| h_\theta(X) - 
-h_\theta(X'_k)||_2^2}}{\sum\limits_{k' = 0}^K e^{|| h_\theta(X) - 
-h_\theta(X'_{k'})||_2^2}}|| h_\theta(X) - h_\theta(X'_{k})||_2^2
-\end{array}
-\end{equation} 
-%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Non Clustering Loss}
-The penalty is :
-\begin{equation}\label{eq:Sparse}
-  \Omega(C,KW;\theta) = \alpha_0\omega_{KW} + \alpha_1\omega_{CL} + \alpha_2\omega_{ML}  
-\end{equation}
-With hyperparameters $\alpha_0\geq 0$ ,$\alpha_1\geq 0$, $\alpha_2\geq 0$.
-\\Then the reconstruct loss function is :
-\begin{equation}\label{eq:AEDK}
-  L_{rec}(C, \theta) = \sum\limits_{X \in C}(||X - f(h_\theta(X))||_2^2
-\end{equation}
-Finally the Non clustering loss function is :
-\begin{equation}\label{eq:AE}
-  L_{NonClust}(C,KW; \theta) = L_{rec}(C, \theta) + \Omega(C)  
 \end{equation}
 
 \subsection{Deep $K$-Means}
@@ -124,23 +58,72 @@ For the Deep $K$-Means, we can use the approach proposed by Moradi Fard, Thonet 
 \cite{Deap-K-Means} see in section 2.3.\\
 For the clustering loss we can use squared loss with euclidean distance. We
 denote $R = \begin{pmatrix} r_1 & r_2 & ... & r_K\end{pmatrix}$ the vector of
-centroids :  
-\begin{equation}\label{eq:loss_clust}
-  L_{Clust}(C, K;R, \theta) = \sum\limits_{X \in C}\sum\limits_{k=1}^K F(h_X, r_k) G_{k, F}(h_X, \beta; R) 
+centroids.\\
+Finally the loss function for Unclustered Keywords is :
+\begin{equation}
+L(C ,\alpha;\theta,R) = \sum\limits_{X \in C} ||X - A(X;\theta)||_2^2 + 
+\lambda_0 \sum\limits_{X \in C}\sum\limits_{k=1}^K||h_\theta(X) - r_k ||_2^2 G_{k}(h_\theta(X), \alpha; R) + 
+\lambda_1|| h_\theta(X) - h_\theta(X')||_2^2
 \end{equation}
-Finally the loss function is :
-\begin{equation}\label{eq:loss_FINALE}
-\begin{array}{l l}
-  Min~L(KW, C, K; \theta) = & L_{NonClust}(C, KW; \theta) \\
-  & + \lambda.L_{Clust}(C, K;R, \theta)
+and the loss function for Unclustered Keywords is :
+\begin{equation}
+\begin{array}{c c}
+L(C ,\alpha;\theta,R) = & \sum\limits_{X \in C} ||X - A(X;\theta)||_2^2 + 
+\lambda_0 \sum\limits_{X \in C}\sum\limits_{k=1}^K||h_\theta(X) - r_k ||_2^2 G_{k}(h_\theta(X), \alpha; R) + 
+\\ & \lambda_1\sum\limits_{X \in C} \sum\limits_{k = 1}^K \frac{e^{-\alpha|| h_\theta(X) - 
+h_\theta(X'_k)||_2^2}}{\sum\limits_{k' = 1}^K e^{-\alpha|| h_\theta(X) - 
+h_\theta(X'_{k'})||_2^2}}|| h_\theta(X) - h_\theta(X'_{k})||_2^2
 \end{array}
 \end{equation}
-with $\lambda \geq 0$.\\
+with hyperparameters $\lambda_0 \geq 0, \lambda_1 \geq 0$.\\
+
+\subsection{Learning Algorithm and Pretraining}
+
 For the learning algorithm we can use the Deep $K$-Means algorithm with 
-pretraining~\ref{algo:dkm} see in section \ref{seq:DeepClust}. We use two 
-methods for pretraining, a simple pretraining minimizing only reconstruct loss :
-$\sum\limits_{X \in X} || X - f(h_\theta(X))||_2^2$
-And a lexical pretrain, with the second method we learn a representation 
-minimizing $\sum\limits_{X \in X} || X - f(h_\theta(X))||_2^2 + 
-\alpha_0 \sum\limits_{X \in C} || h_\theta(X) - h_\theta(X')||_2^2$. 
-It allows to initialize centroïds with bias  representation.
+pretraining~(algorithm \ref{algo:dkm}) see in section \ref{seq:DeepClust}. 
+ 
+\subsubsection{Pretraining}
+The pretraining we performed here simply consists in initializing the weights by training 
+the auto-encoder then, petraining allows to initialize centroïds.
+We use two methods for pretraining : 
+\begin{enumerate} 
+\item \textbf{simple pretraining} : minimizing only reconstruct loss :
+  $\sum\limits_{X \in X} || X - f(h_\theta(X))||_2^2$. This allows to 
+  initialize with the least loss of informations about documents.   
+\item \textbf{lexical pretrain} : minimizing $\sum\limits_{X \in X} || X - f(h_\theta(X))||_2^2 + 
+  \lambda_1 \sum\limits_{X \in C} || h_\theta(X) - h_\theta(X')||_2^2$. 
+  It allows to initialize centroïds with bias representation.
+\end{enumerate}
+
+\subsection{Additional Class}
+The plus of this method is that we have as many constraints as document. 
+However, it is possible, in practice, to have a large number of null vector X', 
+in other word a large number of  document X without any keywords\ref{table:null_prime}.
+It might be interesting to capture these documents in a new class having
+for representative the embedding for null document $\vv{0}$. We denote    
+$R=(r_0, r_1, ...., r_K)$ our K+1 representatives, we denote 
+$r_0$ the representative of the adding class as follows : 
+\begin{equation}
+r_0 = h_\theta(\vv{0})
+\end{equation}
+Add a class is adequate for the Unclustered Keywords method, However for the
+Clustered Keywords method we need to transform the penalty.  
+We add $X'_0$ such $X'_0 = \vv{0}$, the penalty takes the form :
+\begin{equation}\label{eq:k_add}
+\begin{array}{l}
+  \sum\limits_{X \in C} \sum\limits_{k = 0}^K \frac{e^{-\alpha|| h_\theta(X) - 
+h_\theta(X'_k)||_2^2}}{\sum\limits_{k' = 0}^K e^{-\alpha|| h_\theta(X) - 
+h_\theta(X'_{k'})||_2^2}}|| h_\theta(X) - h_\theta(X'_{k})||_2^2
+\end{array}
+\end{equation}
+\begin{table}[h]
+\centering
+\caption{\label{table:null_prime}Rate of null $X'$ document for each class}
+  \begin{tabular}{|l|l|l|l|l|l|l|}
+    \hline
+     Number of keywords         & 1      &2       & 3      & 4      & 5\\ \hline
+     20 newsgroups with noise   &$44.8\%$&$33.6\%$&$25.1\%$&$19.8\%$&$15.3\%$ \\ \hline
+     20 newsgroups without noise&$41.1\%$&$24.5\%$&$18.3\%$&$14.6\%$&$12.0\%$ \\ \hline
+     RCV1 without noise         &$50.1\%$&$30.3\%$&$20.8\%$&$14.1\%$&$11.9\%$ \\ \hline
+  \end{tabular}
+\end{table}

@@ -53,7 +53,7 @@ if __name__ == "__main__":
     fig.legend(lines[4:], ['Deep K-Means'],
                         loc='upper right', frameon=False, prop={'size': 5.5})
     plt.xlabel('Number of keywords per classes')
-    plt.ylabel('Accuracy')
+    plt.ylabel('NMI')
     fig.savefig(sys.argv[2], bbox_inches='tight')
 
     plt.close()
