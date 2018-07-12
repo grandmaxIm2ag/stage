@@ -82,12 +82,12 @@ with hyperparameters $\lambda_0 \geq 0, \lambda_1 \geq 0$.\\
 For the learning algorithm we can use the Deep $K$-Means algorithm with 
 pretraining~(algorithm \ref{algo:dkm}) see in section \ref{seq:DeepClust}. 
  
-\subsubsection{Pretraining}
+\subsubsection{Pretraining}\label{sec:pre}
 The pretraining we performed here simply consists in initializing the weights by training 
 the auto-encoder then, petraining allows to initialize centroïds.
 We use two methods for pretraining : 
 \begin{enumerate} 
-\item \textbf{simple pretraining} : minimizing only reconstruct loss :
+\item \textbf{simple pretrain} : minimizing only reconstruct loss :
   $\sum\limits_{X \in X} || X - f(h_\theta(X))||_2^2$. This allows to 
   initialize with the least loss of informations about documents.   
 \item \textbf{lexical pretrain} : minimizing $\sum\limits_{X \in X} || X - f(h_\theta(X))||_2^2 + 
@@ -123,7 +123,7 @@ h_\theta(X'_{k'})||_2^2}}|| h_\theta(X) - h_\theta(X'_{k})||_2^2
     \hline
      Number of keywords         & 1      &2       & 3      & 4      & 5\\ \hline
      20 newsgroups with noise   &$44.8\%$&$33.6\%$&$25.1\%$&$19.8\%$&$15.3\%$ \\ \hline
-     20 newsgroups without noise&$41.1\%$&$24.5\%$&$18.3\%$&$14.6\%$&$12.0\%$ \\ \hline
-     RCV1 without noise         &$50.1\%$&$30.3\%$&$20.8\%$&$14.1\%$&$11.9\%$ \\ \hline
+     20 newsgroups&$41.1\%$&$24.5\%$&$18.3\%$&$14.6\%$&$12.0\%$ \\ \hline
+     RCV1         &$50.1\%$&$30.3\%$&$20.8\%$&$14.1\%$&$11.9\%$ \\ \hline
   \end{tabular}
 \end{table}
