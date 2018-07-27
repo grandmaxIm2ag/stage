@@ -122,51 +122,76 @@ The decoder is a mirrored version of the encoder~\ref{fig:autoenc}.
 The ReLu activation function is used on layers, except for the third
 hidden layer of encoder and decoder part.
 \subsubsection{Hyperparameters}
-We used Line Search strategy for 
-$\lambda_0$ and $\lambda_1$ optimization. The Line search is computed in two step.
+We used Gride Search strategy for $\lambda_0$ and $\lambda_1$ optimization.
 In the first we search the best $\lambda_1$ for Autoencoder + $K$-Means with lexical
 pretrain (see section ~\ref{sec:pre}). Then we optimize $\lambda_0$ with constrained 
 deep $K$-Means with respect to the value of $\lambda_1$ found in previous step.
-\\ For Unclustered Keywords method we search on the range 
+\\We search on the range 
 $[10^{-4},10^{-3},10^{-2},10^{-1}]$ for $\lambda_0$ and on the range
 \\$[10^{-3},5.10^{-3},10^{-3},5.10^{-3},10^{-2},5.10^{-2},10^{-1}]$ 
 for $\lambda_1$.   
-For Clustered Keywords method we search on the range 
-$[10^{-8},10^{-7},10^{-6},10^{-5},10^{-4},10^{-3}]$ for $\lambda_0$ and on the range
-$[10^{-6},10^{-5},10^{-4},5.10^{-3}]$ 
-for $\lambda_1$.
-The results of Line Search are reported in table~\ref{tab:line_search_met1}~and~\ref{tab:line_search_met2}.
-\begin{table}[!h]
-\centering
-%\resizebox{\hsize}{!}{
-  \begin{tabular}{| l | l | l | l | l |}
-    \hline
-     & 20NEWS  & 20NEWS With noise & RCV1 & DBPEDIA  
-\\ \hline
-    $\lambda_0$  & $10^{-5}$            & $10^{-4}$      & $5.10^{-2}$ & $5.10^{-2}$           
-\\ \hline
-    $\lambda_1$ & $5.10^{-3}$          & $10^{-2}$       & $10^{-2}$ & $5.10^{-2}$          
-\\ \hline
-  \end{tabular}
-%}
-  \caption{\label{tab:line_search_met1}Best results of Line Search for the optimization of
+The results of Line Search are reported in table~\ref{tab:line_search_met1}.
+\begin{table}
+\caption{\label{tab:line_search_met1}Best results of Line Search for the optimization of
 hyperparameters for each dataset for the Unclustered Keywords method.}
-\end{table}
-\begin{table}[!h]
+%The best result for each  metric/dataset is bold.}
 \centering
-%\resizebox{\hsize}{!}{
-  \begin{tabular}{| l | l | l | l | l |}
+\resizebox{.3\textwidth}{!}{
+\begin{tabular}{|l|l|l|}
     \hline
-     & 20NEWS  & 20NEWS With noise & RCV1 & DBPEDIA  
-\\ \hline
-    $\lambda_0$  & &$10^{-4}$         & $10^{-6}$ &           
-\\ \hline
-    $\lambda_1$ & $5.10^{-5}$          & $10^{-5}$       & $10^{-3}$ & $10^{-4}$          
-\\ \hline
-  \end{tabular}
-%}
-  \caption{\label{tab:line_search_met2}Best results of Line Search for the optimization of
-hyperparameters for each dataset for the Clustered Keywords method.}
+                      &$\lambda_0$&$\lambda_0$       \\ \hline
+    Deep $K$-Means    &$10^{-1}$  &$10^{-1}$         \\ \hline
+    AE + KM, LP mask  &$10^{-1}$  &$10^{-1}$         \\ \hline
+    AE + KM, LP sim   &$10^{-1}$  &$10^{-1}$         \\ \hline
+       CDKM, LP mask  &$10^{-1}$  &$10^{-1}$         \\ \hline
+       CDKM, LP sim   &$10^{-1}$  &$10^{-1}$         \\ \hline
+       CDKM, SP mask  &$10^{-1}$  &$10^{-1}$         \\ \hline
+       CDKM, SP sim   &$10^{-1}$  &$10^{-1}$         \\ \hline
+\end{tabular}
+}
+\subcaption*{RCV1}
+\resizebox{.3\textwidth}{!}{
+\begin{tabular}{|l|l|l|}
+    \hline
+                      &$\lambda_0$&$\lambda_0$       \\ \hline
+    Deep $K$-Means    &$10^{-1}$  &$10^{-1}$         \\ \hline
+    AE + KM, LP mask  &$10^{-1}$  &$10^{-1}$         \\ \hline
+    AE + KM, LP sim   &$10^{-1}$  &$10^{-1}$         \\ \hline
+       CDKM, LP mask  &$10^{-1}$  &$10^{-1}$         \\ \hline
+       CDKM, LP sim   &$10^{-1}$  &$10^{-1}$         \\ \hline
+       CDKM, SP mask  &$10^{-1}$  &$10^{-1}$         \\ \hline
+       CDKM, SP sim   &$10^{-1}$  &$10^{-1}$         \\ \hline
+\end{tabular}
+}
+\subcaption*{20 Newsgroups}
+\resizebox{.3\textwidth}{!}{
+\begin{tabular}{|l|l|l|}
+    \hline
+                      &$\lambda_0$&$\lambda_0$       \\ \hline
+    Deep $K$-Means    &$10^{-1}$  &$10^{-1}$         \\ \hline
+    AE + KM, LP mask  &$10^{-1}$  &$10^{-1}$         \\ \hline
+    AE + KM, LP sim   &$10^{-1}$  &$10^{-1}$         \\ \hline
+       CDKM, LP mask  &$10^{-1}$  &$10^{-1}$         \\ \hline
+       CDKM, LP sim   &$10^{-1}$  &$10^{-1}$         \\ \hline
+       CDKM, SP mask  &$10^{-1}$  &$10^{-1}$         \\ \hline
+       CDKM, SP sim   &$10^{-1}$  &$10^{-1}$         \\ \hline
+\end{tabular}
+}
+\subcaption*{20 Newsgroups without noise}
+\resizebox{.3\textwidth}{!}{
+\begin{tabular}{|l|l|l|}
+    \hline
+                      &$\lambda_0$&$\lambda_0$       \\ \hline
+    Deep $K$-Means    &$10^{-1}$  &$10^{-1}$         \\ \hline
+    AE + KM, LP mask  &$10^{-1}$  &$10^{-1}$         \\ \hline
+    AE + KM, LP sim   &$10^{-1}$  &$10^{-1}$         \\ \hline
+       CDKM, LP mask  &$10^{-1}$  &$10^{-1}$         \\ \hline
+       CDKM, LP sim   &$10^{-1}$  &$10^{-1}$         \\ \hline
+       CDKM, SP mask  &$10^{-1}$  &$10^{-1}$         \\ \hline
+       CDKM, SP sim   &$10^{-1}$  &$10^{-1}$         \\ \hline
+\end{tabular}
+}
+\subcaption*{DBPedia}
 \end{table}
 
 \subsection{Results}
@@ -177,97 +202,155 @@ Each corpus contain ten classes. We generate keywords \ref{algo:gen_kw}
 from $C_1$. Then we concatenate document from corpus $C_1$ with document
 from corpus $C_2$. The clustering processed on corpus $C_1$. For this experiment
 we extract 3 keywords per class (see algorithm \ref{algo:gen_kw}).
-\\Results are reported in table \ref{tab:res}.
-\begin{table}[h]
-\caption{\label{tab:res}Clustering applies to 
+\\Results for baseline are reported in table \ref{tab:res_baseline}.
+
+\begin{table}
+\caption{\label{tab:res_mask}Clustering applies to 
 different learned latent space to measure the efficiency of lexical constraints
 for $K$-Means algorithm. Performance is measured in terms of NMI, Adjusted Rand 
 Index and clustering Accuracy, higher is better. Each cell contains the average
 and the standard deviation computed over 10 runs.}
 %The best result for each  metric/dataset is bold.}
 \centering
-%\resizebox{\hsize}{!}{
-  \begin{tabular}{|l|l|l|l|}
+\resizebox{\hsize}{!}{
+\begin{tabular}{|l|l|l|l|}
     \hline
-    & ACC          &ARI           & NMI           \\ \hline
-    20NEWS    &$36.1 \pm 2.2$&$13.3 \pm 1.7$&$40.9 \pm 1.6$ \\ \hline
-    20NEWS with noise      &$33.1 \pm 2.7$&$8.7 \pm 1.3$ &$26.3 \pm 1.6$ \\ \hline
-    RCV1      &$48.8 \pm 6.6$&$18.4 \pm 6.0$&$29.7 \pm 5.8$ \\ \hline
-    DBPEDIA  &$54.6 \pm 3.2$& $31.2 \pm 2.7$& $63.4 \pm 0.9 $ \\ \hline
-  \end{tabular}
-%}
-\subcaption*{K-Means}
-%\resizebox{\hsize}{!}{
-  \begin{tabular}{|l|l|l|l|}
-    \hline
-    & ACC          &ARI           & NMI           \\ \hline
-    20NEWS    &$53.1 \pm 2.3$&$35.0 \pm 1.4$&$49.3 \pm 1.0$  \\ \hline
-    20NEWS with noise      &$\boldmath45.2 \pm 3.3$&$23.0 \pm 2.5$ &$30.0 \pm 2.0$ \\ \hline
-    RCV1      &$51.3 \pm 3.5$&$17.5 \pm 5.8$&$24.5 \pm 5.1$ \\ \hline
-    DBPEDIA  &$72.9 \pm 2.5$& $62.7 \pm 2.5$& $72.8 \pm 1.5 $ \\ \hline
-  \end{tabular}
-%}
-\subcaption*{AE + KM SP}
-%\resizebox{\hsize}{!}{
-  \begin{tabular}{|l|l|l|l|}
-    \hline
-    & ACC          &ARI          & NMI          \\ \hline
-    20NEWS     & $54.9\pm 1.7$&$37.6\pm 1.1$&$51.6\pm 0.6$ \\ \hline
-    20NEWS with noise       & $44.5\pm 2.4$&$23.6\pm 2.4$&$30.2\pm 2.0$ \\ \hline
-    RCV1       &$54.4\pm 4.9$ &$23.9\pm 3.5$&$29.6\pm 3.6$ \\ \hline
-    DBPEDIA  &$73.6 \pm 4.8$& $63.5 \pm 2.9$& $74.6 \pm 1.3 $ \\ \hline
-  \end{tabular}
-%}
-\subcaption*{Deep K-Means}
-%\resizebox{\hsize}{!}{
-  \begin{tabular}{|l|l|l|l||l|l|l|}
-    \hline
-    & \multicolumn{3}{c}{Unclustered Keywords} & \multicolumn{3}{c}{Clustered Keywords} \\
-    & ACC          &ARI           & NMI  & ACC          &ARI           & NMI         \\ \hline
-    20NEWS    &$57.5 \pm 2.6$&$39.0 \pm 1.2$&$51.4 \pm 0.8$ &$54.9 \pm 1.9$&$37.1 \pm 0.8$&$49.7 \pm 1.0$ \\ \hline
-    20NEWS with noise      &$46.8\pm 2.0$  &$24.9\pm 1.5$&$32.5\pm 0.9$ &$44.6\pm 2.5$  &$22.6\pm 1.6$&$29.5\pm 1.6$ \\ \hline
-    RCV1      &$64.6 \pm 4.7$&$31.5 \pm 4.5$&$36.5 \pm 4.7$ &$63.0 \pm 6.5$&$29.0 \pm 6.6$&$33.9 \pm 6.3$\\ \hline
-    DBPEDIA  &$76.5 \pm 3.1$& $65.2 \pm 1.8$& $75.5 \pm 0.8 $ &$76.9 \pm 1.9$& $65.5 \pm 1.7$& $74.3 \pm 1.0 $\\ \hline
-  \end{tabular}
-\subcaption*{AE + KM LP}
-  \begin{tabular}{|l|l|l|l||l|l|l|}
-    \hline
-    & \multicolumn{3}{c}{Unclustered Keywords} & \multicolumn{3}{c}{Clustered Keywords} \\
-    & ACC                  &ARI                   & NMI& ACC                  &ARI                   & NMI                   \\ \hline
-    20NEWS    &$57.7\pm 2.9$  &$40.0\pm 1.3$    &$51.7\pm 0.9$&&& \\ \hline
-    20NEWS with noise      &$45.1\pm 2.3$  &$24.3\pm 1.7$&$30.8\pm 1.2$&$44.2\pm 1.8$  &$22.2\pm 1.4$&$28.4\pm 1.3$ \\ \hline
-    RCV1      &$64.8\pm 5.5$&$31.6\pm 5.2$&$36.8 \pm 4.9$&$56.2\pm 7.6$&$22.0\pm 7.8$&$29.0 \pm 6.4$  \\ \hline
-    DBPEDIA  &$76.8 \pm 3.3$& $65.6 \pm 2.1$& $75.5 \pm 0.9$&&& \\ \hline
+                      & ACC      &ARI       &NMI       \\ \hline
+    $K$-Means         &$48.8\pm6.6$&$18.4\pm6.0$&$29.7\pm5.8$\\ \hline
+    AE + KM, SP       &$51.3\pm3.5$&$17.5\pm5.8$&$24.5\pm5.1$\\ \hline
+    Deep $K$-Means    &$54.4\pm4.9$&$23.9\pm3.5$&$29.6\pm3.6$\\ \hline
+    AE + KM, LP mask  &$00.0\pm0.0$&$00.0\pm0.0$&$00.0\pm0.0$\\ \hline
+    AE + KM, LP sim   &$00.0\pm0.0$&$00.0\pm0.0$&$00.0\pm0.0$\\ \hline
+       CDKM, LP mask  &$00.0\pm0.0$&$00.0\pm0.0$&$00.0\pm0.0$\\ \hline
+       CDKM, LP sim   &$00.0\pm0.0$&$00.0\pm0.0$&$00.0\pm0.0$\\ \hline
+       CDKM, SP mask  &$00.0\pm0.0$&$00.0\pm0.0$&$00.0\pm0.0$\\ \hline
+       CDKM, SP sim   &$00.0\pm0.0$&$00.0\pm0.0$&$00.0\pm0.0$\\ \hline
 \end{tabular}
-\subcaption*{CDKM LP}
+}
+\subcaption*{RCV1}
+\resizebox{\hsize}{!}{
+\begin{tabular}{|l|l|l|l|}
+    \hline
+                      & ACC      &ARI       &NMI       \\ \hline
+    $K$-Means         &$36.1\pm2.2$&$13.3\pm1.7$&$40.9\pm1.6$\\ \hline
+    AE + KM, SP       &$53.1\pm2.3$&$35.0\pm1.4$&$49.3\pm1.0$\\ \hline
+    Deep $K$-Means    &$54.9\pm1.7$&$37.6\pm1.1$&$51.6\pm0.6$\\ \hline
+    AE + KM, LP mask  &$00.0\pm0.0$&$00.0\pm0.0$&$00.0\pm0.0$\\ \hline
+    AE + KM, LP sim   &$00.0\pm0.0$&$00.0\pm0.0$&$00.0\pm0.0$\\ \hline
+       CDKM, LP mask  &$00.0\pm0.0$&$00.0\pm0.0$&$00.0\pm0.0$\\ \hline
+       CDKM, LP sim   &$00.0\pm0.0$&$00.0\pm0.0$&$00.0\pm0.0$\\ \hline
+       CDKM, SP mask  &$00.0\pm0.0$&$00.0\pm0.0$&$00.0\pm0.0$\\ \hline
+       CDKM, SP sim   &$00.0\pm0.0$&$00.0\pm0.0$&$00.0\pm0.0$\\ \hline
+\end{tabular}
+}
+\subcaption*{20 Newsgroups}
+\resizebox{\hsize}{!}{
+\begin{tabular}{|l|l|l|l|}
+    \hline
+                      & ACC      &ARI       &NMI       \\ \hline
+    $K$-Means         &$33.1\pm2.7$&$ 8.7\pm1.3$&$26.3\pm1.6$\\ \hline
+    AE + KM, SP       &$45.2\pm3.3$&$23.0\pm2.5$&$30.0\pm2.0$\\ \hline
+    Deep $K$-Means    &$44.5\pm2.4$&$23.6\pm2.4$&$30.2\pm2.0$\\ \hline
+    AE + KM, LP mask  &$00.0\pm0.0$&$00.0\pm0.0$&$00.0\pm0.0$\\ \hline
+    AE + KM, LP sim   &$00.0\pm0.0$&$00.0\pm0.0$&$00.0\pm0.0$\\ \hline
+       CDKM, LP mask  &$00.0\pm0.0$&$00.0\pm0.0$&$00.0\pm0.0$\\ \hline
+       CDKM, LP sim   &$00.0\pm0.0$&$00.0\pm0.0$&$00.0\pm0.0$\\ \hline
+       CDKM, SP mask  &$00.0\pm0.0$&$00.0\pm0.0$&$00.0\pm0.0$\\ \hline
+       CDKM, SP sim   &$00.0\pm0.0$&$00.0\pm0.0$&$00.0\pm0.0$\\ \hline
+\end{tabular}
+}
+\subcaption*{20 Newsgroups with noise}
+\resizebox{\hsize}{!}{
+\begin{tabular}{|l|l|l|l|}
+    \hline
+                      & ACC        &ARI         &NMI       \\ \hline
+    $K$-Means         &$54.6\pm3.2$&$31.2\pm2.7$&$63.4\pm0.9$\\ \hline
+    AE + KM, SP       &$72.9\pm2.5$&$62.7\pm2.5$&$72.8\pm1.5$\\ \hline
+    Deep $K$-Means    &$73.6\pm4.8$&$63.5\pm2.9$&$74.6\pm1.3$\\ \hline
+    AE + KM, LP mask  &$00.0\pm0.0$&$00.0\pm0.0$&$00.0\pm0.0$\\ \hline
+    AE + KM, LP sim   &$00.0\pm0.0$&$00.0\pm0.0$&$00.0\pm0.0$\\ \hline
+  CDKM, LP mask  &$00.0\pm0.0$&$00.0\pm0.0$&$00.0\pm0.0$\\ \hline
+       CDKM, LP sim   &$00.0\pm0.0$&$00.0\pm0.0$&$00.0\pm0.0$\\ \hline
+       CDKM, SP mask  &$00.0\pm0.0$&$00.0\pm0.0$&$00.0\pm0.0$\\ \hline
+       CDKM, SP sim   &$00.0\pm0.0$&$00.0\pm0.0$&$00.0\pm0.0$\\ \hline
+\end{tabular}
+}
+\subcaption*{DBPedia}
 \end{table}
 
-\subsection{Robustness}
-We can also test the robustness of our algorithm. To test this, we
-can vary the number of keywords by classes. In addition we compare
-the results of each version of our two methods (simple/lexical pretrain, adding 
-class) for each dataset.
+\subsubsection{Non Discriminative Keywords}
+\begin{table}
+\caption{\label{tab:res_mask}Clustering applies to 
+different learned latent space to measure the efficiency of lexical constraints
+for $K$-Means algorithm. Performance is measured in terms of NMI, Adjusted Rand 
+Index and clustering Accuracy, higher is better. Each cell contains the average
+and the standard deviation computed over 10 runs.}
+%The best result for each  metric/dataset is bold.}
+\centering
+\resizebox{\hsize}{!}{
+\begin{tabular}{|l|l|l|l|}
+    \hline
+                      & ACC      &ARI       &NMI       \\ \hline
+    $K$-Means         &$48.8\pm6.6$&$18.4\pm6.0$&$29.7\pm5.8$\\ \hline
+    AE + KM, SP       &$51.3\pm3.5$&$17.5\pm5.8$&$24.5\pm5.1$\\ \hline
+    Deep $K$-Means    &$54.4\pm4.9$&$23.9\pm3.5$&$29.6\pm3.6$\\ \hline
+    AE + KM, LP mask  &$00.0\pm0.0$&$00.0\pm0.0$&$00.0\pm0.0$\\ \hline
+    AE + KM, LP sim   &$00.0\pm0.0$&$00.0\pm0.0$&$00.0\pm0.0$\\ \hline
+       CDKM, LP mask  &$00.0\pm0.0$&$00.0\pm0.0$&$00.0\pm0.0$\\ \hline
+       CDKM, LP sim   &$00.0\pm0.0$&$00.0\pm0.0$&$00.0\pm0.0$\\ \hline
+       CDKM, SP mask  &$00.0\pm0.0$&$00.0\pm0.0$&$00.0\pm0.0$\\ \hline
+       CDKM, SP sim   &$00.0\pm0.0$&$00.0\pm0.0$&$00.0\pm0.0$\\ \hline
+\end{tabular}
+}
+\subcaption*{RCV1}
+\resizebox{\hsize}{!}{
+\begin{tabular}{|l|l|l|l|}
+    \hline
+                      & ACC      &ARI       &NMI       \\ \hline
+    $K$-Means         &$36.1\pm2.2$&$13.3\pm1.7$&$40.9\pm1.6$\\ \hline
+    AE + KM, SP       &$53.1\pm2.3$&$35.0\pm1.4$&$49.3\pm1.0$\\ \hline
+    Deep $K$-Means    &$54.9\pm1.7$&$37.6\pm1.1$&$51.6\pm0.6$\\ \hline
+    AE + KM, LP mask  &$00.0\pm0.0$&$00.0\pm0.0$&$00.0\pm0.0$\\ \hline
+    AE + KM, LP sim   &$00.0\pm0.0$&$00.0\pm0.0$&$00.0\pm0.0$\\ \hline
+       CDKM, LP mask  &$00.0\pm0.0$&$00.0\pm0.0$&$00.0\pm0.0$\\ \hline
+       CDKM, LP sim   &$00.0\pm0.0$&$00.0\pm0.0$&$00.0\pm0.0$\\ \hline
+       CDKM, SP mask  &$00.0\pm0.0$&$00.0\pm0.0$&$00.0\pm0.0$\\ \hline
+       CDKM, SP sim   &$00.0\pm0.0$&$00.0\pm0.0$&$00.0\pm0.0$\\ \hline
+\end{tabular}
+}
+\subcaption*{20 Newsgroups}
+\resizebox{\hsize}{!}{
+\begin{tabular}{|l|l|l|l|}
+    \hline
+                      & ACC      &ARI       &NMI       \\ \hline
+    $K$-Means         &$33.1\pm2.7$&$ 8.7\pm1.3$&$26.3\pm1.6$\\ \hline
+    AE + KM, SP       &$45.2\pm3.3$&$23.0\pm2.5$&$30.0\pm2.0$\\ \hline
+    Deep $K$-Means    &$44.5\pm2.4$&$23.6\pm2.4$&$30.2\pm2.0$\\ \hline
+    AE + KM, LP mask  &$00.0\pm0.0$&$00.0\pm0.0$&$00.0\pm0.0$\\ \hline
+    AE + KM, LP sim   &$00.0\pm0.0$&$00.0\pm0.0$&$00.0\pm0.0$\\ \hline
+       CDKM, LP mask  &$00.0\pm0.0$&$00.0\pm0.0$&$00.0\pm0.0$\\ \hline
+       CDKM, LP sim   &$00.0\pm0.0$&$00.0\pm0.0$&$00.0\pm0.0$\\ \hline
+       CDKM, SP mask  &$00.0\pm0.0$&$00.0\pm0.0$&$00.0\pm0.0$\\ \hline
+       CDKM, SP sim   &$00.0\pm0.0$&$00.0\pm0.0$&$00.0\pm0.0$\\ \hline
+\end{tabular}
+}
+\subcaption*{20 Newsgroups with noise}
+\resizebox{\hsize}{!}{
+\begin{tabular}{|l|l|l|l|}
+    \hline
+                      & ACC        &ARI         &NMI       \\ \hline
+    $K$-Means         &$54.6\pm3.2$&$31.2\pm2.7$&$63.4\pm0.9$\\ \hline
+    AE + KM, SP       &$72.9\pm2.5$&$62.7\pm2.5$&$72.8\pm1.5$\\ \hline
+    Deep $K$-Means    &$73.6\pm4.8$&$63.5\pm2.9$&$74.6\pm1.3$\\ \hline
+    AE + KM, LP mask  &$00.0\pm0.0$&$00.0\pm0.0$&$00.0\pm0.0$\\ \hline
+    AE + KM, LP sim   &$00.0\pm0.0$&$00.0\pm0.0$&$00.0\pm0.0$\\ \hline
+  CDKM, LP mask  &$00.0\pm0.0$&$00.0\pm0.0$&$00.0\pm0.0$\\ \hline
+       CDKM, LP sim   &$00.0\pm0.0$&$00.0\pm0.0$&$00.0\pm0.0$\\ \hline
+       CDKM, SP mask  &$00.0\pm0.0$&$00.0\pm0.0$&$00.0\pm0.0$\\ \hline
+       CDKM, SP sim   &$00.0\pm0.0$&$00.0\pm0.0$&$00.0\pm0.0$\\ \hline
+\end{tabular}
+}
+\subcaption*{DBPedia}
+\end{table}
 
-\subsection{User Test}
-For user test, we extract keywords without taking into account class information. In other 
-word, We add for each document the tfidf of each word. We can see the algorithm in 
-\ref{algo:gen_kw_user}. This test allows to know the performance of our algorithm
-in practical condition.
-\begin{algorithm}
-  \SetKwInOut{Input}{input}
-  \SetKwInOut{Output}{output}
-  \Input{Corpus C, The number of keywords $P$}
-  \Output{KW}
-  $KW \gets \{\}$\\
-  \ForEach{Document $X \in c_i$}{
-    \ForEach{Word $w \in X$}{
-      $rank_{w} \gets rank_{w} + TFIDF(w,X,C)$\\
-    }
-  }
-  \ForEach{Class $c_i \in C$}{
-    $KW \gets KW \cup \{\{w_1, w_2 ... w_P\} : \not\exists (v_1, v_2) | v_1 \not\in 
-    \{w_1, w_2 ... w_P\}, v_2 \in \{w_1, w_2 ... w_P\}, rank_{v_1} \ge rank_{v_2}\}$\\
-  }
-  \Return{KW}
-  \caption{\label{algo:gen_kw_user}Extract Keywords II}
-\end{algorithm}
+\subsubsection{Robustness}

@@ -9,13 +9,9 @@ TARGET=main
 all:${TARGET}
 
 main: ${OBJ}
-	cd ari ; \
-	make all
-	cd acc ; \
-	make all
-	cd nmi ; \
-	make all
-	cd trash_class ; \
-	make all
+
+%.png: %.dat
+	${CC} ${SCRIPT} $^ $@
+
 clean:
 	rm -rf ${OBJ} ${TARGET} *~

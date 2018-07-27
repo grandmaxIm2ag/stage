@@ -8,20 +8,11 @@
 \BOOKMARK [2][-]{subsection.3.2}{Clustered Keywords}{section.3}% 8
 \BOOKMARK [2][-]{subsection.3.3}{Deep K-Means}{section.3}% 9
 \BOOKMARK [2][-]{subsection.3.4}{Learning Algorithm and Pretraining}{section.3}% 10
-\BOOKMARK [3][-]{subsubsection.3.4.1}{Pretraining}{subsection.3.4}% 11
-\BOOKMARK [2][-]{subsection.3.5}{Additional Class}{section.3}% 12
-\BOOKMARK [1][-]{section.4}{Experiment}{}% 13
-\BOOKMARK [2][-]{subsection.4.1}{Data}{section.4}% 14
-\BOOKMARK [2][-]{subsection.4.2}{Generate Constraint}{section.4}% 15
-\BOOKMARK [3][-]{subsubsection.4.2.1}{Lexical Constraints}{subsection.4.2}% 16
-\BOOKMARK [2][-]{subsection.4.3}{Evaluation}{section.4}% 17
-\BOOKMARK [3][-]{subsubsection.4.3.1}{Baseline Algorithm}{subsection.4.3}% 18
-\BOOKMARK [3][-]{subsubsection.4.3.2}{Metric}{subsection.4.3}% 19
-\BOOKMARK [2][-]{subsection.4.4}{Experimental Setup}{section.4}% 20
-\BOOKMARK [3][-]{subsubsection.4.4.1}{Autoencoder Architecture}{subsection.4.4}% 21
-\BOOKMARK [3][-]{subsubsection.4.4.2}{Hyperparameters}{subsection.4.4}% 22
-\BOOKMARK [2][-]{subsection.4.5}{Results}{section.4}% 23
-\BOOKMARK [2][-]{subsection.4.6}{Robustness}{section.4}% 24
-\BOOKMARK [2][-]{subsection.4.7}{User Test}{section.4}% 25
-\BOOKMARK [1][-]{section.5}{Conclusion}{}% 26
-\BOOKMARK [1][-]{section.6}{Future Works}{}% 27
+\BOOKMARK [1][-]{section.4}{Experiment}{}% 11
+\BOOKMARK [2][-]{subsection.4.1}{Data}{section.4}% 12
+\BOOKMARK [2][-]{subsection.4.2}{Generate Constraint}{section.4}% 13
+\BOOKMARK [2][-]{subsection.4.3}{Evaluation}{section.4}% 14
+\BOOKMARK [2][-]{subsection.4.4}{Experimental Setup}{section.4}% 15
+\BOOKMARK [2][-]{subsection.4.5}{Results}{section.4}% 16
+\BOOKMARK [1][-]{section.5}{Conclusion}{}% 17
+\BOOKMARK [1][-]{section.6}{Future Works}{}% 18

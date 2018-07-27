@@ -8,6 +8,7 @@
 \usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
 % The file ijcai11.sty is the style file for IJCAI-11 (same as ijcai07.sty).
 % Use the postscript times font!
+\usepackage{ijcai11}
 \usepackage{times}%
 \let\proof\relax
 \let\endproof\relax
@@ -45,7 +46,6 @@
 \begin{document}
 \subfile{parts/title.tex}
 \maketitle
-%\justify
 \subfile{parts/abstract}
 \subfile{parts/intro}
 \subfile{parts/related}
@@ -55,6 +55,6 @@
 \subfile{parts/futur}
 \subfile{parts/remercie}
 \nocite{*}
-%\printbibliography[title=References]
+\printbibliography[title=References]
 \end{document}
 % end of file template.tex

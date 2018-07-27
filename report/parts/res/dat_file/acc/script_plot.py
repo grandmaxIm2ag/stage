@@ -16,7 +16,9 @@ if __name__ == "__main__":
     nb_kw = []
     dkm = []
     lex_lex_add = []
+    ae = []
     while line != "":
+        print(line)
         tmp = []
         tmp=line.split(" ")
         nb_kw.append(int(tmp[0]))
@@ -25,6 +27,7 @@ if __name__ == "__main__":
         lex_lex.append(float(tmp[1]))
         lex_lex_add.append(float(tmp[2]))
         dkm.append(float(tmp[5]))
+        ae.append(float(tmp[6]))
         line = datafile.readline()
 
     lines = []
@@ -35,8 +38,9 @@ if __name__ == "__main__":
     lines += ax.plot(nb_kw, lex_simple_add,colors[1], label='Simple pretrain, Additional Class', linewidth=2)
     lines += ax.plot(nb_kw, lex_lex,colors[2], label='Lexical pretrain', linewidth=2)
     lines += ax.plot(nb_kw, lex_lex_add,colors[3], label='Lexical pretrain, Additional Class', linewidth=2)
+    lines += ax.plot(nb_kw, ae,colors[5], label='Autoencoder + K-Means', linewidth=2)
     lines += ax.plot(nb_kw, dkm,colors[4], label='Deep K-Means', linestyle=':', linewidth=1)
-
+    
     x = []
     for i in range(len(nb_kw)):
         x.append(str(nb_kw[i]))
@@ -50,10 +54,10 @@ if __name__ == "__main__":
                         loc='upper left', frameon=False, prop={'size': 5.5})
     fig.legend(lines[2:4], ['Lexical pretrain', 'Lexical pretrain, Additional Class'],
                         loc='upper center', frameon=False, prop={'size': 5.5})
-    fig.legend(lines[4:], ['Deep K-Means'],
+    fig.legend(lines[4:], ['Autoencoder + K-Means', 'Deep K-Means'],
                         loc='upper right', frameon=False, prop={'size': 5.5})
     plt.xlabel('Number of keywords per classes')
-    plt.ylabel('Accuracy')
+    plt.ylabel('ACC')
     fig.savefig(sys.argv[2], bbox_inches='tight')
 
     plt.close()

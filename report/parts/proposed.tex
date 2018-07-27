@@ -11,11 +11,29 @@ We denote :
 \begin{equation}
 KW = \begin{pmatrix}KW_1  \\ ... \\ KW_k \\ ...\\ ... \\ KW_{K}\end{pmatrix}
 \end{equation}
-where $KW_k$ the set of keyword for the $k^{th}$ class. Also, we denote X' such that :
+where $KW_k$ the set of keyword for the $k^{th}$ class. Also, we denote X' a biasing
+version of X. X' can be defined in three different ways :
+\begin{enumerate}
+\item \textbf{Masked Document} :
 \begin{equation}
 X' = \begin{pmatrix}mask_1(X)  \\ ... \\ mask_k(X) \\ ...\\ ... \\ mask_K(X)\end{pmatrix}
 \end{equation}
-where $mask_k(X)$ is the document X masked by keywords from the $k^{th}$ class.
+where $mask_k(X)$ is the document X masked by keywords from the $k^{th}$ class
+\item \textbf{Similarity function} :
+\begin{equation}
+\forall i, X_i' = X_i . \frac{1}{|KW|} \sum\limits_{w \in KW_k} s(w,i)
+\end{equation}
+where $s(w,i)$ is a function brighting to light the similarity between a keyword $w$ and a word $i$.
+\\A first way to define this function is to use the document frequency :
+\begin{equation}\label{sim_1}
+s_1(w,i) = \frac{df(w,i)}{df(w)}
+\end{equation}
+\\This version can be problematic, indeed, this formulation can give a high weight
+for stopwords. It can be interresting to use the Inverse Document Frequency :
+\begin{equation}\label{sim_2}
+s_2(w,i) = \frac{df(w,i)}{df(w)} . log\left(\frac{N}{df(i)}\right)
+\end{equation}
+\end{enumerate}
 \subsection{Unclustered Keywords}
 We begin with the method where the user gives the keywords without information
 about classes. In this method we want a latent space where the representation
@@ -65,17 +83,17 @@ L(C ,\alpha;\theta,R) = \sum\limits_{X \in C} ||X - A(X;\theta)||_2^2 +
 \lambda_0 \sum\limits_{X \in C}\sum\limits_{k=1}^K||h_\theta(X) - r_k ||_2^2 G_{k}(h_\theta(X), \alpha; R) + 
 \lambda_1|| h_\theta(X) - h_\theta(X')||_2^2
 \end{equation}
-and the loss function for Unclustered Keywords is :
+and the loss function for Clustered Keywords is :
 \begin{equation}
 \begin{array}{c c}
 L(C ,\alpha;\theta,R) = & \sum\limits_{X \in C} ||X - A(X;\theta)||_2^2 + 
 \lambda_0 \sum\limits_{X \in C}\sum\limits_{k=1}^K||h_\theta(X) - r_k ||_2^2 G_{k}(h_\theta(X), \alpha; R) + 
-\\ & \lambda_1\sum\limits_{X \in C} \sum\limits_{k = 1}^K \frac{e^{-\alpha|| h_\theta(X) - 
+\\ & \lambda_1'\sum\limits_{X \in C} \sum\limits_{k = 1}^K \frac{e^{-\alpha|| h_\theta(X) - 
 h_\theta(X'_k)||_2^2}}{\sum\limits_{k' = 1}^K e^{-\alpha|| h_\theta(X) - 
 h_\theta(X'_{k'})||_2^2}}|| h_\theta(X) - h_\theta(X'_{k})||_2^2
 \end{array}
 \end{equation}
-with hyperparameters $\lambda_0 \geq 0, \lambda_1 \geq 0$.\\
+with hyperparameters $\lambda_0 \geq 0, \lambda_1 \geq 0, \lambda_1' \geq 0$.\\
 
 \subsection{Learning Algorithm and Pretraining}
 
@@ -95,35 +113,17 @@ We use two methods for pretraining :
   It allows to initialize centroïds with bias representation.
 \end{enumerate}
 
-\subsection{Additional Class}
-The plus of this method is that we have as many constraints as document. 
-However, it is possible, in practice, to have a large number of null vector X', 
-in other word a large number of  document X without any keywords\ref{table:null_prime}.
-It might be interesting to capture these documents in a new class having
-for representative the embedding for null document $\vv{0}$. We denote    
-$R=(r_0, r_1, ...., r_K)$ our K+1 representatives, we denote 
-$r_0$ the representative of the adding class as follows : 
+\subsubsection{Centers Initialisation}
+After pretraining we need to initiallise centers. We denote $S^{(k)}$ as follow :
 \begin{equation}
-r_0 = h_\theta(\vv{0})
+\forall i, S^{(k)}_i = \left\{
+    \begin{array}{ll}
+        log\left(\frac{N}{df(i)}\right) & \mbox{if } i \in KW \\
+        0 & \mbox{Otherwise}
+    \end{array}
+\right.
 \end{equation}
-Add a class is adequate for the Unclustered Keywords method, However for the
-Clustered Keywords method we need to transform the penalty.  
-We add $X'_0$ such $X'_0 = \vv{0}$, the penalty takes the form :
-\begin{equation}\label{eq:k_add}
-\begin{array}{l}
-  \sum\limits_{X \in C} \sum\limits_{k = 0}^K \frac{e^{-\alpha|| h_\theta(X) - 
-h_\theta(X'_k)||_2^2}}{\sum\limits_{k' = 0}^K e^{-\alpha|| h_\theta(X) - 
-h_\theta(X'_{k'})||_2^2}}|| h_\theta(X) - h_\theta(X'_{k})||_2^2
-\end{array}
+Then we initialise R as follows :
+\begin{equation}
+\forall k, r_k =  h_\theta(S^{(k)})
 \end{equation}
-\begin{table}[h]
-\centering
-\caption{\label{table:null_prime}Rate of null $X'$ document for each class}
-  \begin{tabular}{|l|l|l|l|l|l|l|}
-    \hline
-     Number of keywords         & 1      &2       & 3      & 4      & 5\\ \hline
-     20 newsgroups with noise   &$44.8\%$&$33.6\%$&$25.1\%$&$19.8\%$&$15.3\%$ \\ \hline
-     20 newsgroups&$41.1\%$&$24.5\%$&$18.3\%$&$14.6\%$&$12.0\%$ \\ \hline
-     RCV1         &$50.1\%$&$30.3\%$&$20.8\%$&$14.1\%$&$11.9\%$ \\ \hline
-  \end{tabular}
-\end{table}
