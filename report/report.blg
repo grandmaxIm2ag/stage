@@ -1,17 +1,17 @@
-[0] Config.pm:340> INFO - This is Biber 2.4
-[0] Config.pm:343> INFO - Logfile is 'report.blg'
-[49] biber:287> INFO - === mer. août 15, 2018, 21:28:12
-[161] Biber.pm:348> INFO - Reading 'report.bcf'
-[343] Biber.pm:739> INFO - Using all citekeys in bib section 0
-[350] Biber.pm:3151> INFO - Processing section 0
-[392] Biber.pm:3308> INFO - Looking for bibtex format file 'parts/biblio.bib' for section 0
-[471] bibtex.pm:1113> INFO - Decoding LaTeX character macros into UTF-8
-[542] bibtex.pm:974> INFO - Found BibTeX data source 'parts/biblio.bib'
-[734] Utils.pm:147> WARN - BibTeX subsystem: /tmp/i7mMuOTRq9/biblio.bib_15580.utf8, line 134, warning: 21 characters of junk seen at toplevel
-[927] UCollate.pm:65> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
-[927] UCollate.pm:65> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[927] Biber.pm:3028> INFO - Sorting list 'nty/global' of type 'entry' with scheme 'nty' and locale 'en-US'
-[928] Biber.pm:3032> INFO - No sort tailoring available for locale 'en-US'
-[967] bbl.pm:519> INFO - Writing 'report.bbl' with encoding 'UTF-8'
-[1061] bbl.pm:615> INFO - Output to report.bbl
-[1061] Biber.pm:109> INFO - WARNINGS: 1
+[2] Config.pm:340> INFO - This is Biber 2.4
+[2] Config.pm:343> INFO - Logfile is 'report.blg'
+[190] biber:287> INFO - === mer. août 15, 2018, 22:05:02
+[490] Biber.pm:348> INFO - Reading 'report.bcf'
+[1027] Biber.pm:739> INFO - Using all citekeys in bib section 0
+[1076] Biber.pm:3151> INFO - Processing section 0
+[1200] Biber.pm:3308> INFO - Looking for bibtex format file 'parts/biblio.bib' for section 0
+[1420] bibtex.pm:1113> INFO - Decoding LaTeX character macros into UTF-8
+[1591] bibtex.pm:974> INFO - Found BibTeX data source 'parts/biblio.bib'
+[2425] Utils.pm:147> WARN - BibTeX subsystem: /tmp/B_35LBDNB7/biblio.bib_2972.utf8, line 134, warning: 21 characters of junk seen at toplevel
+[3239] UCollate.pm:65> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[3240] UCollate.pm:65> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[3240] Biber.pm:3028> INFO - Sorting list 'nty/global' of type 'entry' with scheme 'nty' and locale 'en-US'
+[3240] Biber.pm:3032> INFO - No sort tailoring available for locale 'en-US'
+[3410] bbl.pm:519> INFO - Writing 'report.bbl' with encoding 'UTF-8'
+[3691] bbl.pm:615> INFO - Output to report.bbl
+[3692] Biber.pm:109> INFO - WARNINGS: 1
