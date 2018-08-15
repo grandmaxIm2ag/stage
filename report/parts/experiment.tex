@@ -355,3 +355,55 @@ and the standard deviation computed over 10 runs.}
 \end{table}
 
 \subsubsection{Robustness}
+
+We can also test the robustness of our algorithm. To test this, we
+can vary the number of keywords by classes. In addition we compare
+the results of each version of our two methods (simple/lexical pretrain, adding 
+class) for each dataset.
+We can see results  in 
+figures \ref{fig:rcv1}, \ref{fig:20news}, \ref{fig:20news_noise}.
+\begin{figure}
+  \begin{subfigure}[b]{\hsize}
+    \centering
+    \fbox{\includegraphics[scale=0.82]{parts/res/dat_file/acc/RCV1_ACC.png}}     
+  \end{subfigure}
+  \begin{subfigure}[b]{\hsize}
+    \centering
+    \fbox{\includegraphics[scale=0.82]{parts/res/dat_file/ari/RCV1_ARI.png}}    
+  \end{subfigure}
+  \begin{subfigure}[b]{\hsize}
+    \centering
+    \fbox{\includegraphics[scale=0.82]{parts/res/dat_file/nmi/RCV1_NMI.png}}    
+  \end{subfigure}
+  \caption{\label{fig:rcv1}Results for RCV1 dataset}
+\end{figure}
+
+\begin{figure}
+  \begin{subfigure}[b]{\hsize}
+    \centering
+    \fbox{\includegraphics[scale=0.82]{parts/res/dat_file/acc/20NEWS_ACC.png}}     
+  \end{subfigure}
+  \begin{subfigure}[b]{\hsize}
+    \centering
+    \fbox{\includegraphics[scale=0.82]{parts/res/dat_file/ari/20NEWS_ARI.png}}    
+  \end{subfigure}
+  \begin{subfigure}[b]{\hsize}
+    \centering
+    \fbox{\includegraphics[scale=0.82]{parts/res/dat_file/nmi/20NEWS_NMI.png}}    
+  \end{subfigure}\caption{\label{fig:20news}Results for 20 newsgroups dataset}
+\end{figure}
+
+\begin{figure}
+  \begin{subfigure}[b]{\hsize}
+    \centering
+    \fbox{\includegraphics[scale=0.82]{parts/res/dat_file/acc/20NEWS_noisy_ACC.png}}     
+  \end{subfigure}
+  \begin{subfigure}[b]{\hsize}
+    \centering
+    \fbox{\includegraphics[scale=0.82]{parts/res/dat_file/ari/20NEWS_noisy_ARI.png}}     
+  \end{subfigure}
+  \begin{subfigure}[b]{\hsize}
+    \centering
+    \fbox{\includegraphics[scale=0.82]{parts/res/dat_file/nmi/20NEWS_noisy_NMI.png}}
+  \end{subfigure}\caption{\label{fig:20news_noise}Results for 20 newsgroups dataset with noise}
+\end{figure}

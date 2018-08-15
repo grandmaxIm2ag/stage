@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.4.17)  15 AUG 2018 22:04
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.4.17)  15 AUG 2018 23:34
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1636,7 +1636,129 @@ Package caption Warning: \subcaption
 (caption)                outside box or environment on input line 338.
 See the caption package documentation for explanation.
 
-) (./parts/conclusion.tex) (./parts/futur.tex [5]) (./parts/remercie.tex)
+<parts/res/dat_file/acc/RCV1_ACC.png, id=187, 307.1475pt x 267.399pt>
+File: parts/res/dat_file/acc/RCV1_ACC.png Graphic file (type png)
+
+<use parts/res/dat_file/acc/RCV1_ACC.png>
+Package pdftex.def Info: parts/res/dat_file/acc/RCV1_ACC.png used on input line
+ 368.
+(pdftex.def)             Requested size: 251.86258pt x 219.2686pt.
+
+Overfull \hbox (14.75131pt too wide) in paragraph at lines 368--369
+ [][] 
+ []
+
+<parts/res/dat_file/ari/RCV1_ARI.png, id=188, 312.9291pt x 267.399pt>
+File: parts/res/dat_file/ari/RCV1_ARI.png Graphic file (type png)
+
+<use parts/res/dat_file/ari/RCV1_ARI.png>
+Package pdftex.def Info: parts/res/dat_file/ari/RCV1_ARI.png used on input line
+ 372.
+(pdftex.def)             Requested size: 256.6035pt x 219.2686pt.
+
+Overfull \hbox (19.49223pt too wide) in paragraph at lines 372--373
+ [][] 
+ []
+
+<parts/res/dat_file/nmi/RCV1_NMI.png, id=189, 307.1475pt x 267.399pt>
+File: parts/res/dat_file/nmi/RCV1_NMI.png Graphic file (type png)
+
+<use parts/res/dat_file/nmi/RCV1_NMI.png>
+Package pdftex.def Info: parts/res/dat_file/nmi/RCV1_NMI.png used on input line
+ 376.
+(pdftex.def)             Requested size: 251.86258pt x 219.2686pt.
+
+Overfull \hbox (14.75131pt too wide) in paragraph at lines 376--377
+ [][] 
+ []
+
+
+LaTeX Warning: Float too large for page by 50.77577pt on input line 379.
+
+<parts/res/dat_file/acc/20NEWS_ACC.png, id=190, 307.1475pt x 267.399pt>
+File: parts/res/dat_file/acc/20NEWS_ACC.png Graphic file (type png)
+
+<use parts/res/dat_file/acc/20NEWS_ACC.png>
+Package pdftex.def Info: parts/res/dat_file/acc/20NEWS_ACC.png used on input li
+ne 384.
+(pdftex.def)             Requested size: 251.86258pt x 219.2686pt.
+
+Overfull \hbox (14.75131pt too wide) in paragraph at lines 384--385
+ [][] 
+ []
+
+<parts/res/dat_file/ari/20NEWS_ARI.png, id=191, 307.1475pt x 267.399pt>
+File: parts/res/dat_file/ari/20NEWS_ARI.png Graphic file (type png)
+
+<use parts/res/dat_file/ari/20NEWS_ARI.png>
+Package pdftex.def Info: parts/res/dat_file/ari/20NEWS_ARI.png used on input li
+ne 388.
+(pdftex.def)             Requested size: 251.86258pt x 219.2686pt.
+
+Overfull \hbox (14.75131pt too wide) in paragraph at lines 388--389
+ [][] 
+ []
+
+<parts/res/dat_file/nmi/20NEWS_NMI.png, id=192, 312.9291pt x 267.399pt>
+File: parts/res/dat_file/nmi/20NEWS_NMI.png Graphic file (type png)
+
+<use parts/res/dat_file/nmi/20NEWS_NMI.png>
+Package pdftex.def Info: parts/res/dat_file/nmi/20NEWS_NMI.png used on input li
+ne 392.
+(pdftex.def)             Requested size: 256.6035pt x 219.2686pt.
+
+Overfull \hbox (19.49223pt too wide) in paragraph at lines 392--393
+ [][] 
+ []
+
+
+LaTeX Warning: Float too large for page by 50.77577pt on input line 394.
+
+<parts/res/dat_file/acc/20NEWS_noisy_ACC.png, id=193, 307.1475pt x 267.399pt>
+File: parts/res/dat_file/acc/20NEWS_noisy_ACC.png Graphic file (type png)
+
+<use parts/res/dat_file/acc/20NEWS_noisy_ACC.png>
+Package pdftex.def Info: parts/res/dat_file/acc/20NEWS_noisy_ACC.png used on in
+put line 399.
+(pdftex.def)             Requested size: 251.86258pt x 219.2686pt.
+
+Overfull \hbox (14.75131pt too wide) in paragraph at lines 399--400
+ [][] 
+ []
+
+<parts/res/dat_file/ari/20NEWS_noisy_ARI.png, id=194, 307.1475pt x 267.399pt>
+File: parts/res/dat_file/ari/20NEWS_noisy_ARI.png Graphic file (type png)
+
+<use parts/res/dat_file/ari/20NEWS_noisy_ARI.png>
+Package pdftex.def Info: parts/res/dat_file/ari/20NEWS_noisy_ARI.png used on in
+put line 403.
+(pdftex.def)             Requested size: 251.86258pt x 219.2686pt.
+
+Overfull \hbox (14.75131pt too wide) in paragraph at lines 403--404
+ [][] 
+ []
+
+<parts/res/dat_file/nmi/20NEWS_noisy_NMI.png, id=195, 307.1475pt x 267.399pt>
+File: parts/res/dat_file/nmi/20NEWS_noisy_NMI.png Graphic file (type png)
+
+<use parts/res/dat_file/nmi/20NEWS_noisy_NMI.png>
+Package pdftex.def Info: parts/res/dat_file/nmi/20NEWS_noisy_NMI.png used on in
+put line 407.
+(pdftex.def)             Requested size: 251.86258pt x 219.2686pt.
+
+Overfull \hbox (14.75131pt too wide) in paragraph at lines 407--408
+ [][] 
+ []
+
+
+LaTeX Warning: Float too large for page by 50.77577pt on input line 409.
+
+) (./parts/conclusion.tex) (./parts/futur.tex [5] [6 <./parts/res/dat_file/acc/
+RCV1_ACC.png> <./parts/res/dat_file/ari/RCV1_ARI.png> <./parts/res/dat_file/nmi
+/RCV1_NMI.png>] [7 <./parts/res/dat_file/acc/20NEWS_ACC.png> <./parts/res/dat_f
+ile/ari/20NEWS_ARI.png> <./parts/res/dat_file/nmi/20NEWS_NMI.png> <./parts/res/
+dat_file/acc/20NEWS_noisy_ACC.png> <./parts/res/dat_file/ari/20NEWS_noisy_ARI.p
+ng> <./parts/res/dat_file/nmi/20NEWS_noisy_NMI.png>]) (./parts/remercie.tex)
 LaTeX Font Info:    Try loading font information for OT1+pcr on input line 59.
 
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1pcr.fd
@@ -1658,7 +1780,7 @@ Underfull \hbox (badness 1057) in paragraph at lines 59--59
 /m/n/10 10 . 1080 / 01621459 .
  []
 
-[6]
+
 Underfull \hbox (badness 4328) in paragraph at lines 59--59
 []\OT1/ppl/m/n/10 Ian Good-fel-low, Yoshua Ben-gio, and Aaron
  []
@@ -1704,8 +1826,11 @@ Underfull \hbox (badness 6445) in paragraph at lines 59--59
 793.  \OT1/ppl/m/sc/10 doi\OT1/ppl/m/n/10 :
  []
 
-[7]
+[8]
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 60.
+ [9
+
+]
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 60.
  (./report.aux)
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 60.
@@ -1725,10 +1850,10 @@ Package logreq Info: Writing requests to 'report.run.xml'.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 60.
  ) 
 Here is how much of TeX's memory you used:
- 25223 strings out of 493029
- 455652 string characters out of 6136234
- 899516 words of memory out of 5000000
- 28166 multiletter control sequences out of 15000+600000
+ 25280 strings out of 493029
+ 457534 string characters out of 6136234
+ 903713 words of memory out of 5000000
+ 28206 multiletter control sequences out of 15000+600000
  51792 words of font info for 151 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  55i,19n,54p,1626b,1467s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1742,10 +1867,10 @@ thpazo/fplmri.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/courier/ucrr8a
 .pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></usr/s
 hare/texlive/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/share/texlive
 /texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on report.pdf (7 pages, 420119 bytes).
+Output written on report.pdf (9 pages, 632950 bytes).
 PDF statistics:
- 321 PDF objects out of 1000 (max. 8388607)
- 297 compressed objects within 3 object streams
- 91 named destinations out of 1000 (max. 500000)
- 154 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 354 PDF objects out of 1000 (max. 8388607)
+ 309 compressed objects within 4 object streams
+ 96 named destinations out of 1000 (max. 500000)
+ 199 words of extra memory for PDF output out of 10000 (max. 10000000)
 
