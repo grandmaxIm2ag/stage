@@ -21,36 +21,23 @@ X' = \begin{pmatrix}mask_1(X)  \\ ... \\ mask_k(X) \\ ...\\ ... \\ mask_K(X)\end
 where $mask_k(X)$ is the document X masked by keywords from the $k^{th}$ class
 \item \textbf{Similarity function} :
 \begin{equation}
-\forall i, X_i' = X_i . \frac{1}{|KW|} \sum\limits_{w \in KW_k} s(w,i)
+   X'_k = \forall i, X_i * \mu(i,k) 
+\end{equation}
+where $\mu(i,k)$ is a function brighting to light the similarity between a keyword $w$ and a word $i$.
+\begin{equation}
+  \mu(i,k) = max \left(\frac{rel(i,k)}{\sum\limits_{k' \in KW}rel(i,k')}, 0\right)
+\end{equation}
+where $r(i,k)$ is a function brighting to light the similarity between a keyword $w$ and a word $i$.
+\begin{equation}
+  rel(i,k) = \frac{1}{|k|} \sum\limits_{w \in k} s(w,i)
 \end{equation}
 where $s(w,i)$ is a function brighting to light the similarity between a keyword $w$ and a word $i$.
-\\A first way to define this function is to use the document frequency :
-\begin{equation}\label{sim_1}
-s_1(w,i) = \frac{df(w,i)}{df(w)}
-\end{equation}
-\\This version can be problematic, indeed, this formulation can give a high weight
-for stopwords. It can be interresting to use the Inverse Document Frequency :
-\begin{equation}\label{sim_2}
-s_2(w,i) = \frac{df(w,i)}{df(w)} . log\left(\frac{N}{df(i)}\right)
+\begin{equation}\label{sim}
+s(w,i) = \frac{df(w,i)}{df(w)}
 \end{equation}
 \end{enumerate}
-\subsection{Unclustered Keywords}
-We begin with the method where the user gives the keywords without information
-about classes. In this method we want a latent space where the representation
-of the document X is biasing by keywords.\\
-To learn the latent space we add a penalty such that the representation
-of the document X is close of the representation of X'. In this way, in the
-latent space, the representation of document will be biased by keywords.
-We introduce a penalty $\omega_{KW}$ for lexical constraints and
-use squared loss : 
-\begin{equation}\label{eq:omega1}
-  \omega_{KW} = \sum\limits_{X \in C} || h_\theta(X) - h_\theta(X')||_2^2
-\end{equation}
-\subsection{Clustered Keywords}
-It is possible that the user will know more than
-information as simple keywords. Indeed, the user can know the 
-classes of keywords. 
-For this method we want representation where document X is close of the closest
+\subsection{Lexical Constraints}
+We want representation where document X is close of the closest
 $X'_k$ : 
 \begin{equation}
 || h_\theta(X) - h_\theta(c'(X ; X' )) ||_2^2
