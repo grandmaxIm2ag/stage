@@ -15,10 +15,8 @@ constraints into $K$-Means algorithm is to find a good representation for data
 taking into account constraints. The Deep Learning and Auto-Encoder can be used 
 to learn this representation. With Auto-Encoder we have to perform the $K$-Means
 in the latent space learned, and this latent space must be $K$-Means friendly.
-\\In this study, we specifically focus on the k-Means algorithm with lexical constraints 
-and background knowledge problem. Lexical constraints are represented
-by a set of keywords given by the user. Background knowledge are the set of 
-pairwise constraints given by the user.  We use an Auto-encoder to learn a latent space taking
+\\In this study, we specifically focus on the k-Means algorithm with lexical constraints . Lexical constraints are represented
+by a set of keywords given by the user. We use an Auto-encoder to learn a latent space taking
 into account constraints. The loss of the Auto-Encoder is divided in two parts, (a) 
 the reconstruct loss $L_{rec}$ and (b) different penalties $\omega$ skewing the
 representation. Then, the representation must be $K$-Means friendly, 

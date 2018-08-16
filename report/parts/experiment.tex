@@ -25,13 +25,17 @@ TFIDF(t,X,C) = TF(t, X) . IDF(t, C)
 For each dataset there is a preprocessing step. We remove stopword and keep only
 the 2000 words with the top TFIDF scores. We use also a stemming step 
 \cite{journals/mtcl/Lovins68} for dataset 20 Newsgroups. 
+\\We divide each dataset in two subset :
+\begin{enumerate}
+\item Validation Set : representing 10\% of total dataset use for hyperparameter optimization (see section\ref{seq:hyperparam}).
+\item Test Set : representing 90\% of total dataset use to compare result from different algorithm (see section \ref{seq:results}).
+\end{enumerate} 
 \subsection{Generate Constraint}
-\subsubsection{Lexical Constraints}
 To generate the set of keywords $KW$ we rank each word of each 
 document of each class using TFIDF according to algorithm~\ref{algo:gen_kw}.
-We add for each document of each class the tfidf of each word, in this manner
-we find the most important word of each class. Furthermore, we substract 
-the tdidf of other class, so that the keywords are the most discriminating.
+We add for each document of each class the TFIDF of each word, in this manner
+we find the most important word of each class. Furthermore, for discriminativ keywords,
+we substract  the TFIDF of other class, so that the keywords are the most discriminating.
 \begin{algorithm}
   \SetKwInOut{Input}{input}
   \SetKwInOut{Output}{output}
@@ -48,7 +52,7 @@ the tdidf of other class, so that the keywords are the most discriminating.
   }
   \If{$Discriminating\_ Extraction$}{
     \ForEach{Class $c_i \in C$}{
-      ${rank'}_i \gets rank_i - \sum\limits_{\forall c_j, cj \neq c_i}rank_j$\\
+      ${rank'}_i \gets rank_i - \sum\limits_{\forall c_j, c_j \neq c_i}rank_j$\\
     }
     $rank \gets rank'$
   }
@@ -121,16 +125,12 @@ and an embedding layer (with dimension K, the number of cluster).
 The decoder is a mirrored version of the encoder~\ref{fig:autoenc}.
 The ReLu activation function is used on layers, except for the third
 hidden layer of encoder and decoder part.
-\subsubsection{Hyperparameters}
+\subsubsection{\label{seq:hyperparam}Hyperparameters}
 We used Gride Search strategy for $\lambda_0$ and $\lambda_1$ optimization.
-In the first we search the best $\lambda_1$ for Autoencoder + $K$-Means with lexical
-pretrain (see section ~\ref{sec:pre}). Then we optimize $\lambda_0$ with constrained 
-deep $K$-Means with respect to the value of $\lambda_1$ found in previous step.
-\\We search on the range 
-$[10^{-4},10^{-3},10^{-2},10^{-1}]$ for $\lambda_0$ and on the range
-\\$[10^{-3},5.10^{-3},10^{-3},5.10^{-3},10^{-2},5.10^{-2},10^{-1}]$ 
-for $\lambda_1$.   
-The results of Line Search are reported in table~\ref{tab:line_search_met1}.
+We search on the range 
+$[10^{-6},10^{-5}10^{-4},10^{-3},10^{-2},10^{-1}]$ for $\lambda_0$ and $\lambda_1$.   
+We select hyperparameters which maximize the Accuracy Metrics for Validation Set.
+The results of Gride Search are reported in table~\ref{tab:line_search_met1}.
 \begin{table}
 \caption{\label{tab:line_search_met1}Best results of Line Search for the optimization of
 hyperparameters for each dataset for the Unclustered Keywords method.}
@@ -139,7 +139,7 @@ hyperparameters for each dataset for the Unclustered Keywords method.}
 \resizebox{.3\textwidth}{!}{
 \begin{tabular}{|l|l|l|}
     \hline
-                      &$\lambda_0$&$\lambda_0$       \\ \hline
+                      &$\lambda_0$&$\lambda_1$       \\ \hline
     Deep $K$-Means    &$10^{-2}$  &\cellcolor{gray}         \\ \hline
     AE + KM, LP mask  &\cellcolor{gray}  &$10^{-4}$         \\ \hline
     AE + KM, LP sim   &\cellcolor{gray} &$10^{-2}$         \\ \hline
@@ -153,7 +153,7 @@ hyperparameters for each dataset for the Unclustered Keywords method.}
 \resizebox{.3\textwidth}{!}{
 \begin{tabular}{|l|l|l|}
     \hline
-                      &$\lambda_0$&$\lambda_0$       \\ \hline
+                      &$\lambda_0$&$\lambda_1$       \\ \hline
     Deep $K$-Means    &$10^{-1}$  &\cellcolor{gray}         \\ \hline
     AE + KM, LP mask  &\cellcolor{gray}  &$10^{-2}$         \\ \hline
     AE + KM, LP sim   &\cellcolor{gray}  &$10^{-2}$         \\ \hline
@@ -167,7 +167,7 @@ hyperparameters for each dataset for the Unclustered Keywords method.}
 \resizebox{.3\textwidth}{!}{
 \begin{tabular}{|l|l|l|}
     \hline
-                      &$\lambda_0$&$\lambda_0$       \\ \hline
+                      &$\lambda_0$&$\lambda_1$       \\ \hline
     Deep $K$-Means    &$10^{-1}$  &\cellcolor{gray}         \\ \hline
     AE + KM, LP mask  &\cellcolor{gray}  &$10^{-2}$         \\ \hline
     AE + KM, LP sim   &\cellcolor{gray}  &$10^{-2}$         \\ \hline
@@ -194,10 +194,10 @@ hyperparameters for each dataset for the Unclustered Keywords method.}
 %\subcaption*{DBPedia}
 \end{table}
 
-\subsection{Results}
+\subsection{\label{seq:results}Results}
 The purpose of the experiment is to rediscover the different classes of 
 datasets with keywords.\\
-To add noise to 20 newsgroups datasetw e divide the dataset into two corpus $C_1, C_2$. 
+To add noise to 20 newsgroups dataset e divide the dataset into two corpus $C_1, C_2$. 
 Each corpus contain ten classes. We generate keywords \ref{algo:gen_kw} 
 from $C_1$. Then we concatenate document from corpus $C_1$ with document
 from corpus $C_2$. The clustering processed on corpus $C_1$. For this experiment
@@ -293,14 +293,11 @@ and the standard deviation computed over 10 runs.}
     \hline
                       & ACC      &ARI       &NMI       \\ \hline
     $K$-Means         &$48.8\pm6.6$&$18.4\pm6.0$&$29.7\pm5.8$\\ \hline
-    AE + KM, SP       &$51.3\pm3.5$&$17.5\pm5.8$&$24.5\pm5.1$\\ \hline
     Deep $K$-Means    &$54.4\pm4.9$&$23.9\pm3.5$&$29.6\pm3.6$\\ \hline
-    AE + KM, LP mask  &$00.0\pm0.0$&$00.0\pm0.0$&$00.0\pm0.0$\\ \hline
-    AE + KM, LP sim   &$00.0\pm0.0$&$00.0\pm0.0$&$00.0\pm0.0$\\ \hline
-       CDKM, LP mask  &$00.0\pm0.0$&$00.0\pm0.0$&$00.0\pm0.0$\\ \hline
-       CDKM, LP sim   &$00.0\pm0.0$&$00.0\pm0.0$&$00.0\pm0.0$\\ \hline
-       CDKM, SP mask  &$00.0\pm0.0$&$00.0\pm0.0$&$00.0\pm0.0$\\ \hline
-       CDKM, SP sim   &$00.0\pm0.0$&$00.0\pm0.0$&$00.0\pm0.0$\\ \hline
+       CDKM, LP mask  &\boldmath$68.5\pm5.6$&\boldmath$39.6\pm6.4$&\boldmath$41.3\pm4.6$\\ \hline
+       CDKM, LP sim   &$65.8\pm5.0$&$36.2\pm5.5$&$38.9\pm3.7$\\ \hline
+       CDKM, SP mask  &$68.5\pm5.6$&$39.6\pm6.4$&$41.3\pm4.6$\\ \hline
+       CDKM, SP sim   &$67.5\pm6.3$&$38.6\pm6.4$&$40.7\pm4.4$\\ \hline
 \end{tabular}
 }
 \subcaption*{RCV1}
@@ -309,14 +306,11 @@ and the standard deviation computed over 10 runs.}
     \hline
                       & ACC      &ARI       &NMI       \\ \hline
     $K$-Means         &$36.1\pm2.2$&$13.3\pm1.7$&$40.9\pm1.6$\\ \hline
-    AE + KM, SP       &$53.1\pm2.3$&$35.0\pm1.4$&$49.3\pm1.0$\\ \hline
     Deep $K$-Means    &$54.9\pm1.7$&$37.6\pm1.1$&$51.6\pm0.6$\\ \hline
-    AE + KM, LP mask  &$00.0\pm0.0$&$00.0\pm0.0$&$00.0\pm0.0$\\ \hline
-    AE + KM, LP sim   &$00.0\pm0.0$&$00.0\pm0.0$&$00.0\pm0.0$\\ \hline
-       CDKM, LP mask  &$00.0\pm0.0$&$00.0\pm0.0$&$00.0\pm0.0$\\ \hline
-       CDKM, LP sim   &$00.0\pm0.0$&$00.0\pm0.0$&$00.0\pm0.0$\\ \hline
-       CDKM, SP mask  &$00.0\pm0.0$&$00.0\pm0.0$&$00.0\pm0.0$\\ \hline
-       CDKM, SP sim   &$00.0\pm0.0$&$00.0\pm0.0$&$00.0\pm0.0$\\ \hline
+       CDKM, LP mask  &$58.8\pm1.4$&$38.5\pm1.4$&$52.6\pm0.6$\\ \hline
+       CDKM, LP sim   &\boldmath$60.1\pm2.1$&\boldmath$40.2\pm1.4$&\boldmath$52.8\pm1.0$\\ \hline
+       CDKM, SP mask  &$58.9\pm2.0$&$38.9\pm1.6$&\boldmath$52.8\pm0.9$\\ \hline
+       CDKM, SP sim   &$60.1\pm1.7$&$40.1\pm1.5$&$52.7\pm0.7$\\ \hline
 \end{tabular}
 }
 \subcaption*{20 Newsgroups}
@@ -325,14 +319,11 @@ and the standard deviation computed over 10 runs.}
     \hline
                       & ACC      &ARI       &NMI       \\ \hline
     $K$-Means         &$33.1\pm2.7$&$ 8.7\pm1.3$&$26.3\pm1.6$\\ \hline
-    AE + KM, SP       &$45.2\pm3.3$&$23.0\pm2.5$&$30.0\pm2.0$\\ \hline
     Deep $K$-Means    &$44.5\pm2.4$&$23.6\pm2.4$&$30.2\pm2.0$\\ \hline
-    AE + KM, LP mask  &$00.0\pm0.0$&$00.0\pm0.0$&$00.0\pm0.0$\\ \hline
-    AE + KM, LP sim   &$00.0\pm0.0$&$00.0\pm0.0$&$00.0\pm0.0$\\ \hline
-       CDKM, LP mask  &$00.0\pm0.0$&$00.0\pm0.0$&$00.0\pm0.0$\\ \hline
-       CDKM, LP sim   &$00.0\pm0.0$&$00.0\pm0.0$&$00.0\pm0.0$\\ \hline
-       CDKM, SP mask  &$00.0\pm0.0$&$00.0\pm0.0$&$00.0\pm0.0$\\ \hline
-       CDKM, SP sim   &$00.0\pm0.0$&$00.0\pm0.0$&$00.0\pm0.0$\\ \hline
+       CDKM, LP mask   &$48.8\pm2.3$&\boldmath$25.7\pm1.9$&\boldmath$31.6\pm1.9$\\ \hline
+       CDKM, LP sim  &$47.8\pm2.6$&$24.3\pm1.8$&$30.8\pm1.7$\\ \hline
+       CDKM, SP mask  &$48.8\pm2.3$&$25.7\pm1.9$&$31.6\pm1.9$\\ \hline
+       CDKM, SP sim   &\boldmath$49.2\pm2.3$&$25.2\pm2.0$&$31.5\pm1.7$\\ \hline
 \end{tabular}
 }
 \subcaption*{20 Newsgroups with noise}
@@ -358,8 +349,7 @@ and the standard deviation computed over 10 runs.}
 
 We can also test the robustness of our algorithm. To test this, we
 can vary the number of keywords by classes. In addition we compare
-the results of each version of our two methods (simple/lexical pretrain, adding 
-class) for each dataset.
+the results of each version of CDKM.
 We can see results  in 
 figures \ref{fig:rcv1}, \ref{fig:20news}, \ref{fig:20news_noise}.
 \begin{figure}

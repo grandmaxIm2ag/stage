@@ -69,16 +69,20 @@ clustering based on a continuous reparametrization of the objective function
 that leads to a truly joint solution. 
 The problem takes the form : 
 \begin{equation}
-L(C ,\alpha;\theta,R) = \sum\limits_{X \in C} ||X - A(X;\theta)||_2^2 + 
-\lambda_0 \sum\limits_{X \in C}||h_\theta(X) - c(h_\theta(X); R) ||_2^2
+\begin{array}{ll}
+L(C ,\alpha;\theta,R) = & \sum\limits_{X \in C} ||X - A(X;\theta)||_2^2 \\
+  & + \lambda_0 \sum\limits_{X \in C}||h_\theta(X) - c(h_\theta(X); R) ||_2^2
+\end{array}
 \end{equation}
 where $c(g(X; \theta); R) = \argmin\limits_{k = 1 .. K} || h_\theta(X) - r_k||_2^2$
 is a non differentiable function that assigns the document X
 to its nearest centroid.\\
 They transform this representation as follows :
 \begin{equation}
-L(C ,\alpha;\theta,R) = \sum\limits_{X \in C} ||X - A(h_\theta(X))||_2^2 + 
-\lambda_0 \sum\limits_{X \in C}\sum\limits_{k=1}^K||h_\theta(X) - r_k ||_2^2 G_{k}(h_\theta(X), \alpha; R) 
+\begin{array}{ll}
+L(C ,\alpha;\theta,R) = & \sum\limits_{X \in C} ||X - A(h_\theta(X))||_2^2 + \\ 
+& \lambda_0 \sum\limits_{X \in C}\sum\limits_{k=1}^K||h_\theta(X) - r_k ||_2^2 G_{k}(h_\theta(X), \alpha; R) 
+\end{array}
 \end{equation}
 where $G_{k}$ is a differentiable function such that :
 \begin{equation}
@@ -121,3 +125,29 @@ Algorithm \ref{algo:dkm} summarizes the deep k-Means algorithm :
   }
   \caption{\label{algo:dkm}Deep $K$-Means}
 \end{algorithm}
+\subsection{\label{seq:BackLexicalConstraint}Lexical Constrain}
+Li, Xing, Sun and Ma \cite{Li:2016:EDL:2983323.2983721} proposed a
+classification algorithm using Keywords. They assume that keywords could be 
+semantically or statistically related to the seed words of the same category.
+In this paper, they
+use a function $p$ to compute the co-occurrence of each word of a document
+with keywords of each categories : 
+\begin{equation}\label{sim}
+p(i|w) = \frac{df(w,i)}{df(w)}
+\end{equation}
+where $df(w)$ is the number of the documents containing keywords $w$,
+$df(w, i)$ is the number of the documents containing both word
+$i$ and keywords $w$.
+Then, they calculate the relevance score $rel(i, k)$ for each 
+word i and category k as follows :
+\begin{equation}\label{rel}
+  rel(i,k) = \frac{1}{|k|} \sum\limits_{w \in k} s(w,i)
+\end{equation}
+\begin{equation}\label{nu}
+  \nu(i,k) = max \left(\frac{rel(i,k)}{\sum\limits_{k' \in KW}rel(i,k')} - \frac{1}{|KW|}, 0\right)
+\end{equation}
+In Equation \ref{nu}, they normalize the relevance score $rel(i,k)$ and 
+subtract it by the average relevance score for each category. It is
+expected that word $i$ is a category word for category $k$ only if $i$ and
+$k$ have a high $rel(i,k)$ value. Therefore subtracting the relevance
+scores by the average is necessary to filter out irrelevant categories.

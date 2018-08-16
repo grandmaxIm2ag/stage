@@ -366,6 +366,56 @@
       \verb http://dl.acm.org/citation.cfm?id=1005332.1005345
       \endverb
     \endentry
+    \entry{Li:2016:EDL:2983323.2983721}{inproceedings}{}
+      \name{author}{4}{}{%
+        {{hash=fc90189e403c903655a1cbc1af93456b}{%
+           family={Li},
+           family_i={L\bibinitperiod},
+           given={Chenliang},
+           given_i={C\bibinitperiod}}}%
+        {{hash=47aa21d766081235e64b22a2e224c619}{%
+           family={Xing},
+           family_i={X\bibinitperiod},
+           given={Jian},
+           given_i={J\bibinitperiod}}}%
+        {{hash=8b562490f05b03da5ef1aca562e8b589}{%
+           family={Sun},
+           family_i={S\bibinitperiod},
+           given={Aixin},
+           given_i={A\bibinitperiod}}}%
+        {{hash=51b3db1005cc69faf20b0510151af383}{%
+           family={Ma},
+           family_i={M\bibinitperiod},
+           given={Zongyang},
+           given_i={Z\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Indianapolis, Indiana, USA}%
+      }
+      \list{publisher}{1}{%
+        {ACM}%
+      }
+      \strng{namehash}{21b98bde6c74ef620d726de9dec65406}
+      \strng{fullhash}{616533e4546e0ae1b9b0e838b308e162}
+      \field{sortinit}{L}
+      \field{sortinithash}{872351f18d0f736066eda0bf18bfa4f7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Proceedings of the 25th ACM International on Conference on Information and Knowledge Management}
+      \field{isbn}{978-1-4503-4073-1}
+      \field{series}{CIKM '16}
+      \field{title}{Effective Document Labeling with Very Few Seed Words: A Topic Model Approach}
+      \field{year}{2016}
+      \field{pages}{85\bibrangedash 94}
+      \range{pages}{10}
+      \verb{doi}
+      \verb 10.1145/2983323.2983721
+      \endverb
+      \verb{url}
+      \verb http://doi.acm.org/10.1145/2983323.2983721
+      \endverb
+      \keyw{dataless text classification,text analysis,topic modeling}
+    \endentry
     \entry{1056489}{article}{}
       \name{author}{1}{}{%
         {{hash=8ebf199f60191f22565bfd96113285ea}{%
@@ -419,31 +469,6 @@
       \verb http://dblp.uni-trier.de/db/journals/mtcl/mtcl11.html#Lovins68
       \endverb
       \keyw{dblp}
-    \endentry
-    \entry{doi:10.1117/1.2819119}{article}{}
-      \name{author}{1}{}{%
-        {{hash=441f03f67b16fec7ea4ea0b675a0dfb8}{%
-           family={Nasrabadi},
-           family_i={N\bibinitperiod},
-           given={Nasser\bibnamedelima M.},
-           given_i={N\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
-      }
-      \strng{namehash}{441f03f67b16fec7ea4ea0b675a0dfb8}
-      \strng{fullhash}{441f03f67b16fec7ea4ea0b675a0dfb8}
-      \field{sortinit}{N}
-      \field{sortinithash}{925374ca63e7594de7fafdb83e64d41d}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{journaltitle}{Journal of Electronic Imaging}
-      \field{title}{Pattern Recognition and Machine Learning}
-      \field{volume}{16}
-      \field{year}{2007}
-      \verb{doi}
-      \verb 10.1117/1.2819119
-      \endverb
-      \verb{url}
-      \verb https://doi.org/10.1117/1.2819119
-      \endverb
     \endentry
     \entry{doi:10.1162/089976604773135104}{article}{}
       \name{author}{5}{}{%

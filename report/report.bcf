@@ -2055,17 +2055,18 @@
     <bcf:citekey order="4">2018arXiv180107648A</bcf:citekey>
     <bcf:citekey order="5">Deap-K-Means</bcf:citekey>
     <bcf:citekey order="6">Deap-K-Means</bcf:citekey>
-    <bcf:citekey order="7">doi:10.1080/01621459.1982.10477894</bcf:citekey>
-    <bcf:citekey order="8">doi:10.1117/1.2819119</bcf:citekey>
-    <bcf:citekey order="9">Deap-K-Means</bcf:citekey>
-    <bcf:citekey order="10">Newsgroups20</bcf:citekey>
-    <bcf:citekey order="11">Lewis:2004:RNB:1005332.1005345</bcf:citekey>
-    <bcf:citekey order="12">Deap-K-Means</bcf:citekey>
-    <bcf:citekey order="13">doi:10.1108/eb026526</bcf:citekey>
-    <bcf:citekey order="14">journals/mtcl/Lovins68</bcf:citekey>
-    <bcf:citekey order="15">NMI_ACC</bcf:citekey>
-    <bcf:citekey order="16">ARI</bcf:citekey>
-    <bcf:citekey order="17">Deap-K-Means</bcf:citekey>
+    <bcf:citekey order="7">Li:2016:EDL:2983323.2983721</bcf:citekey>
+    <bcf:citekey order="8">doi:10.1080/01621459.1982.10477894</bcf:citekey>
+    <bcf:citekey order="9">doi:10.1117/1.2819119</bcf:citekey>
+    <bcf:citekey order="10">Deap-K-Means</bcf:citekey>
+    <bcf:citekey order="11">Newsgroups20</bcf:citekey>
+    <bcf:citekey order="12">Lewis:2004:RNB:1005332.1005345</bcf:citekey>
+    <bcf:citekey order="13">Deap-K-Means</bcf:citekey>
+    <bcf:citekey order="14">doi:10.1108/eb026526</bcf:citekey>
+    <bcf:citekey order="15">journals/mtcl/Lovins68</bcf:citekey>
+    <bcf:citekey order="16">NMI_ACC</bcf:citekey>
+    <bcf:citekey order="17">ARI</bcf:citekey>
+    <bcf:citekey order="18">Deap-K-Means</bcf:citekey>
     <bcf:citekey order="0">*</bcf:citekey>
   </bcf:section>
   <bcf:sortlist section="0" name="nty/global" type="entry" sortscheme="nty" sortnamekeyscheme="global">
