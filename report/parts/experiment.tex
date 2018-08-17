@@ -201,11 +201,11 @@ To add noise to 20 newsgroups dataset e divide the dataset into two corpus $C_1,
 Each corpus contain ten classes. We generate keywords \ref{algo:gen_kw} 
 from $C_1$. Then we concatenate document from corpus $C_1$ with document
 from corpus $C_2$. The clustering processed on corpus $C_1$. For this experiment
-we extract 3 keywords per class (see algorithm \ref{algo:gen_kw}).
-\\Results for baseline are reported in table \ref{tab:res_baseline}.
+we extract 3 discriminative keywords per class (see algorithm \ref{algo:gen_kw}).
+\\Results for are reported in table \ref{tab:res_mask}.
 
 \begin{table}
-\caption{\label{tab:res_mask}Clustering applies to 
+\caption{\label{tab:res_mask}Clustering results for $K$-Means applies to 
 different learned latent space to measure the efficiency of lexical constraints
 for $K$-Means algorithm. Performance is measured in terms of NMI, Adjusted Rand 
 Index and clustering Accuracy, higher is better. Each cell contains the average
@@ -280,8 +280,10 @@ and the standard deviation computed over 10 runs.}
 \end{table}
 
 \subsubsection{Non Discriminative Keywords}
+For this experiment we extract 3 non-discriminative keywords per class (see algorithm \ref{algo:gen_kw}).
+\\Results for are reported in table \ref{tab:res_non_discr}.
 \begin{table}
-\caption{\label{tab:res_mask}Clustering applies to 
+\caption{\label{tab:res_non_discr}Clustering results for $K$-Means applies applies to 
 different learned latent space to measure the efficiency of lexical constraints
 for $K$-Means algorithm. Performance is measured in terms of NMI, Adjusted Rand 
 Index and clustering Accuracy, higher is better. Each cell contains the average
