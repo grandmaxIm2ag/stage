@@ -1,0 +1,18 @@
+[0] Config.pm:340> INFO - This is Biber 2.4
+[0] Config.pm:343> INFO - Logfile is 'report.blg'
+[55] biber:287> INFO - === jeu. août 23, 2018, 01:05:51
+[171] Biber.pm:348> INFO - Reading 'report.bcf'
+[392] Biber.pm:739> INFO - Using all citekeys in bib section 0
+[399] Biber.pm:3151> INFO - Processing section 0
+[442] Biber.pm:3308> INFO - Looking for bibtex format file 'parts/biblio.bib' for section 0
+[525] bibtex.pm:1113> INFO - Decoding LaTeX character macros into UTF-8
+[598] bibtex.pm:974> INFO - Found BibTeX data source 'parts/biblio.bib'
+[828] Utils.pm:147> WARN - BibTeX subsystem: /tmp/md6HM8FmJE/biblio.bib_13809.utf8, line 10, warning: 227 characters of junk seen at toplevel
+[829] Utils.pm:147> WARN - BibTeX subsystem: /tmp/md6HM8FmJE/biblio.bib_13809.utf8, line 134, warning: 21 characters of junk seen at toplevel
+[1027] UCollate.pm:65> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[1028] UCollate.pm:65> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[1028] Biber.pm:3028> INFO - Sorting list 'nty/global' of type 'entry' with scheme 'nty' and locale 'en-US'
+[1028] Biber.pm:3032> INFO - No sort tailoring available for locale 'en-US'
+[1070] bbl.pm:519> INFO - Writing 'report.bbl' with encoding 'UTF-8'
+[1173] bbl.pm:615> INFO - Output to report.bbl
+[1173] Biber.pm:109> INFO - WARNINGS: 2

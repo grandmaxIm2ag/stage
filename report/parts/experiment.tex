@@ -34,7 +34,7 @@ the 2000 words with the top TFIDF scores. We use also a stemming step
 To generate the set of keywords $KW$ we rank each word of each 
 document of each class using TFIDF according to algorithm~\ref{algo:gen_kw}.
 We add for each document of each class the TFIDF of each word, in this manner
-we find the most important word of each class. Furthermore, for discriminativ keywords,
+we find the most important word of each class. Furthermore, for discriminative keywords,
 we substract  the TFIDF of other class, so that the keywords are the most discriminating.
 \begin{algorithm}
   \SetKwInOut{Input}{input}
@@ -126,13 +126,13 @@ The decoder is a mirrored version of the encoder~\ref{fig:autoenc}.
 The ReLu activation function is used on layers, except for the third
 hidden layer of encoder and decoder part.
 \subsubsection{\label{seq:hyperparam}Hyperparameters}
-We used Gride Search strategy for $\lambda_0$ and $\lambda_1$ optimization.
+We used Grad Search strategy for $\lambda_0$ and $\lambda_1$ optimization.
 We search on the range 
 $[10^{-6},10^{-5}10^{-4},10^{-3},10^{-2},10^{-1}]$ for $\lambda_0$ and $\lambda_1$.   
 We select hyperparameters which maximize the Accuracy Metrics for Validation Set.
-The results of Gride Search are reported in table~\ref{tab:line_search_met1}.
+The results of Grad Search are reported in table~\ref{tab:line_search_met1}.
 \begin{table}
-\caption{\label{tab:line_search_met1}Best results of Line Search for the optimization of
+\caption{\label{tab:line_search_met1}Best results of Grad Search for the optimization of
 hyperparameters for each dataset for the Unclustered Keywords method.}
 %The best result for each  metric/dataset is bold.}
 \centering
@@ -354,6 +354,8 @@ can vary the number of keywords by classes. In addition we compare
 the results of each version of CDKM.
 We can see results  in 
 figures \ref{fig:rcv1}, \ref{fig:20news}, \ref{fig:20news_noise}.
+We generate discriminative keywords with algorithm \ref{algo:gen_kw}
+for this test.
 \begin{figure}
   \begin{subfigure}[b]{\hsize}
     \centering

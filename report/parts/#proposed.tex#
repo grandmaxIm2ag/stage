@@ -23,6 +23,18 @@ where $mask_k(X)$ is the document X masked by keywords from the $k^{th}$ class
 \begin{equation}
    X'_k = \forall i, X_i * \mu(i,k) 
 \end{equation}
+where $\mu(i,k)$ is a function brighting to light the similarity between a keyword $w$ and a word $i$.
+\begin{equation}
+  \mu(i,k) = max \left(\frac{rel(i,k)}{\sum\limits_{k' \in KW}rel(i,k')}, 0\right)
+\end{equation}
+where $r(i,k)$ is a function brighting to light the similarity between a keyword $w$ and a word $i$.
+\begin{equation}
+  reli,k) = \frac{1}{|k|} \sum\limits_{w \in k} s(w,i)
+\end{equation}
+where $s(w,i)$ is a function brighting to light the similarity between a keyword $w$ and a word $i$.
+\begin{equation}\label{sim}
+s(w,i) = \frac{df(w,i)}{df(w)}
+\end{equation}
 \end{enumerate}
 \subsection{Lexical Constraints}
 We want representation where document X is close of the closest
@@ -52,19 +64,17 @@ For the Deep $K$-Means, we can use the approach proposed by Moradi Fard, Thonet 
 For the clustering loss we can use squared loss with euclidean distance. We
 denote $R = \begin{pmatrix} r_1 & r_2 & ... & r_K\end{pmatrix}$ the vector of
 centroids.\\
-Finally the loss function is :
+Finally the loss function for Unclustered Keywords is :
 \begin{equation}
-\begin{array}{ll}
-L(C ,\alpha;\theta,R) = &\sum\limits_{X \in C} ||X - A(X;\theta)||_2^2 + \\ 
-&\lambda_0 \sum\limits_{X \in C}\sum\limits_{k=1}^K||h_\theta(X) - r_k ||_2^2 G_{k}(h_\theta(X), \alpha; R) + \\ &
+L(C ,\alpha;\theta,R) = \sum\limits_{X \in C} ||X - A(X;\theta)||_2^2 + 
+\lambda_0 \sum\limits_{X \in C}\sum\limits_{k=1}^K||h_\theta(X) - r_k ||_2^2 G_{k}(h_\theta(X), \alpha; R) + 
 \lambda_1|| h_\theta(X) - h_\theta(X')||_2^2
-\end{array}
 \end{equation}
 and the loss function for Clustered Keywords is :
 \begin{equation}
-\begin{array}{ll}
+\begin{array}{c c}
 L(C ,\alpha;\theta,R) = & \sum\limits_{X \in C} ||X - A(X;\theta)||_2^2 + 
-\\ & \lambda_0 \sum\limits_{X \in C}\sum\limits_{k=1}^K||h_\theta(X) - r_k ||_2^2 G_{k}(h_\theta(X), \alpha; R) + 
+\lambda_0 \sum\limits_{X \in C}\sum\limits_{k=1}^K||h_\theta(X) - r_k ||_2^2 G_{k}(h_\theta(X), \alpha; R) + 
 \\ & \lambda_1'\sum\limits_{X \in C} \sum\limits_{k = 1}^K \frac{e^{-\alpha|| h_\theta(X) - 
 h_\theta(X'_k)||_2^2}}{\sum\limits_{k' = 1}^K e^{-\alpha|| h_\theta(X) - 
 h_\theta(X'_{k'})||_2^2}}|| h_\theta(X) - h_\theta(X'_{k})||_2^2
@@ -84,14 +94,14 @@ We use two methods for pretraining :
 \begin{enumerate} 
 \item \textbf{simple pretrain} : minimizing only reconstruct loss :
   $\sum\limits_{X \in X} || X - f(h_\theta(X))||_2^2$. This allows to 
-  initialize with the least loss of information about documents.   
+  initialize with the least loss of informations about documents.   
 \item \textbf{lexical pretrain} : minimizing $\sum\limits_{X \in X} || X - f(h_\theta(X))||_2^2 + 
   \lambda_1 \sum\limits_{X \in C} || h_\theta(X) - h_\theta(X')||_2^2$. 
   It allows to initialize centroïds with bias representation.
 \end{enumerate}
 
-\subsubsection{Centers Initialization}
-After pretraining we need to initialize centers. We denote $S^{(k)}$ as follow :
+\subsubsection{Centers Initialisation}
+After pretraining we need to initiallise centers. We denote $S^{(k)}$ as follow :
 \begin{equation}
 \forall i, S^{(k)}_i = \left\{
     \begin{array}{ll}
@@ -100,7 +110,7 @@ After pretraining we need to initialize centers. We denote $S^{(k)}$ as follow :
     \end{array}
 \right.
 \end{equation}
-Then we initialize R as follows :
+Then we initialise R as follows :
 \begin{equation}
 \forall k, r_k =  h_\theta(S^{(k)})
 \end{equation}

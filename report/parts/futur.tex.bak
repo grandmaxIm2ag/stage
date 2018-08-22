@@ -1,12 +1,12 @@
 \section{Future Works}
-In future works, we plan to add priorities to classes In other words, we would like some classes
+In futur works, we plan to add priorities to classes In other words, we would like some classes
 to be more important than others, to bias clustering to some classes considered more
 important by the user. Also, because users do not always know the entire corpus of
 documents, it might be useful to add a trash class system that groups documents
 that have no links to the user's given keyword classes. In addition, the
 initialization of the centers is only taking into account keywords, we could use
-a similarity function and initialize the centers with the words closest to the
-keywords in the corpus. Finally, one of the major problems of our algorithm is
+a simmilarity function and initialize the centers with the words closest to the
+keywords in the corpus. Finally, one of the major problems of our agorithm is
 that we can not use as keywords only words present in the corpus, nevertheless
 it is possible that the user wants to give keywords that are not part of corpus.
 To do this, we could use embedded words.

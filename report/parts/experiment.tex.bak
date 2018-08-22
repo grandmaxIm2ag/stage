@@ -25,17 +25,17 @@ TFIDF(t,X,C) = TF(t, X) . IDF(t, C)
 For each dataset there is a preprocessing step. We remove stopword and keep only
 the 2000 words with the top TFIDF scores. We use also a stemming step 
 \cite{journals/mtcl/Lovins68} for dataset 20 Newsgroups. 
-\\We divide each dataset in tw subset :
+\\We divide each dataset in two subset :
 \begin{enumerate}
-\item Validation Set : representing 10\% of total dataset use for hyperparameter optimisation (see section\ref{seq:hyperparam}).
+\item Validation Set : representing 10\% of total dataset use for hyperparameter optimization (see section\ref{seq:hyperparam}).
 \item Test Set : representing 90\% of total dataset use to compare result from different algorithm (see section \ref{seq:results}).
 \end{enumerate} 
 \subsection{Generate Constraint}
 To generate the set of keywords $KW$ we rank each word of each 
 document of each class using TFIDF according to algorithm~\ref{algo:gen_kw}.
-We add for each document of each class the tfidf of each word, in this manner
-we find the most important word of each class. Furthermore, for discriminativ keywords,
-we substract  the tdidf of other class, so that the keywords are the most discriminating.
+We add for each document of each class the TFIDF of each word, in this manner
+we find the most important word of each class. Furthermore, for discriminative keywords,
+we substract  the TFIDF of other class, so that the keywords are the most discriminating.
 \begin{algorithm}
   \SetKwInOut{Input}{input}
   \SetKwInOut{Output}{output}
@@ -52,7 +52,7 @@ we substract  the tdidf of other class, so that the keywords are the most discri
   }
   \If{$Discriminating\_ Extraction$}{
     \ForEach{Class $c_i \in C$}{
-      ${rank'}_i \gets rank_i - \sum\limits_{\forall c_j, cj \neq c_i}rank_j$\\
+      ${rank'}_i \gets rank_i - \sum\limits_{\forall c_j, c_j \neq c_i}rank_j$\\
     }
     $rank \gets rank'$
   }
@@ -129,10 +129,10 @@ hidden layer of encoder and decoder part.
 We used Gride Search strategy for $\lambda_0$ and $\lambda_1$ optimization.
 We search on the range 
 $[10^{-6},10^{-5}10^{-4},10^{-3},10^{-2},10^{-1}]$ for $\lambda_0$ and $\lambda_1$.   
-We select hyperparameters wich maximise the Accuracy Metrics for Validation Set.
+We select hyperparameters which maximize the Accuracy Metrics for Validation Set.
 The results of Gride Search are reported in table~\ref{tab:line_search_met1}.
 \begin{table}
-\caption{\label{tab:line_search_met1}Best results of Line Search for the optimization of
+\caption{\label{tab:line_search_met1}Best results of Gride Search for the optimization of
 hyperparameters for each dataset for the Unclustered Keywords method.}
 %The best result for each  metric/dataset is bold.}
 \centering
@@ -197,15 +197,15 @@ hyperparameters for each dataset for the Unclustered Keywords method.}
 \subsection{\label{seq:results}Results}
 The purpose of the experiment is to rediscover the different classes of 
 datasets with keywords.\\
-To add noise to 20 newsgroups datasetw e divide the dataset into two corpus $C_1, C_2$. 
+To add noise to 20 newsgroups dataset e divide the dataset into two corpus $C_1, C_2$. 
 Each corpus contain ten classes. We generate keywords \ref{algo:gen_kw} 
 from $C_1$. Then we concatenate document from corpus $C_1$ with document
 from corpus $C_2$. The clustering processed on corpus $C_1$. For this experiment
-we extract 3 keywords per class (see algorithm \ref{algo:gen_kw}).
-\\Results for baseline are reported in table \ref{tab:res_baseline}.
+we extract 3 discriminative keywords per class (see algorithm \ref{algo:gen_kw}).
+\\Results for are reported in table \ref{tab:res_mask}.
 
 \begin{table}
-\caption{\label{tab:res_mask}Clustering applies to 
+\caption{\label{tab:res_mask}Clustering results for $K$-Means applies to 
 different learned latent space to measure the efficiency of lexical constraints
 for $K$-Means algorithm. Performance is measured in terms of NMI, Adjusted Rand 
 Index and clustering Accuracy, higher is better. Each cell contains the average
@@ -280,8 +280,10 @@ and the standard deviation computed over 10 runs.}
 \end{table}
 
 \subsubsection{Non Discriminative Keywords}
+For this experiment we extract 3 non-discriminative keywords per class (see algorithm \ref{algo:gen_kw}).
+\\Results for are reported in table \ref{tab:res_non_discr}.
 \begin{table}
-\caption{\label{tab:res_mask}Clustering applies to 
+\caption{\label{tab:res_non_discr}Clustering results for $K$-Means applies applies to 
 different learned latent space to measure the efficiency of lexical constraints
 for $K$-Means algorithm. Performance is measured in terms of NMI, Adjusted Rand 
 Index and clustering Accuracy, higher is better. Each cell contains the average
@@ -352,6 +354,8 @@ can vary the number of keywords by classes. In addition we compare
 the results of each version of CDKM.
 We can see results  in 
 figures \ref{fig:rcv1}, \ref{fig:20news}, \ref{fig:20news_noise}.
+We generate discriminative keywords with algorithm \ref{algo:gen_kw}
+for this test.
 \begin{figure}
   \begin{subfigure}[b]{\hsize}
     \centering
