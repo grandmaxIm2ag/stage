@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.9.30)  23 AUG 2018 01:05
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.4.17)  23 AUG 2018 02:41
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1263,7 +1263,11 @@ Package biblatex Warning: 'babel/polyglossia' detected but 'csquotes' missing.
 
 \@quotelevel=\count328
 \@quotereset=\count329
-(./report.aux)
+(./report.aux
+
+LaTeX Warning: Label `seq:results' multiply defined.
+
+)
 \openout1 = `report.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 48.
@@ -1538,222 +1542,204 @@ Underfull \hbox (badness 2980) in paragraph at lines 4--16
 \OT1/ppl/m/n/10 To ex-per-i-ment our al-go-rithm we use the dataset
  []
 
-
-Underfull \hbox (badness 2229) in paragraph at lines 30--31
-\OT1/ppl/m/n/10 use for hy-per-pa-ram-e-ter op-ti-miza-tion (see sec-
- []
-
-LaTeX Font Info:    Try loading font information for OMS+ppl on input line 98.
+LaTeX Font Info:    Try loading font information for OMS+ppl on input line 70.
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/omsppl.fd
 File: omsppl.fd 
 )
 LaTeX Font Info:    Font shape `OMS/ppl/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 98.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 70.
 
-Underfull \hbox (badness 1038) in paragraph at lines 105--107
+Underfull \hbox (badness 1038) in paragraph at lines 77--79
 []\OT1/ppl/m/n/10 The Ac-cu-racy is the pro-por-tion of true re-sults
  []
 
 [4]
 
 Package caption Warning: \captionsetup{subtype*=...} or \subcaptionof
-(caption)                outside box or environment on input line 152.
+(caption)                outside box or environment on input line 151.
 See the caption package documentation for explanation.
 
 
 Package caption Warning: \subcaption
-(caption)                outside box or environment on input line 152.
+(caption)                outside box or environment on input line 151.
 See the caption package documentation for explanation.
 
 
 Package caption Warning: \subcaption
-(caption)                outside box or environment on input line 166.
+(caption)                outside box or environment on input line 165.
 See the caption package documentation for explanation.
 
 
 Package caption Warning: \subcaption
-(caption)                outside box or environment on input line 180.
-See the caption package documentation for explanation.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 129--196
-\OT1/ppl/m/n/10 We used Grad Search strat-egy for $\OML/zplm/m/it/10 ^^U[]$ \OT
-1/ppl/m/n/10 and
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 129--196
-\OML/zplm/m/it/10 ^^U[]$ \OT1/ppl/m/n/10 op-ti-miza-tion. We search on the rang
-e
- []
-
-
-Package caption Warning: \captionsetup{subtype*=...} or \subcaptionof
-(caption)                outside box or environment on input line 231.
-See the caption package documentation for explanation.
-
-
-Package caption Warning: \subcaption
-(caption)                outside box or environment on input line 231.
-See the caption package documentation for explanation.
-
-
-Package caption Warning: \subcaption
-(caption)                outside box or environment on input line 247.
-See the caption package documentation for explanation.
-
-
-Package caption Warning: \subcaption
-(caption)                outside box or environment on input line 263.
+(caption)                outside box or environment on input line 179.
 See the caption package documentation for explanation.
 
 
 Package caption Warning: \captionsetup{subtype*=...} or \subcaptionof
-(caption)                outside box or environment on input line 305.
+(caption)                outside box or environment on input line 225.
 See the caption package documentation for explanation.
 
 
 Package caption Warning: \subcaption
-(caption)                outside box or environment on input line 305.
+(caption)                outside box or environment on input line 225.
 See the caption package documentation for explanation.
 
 
 Package caption Warning: \subcaption
-(caption)                outside box or environment on input line 318.
+(caption)                outside box or environment on input line 241.
 See the caption package documentation for explanation.
 
 
 Package caption Warning: \subcaption
-(caption)                outside box or environment on input line 331.
+(caption)                outside box or environment on input line 257.
 See the caption package documentation for explanation.
 
-<parts/res/dat_file/acc/RCV1_ACC.png, id=215, 307.1475pt x 267.399pt>
+
+Package caption Warning: \captionsetup{subtype*=...} or \subcaptionof
+(caption)                outside box or environment on input line 298.
+See the caption package documentation for explanation.
+
+
+Package caption Warning: \subcaption
+(caption)                outside box or environment on input line 298.
+See the caption package documentation for explanation.
+
+
+Package caption Warning: \subcaption
+(caption)                outside box or environment on input line 311.
+See the caption package documentation for explanation.
+
+
+Package caption Warning: \subcaption
+(caption)                outside box or environment on input line 324.
+See the caption package documentation for explanation.
+
+<parts/res/dat_file/acc/RCV1_ACC.png, id=212, 307.1475pt x 267.399pt>
 File: parts/res/dat_file/acc/RCV1_ACC.png Graphic file (type png)
 
 <use parts/res/dat_file/acc/RCV1_ACC.png>
 Package pdftex.def Info: parts/res/dat_file/acc/RCV1_ACC.png used on input line
- 362.
+ 349.
 (pdftex.def)             Requested size: 251.86258pt x 219.2686pt.
 
-Overfull \hbox (14.75131pt too wide) in paragraph at lines 362--363
+Overfull \hbox (14.75131pt too wide) in paragraph at lines 349--350
  [][] 
  []
 
-<parts/res/dat_file/ari/RCV1_ARI.png, id=216, 312.9291pt x 267.399pt>
+<parts/res/dat_file/ari/RCV1_ARI.png, id=213, 312.9291pt x 267.399pt>
 File: parts/res/dat_file/ari/RCV1_ARI.png Graphic file (type png)
 
 <use parts/res/dat_file/ari/RCV1_ARI.png>
 Package pdftex.def Info: parts/res/dat_file/ari/RCV1_ARI.png used on input line
- 366.
+ 353.
 (pdftex.def)             Requested size: 256.6035pt x 219.2686pt.
 
-Overfull \hbox (19.49223pt too wide) in paragraph at lines 366--367
+Overfull \hbox (19.49223pt too wide) in paragraph at lines 353--354
  [][] 
  []
 
-<parts/res/dat_file/nmi/RCV1_NMI.png, id=217, 307.1475pt x 267.399pt>
+<parts/res/dat_file/nmi/RCV1_NMI.png, id=214, 307.1475pt x 267.399pt>
 File: parts/res/dat_file/nmi/RCV1_NMI.png Graphic file (type png)
 
 <use parts/res/dat_file/nmi/RCV1_NMI.png>
 Package pdftex.def Info: parts/res/dat_file/nmi/RCV1_NMI.png used on input line
- 370.
+ 357.
 (pdftex.def)             Requested size: 251.86258pt x 219.2686pt.
 
-Overfull \hbox (14.75131pt too wide) in paragraph at lines 370--371
+Overfull \hbox (14.75131pt too wide) in paragraph at lines 357--358
  [][] 
  []
 
 
-LaTeX Warning: Float too large for page by 50.77577pt on input line 373.
+LaTeX Warning: Float too large for page by 50.77577pt on input line 360.
 
-[5] [6]
-<parts/res/dat_file/acc/20NEWS_ACC.png, id=232, 307.1475pt x 267.399pt>
+<parts/res/dat_file/acc/20NEWS_ACC.png, id=215, 307.1475pt x 267.399pt>
 File: parts/res/dat_file/acc/20NEWS_ACC.png Graphic file (type png)
 
 <use parts/res/dat_file/acc/20NEWS_ACC.png>
 Package pdftex.def Info: parts/res/dat_file/acc/20NEWS_ACC.png used on input li
-ne 378.
+ne 365.
 (pdftex.def)             Requested size: 251.86258pt x 219.2686pt.
 
-Overfull \hbox (14.75131pt too wide) in paragraph at lines 378--379
+Overfull \hbox (14.75131pt too wide) in paragraph at lines 365--366
  [][] 
  []
 
-<parts/res/dat_file/ari/20NEWS_ARI.png, id=233, 307.1475pt x 267.399pt>
+<parts/res/dat_file/ari/20NEWS_ARI.png, id=216, 307.1475pt x 267.399pt>
 File: parts/res/dat_file/ari/20NEWS_ARI.png Graphic file (type png)
 
 <use parts/res/dat_file/ari/20NEWS_ARI.png>
 Package pdftex.def Info: parts/res/dat_file/ari/20NEWS_ARI.png used on input li
-ne 382.
+ne 369.
 (pdftex.def)             Requested size: 251.86258pt x 219.2686pt.
 
-Overfull \hbox (14.75131pt too wide) in paragraph at lines 382--383
+Overfull \hbox (14.75131pt too wide) in paragraph at lines 369--370
  [][] 
  []
 
-<parts/res/dat_file/nmi/20NEWS_NMI.png, id=234, 312.9291pt x 267.399pt>
+<parts/res/dat_file/nmi/20NEWS_NMI.png, id=217, 312.9291pt x 267.399pt>
 File: parts/res/dat_file/nmi/20NEWS_NMI.png Graphic file (type png)
 
 <use parts/res/dat_file/nmi/20NEWS_NMI.png>
 Package pdftex.def Info: parts/res/dat_file/nmi/20NEWS_NMI.png used on input li
-ne 386.
+ne 373.
 (pdftex.def)             Requested size: 256.6035pt x 219.2686pt.
 
-Overfull \hbox (19.49223pt too wide) in paragraph at lines 386--387
+Overfull \hbox (19.49223pt too wide) in paragraph at lines 373--374
  [][] 
  []
 
 
-LaTeX Warning: Float too large for page by 50.77577pt on input line 388.
+LaTeX Warning: Float too large for page by 50.77577pt on input line 375.
 
-<parts/res/dat_file/acc/20NEWS_noisy_ACC.png, id=235, 307.1475pt x 267.399pt>
+<parts/res/dat_file/acc/20NEWS_noisy_ACC.png, id=218, 307.1475pt x 267.399pt>
 File: parts/res/dat_file/acc/20NEWS_noisy_ACC.png Graphic file (type png)
 
 <use parts/res/dat_file/acc/20NEWS_noisy_ACC.png>
 Package pdftex.def Info: parts/res/dat_file/acc/20NEWS_noisy_ACC.png used on in
-put line 393.
+put line 380.
 (pdftex.def)             Requested size: 251.86258pt x 219.2686pt.
 
-Overfull \hbox (14.75131pt too wide) in paragraph at lines 393--394
+Overfull \hbox (14.75131pt too wide) in paragraph at lines 380--381
  [][] 
  []
 
-<parts/res/dat_file/ari/20NEWS_noisy_ARI.png, id=236, 307.1475pt x 267.399pt>
+<parts/res/dat_file/ari/20NEWS_noisy_ARI.png, id=219, 307.1475pt x 267.399pt>
 File: parts/res/dat_file/ari/20NEWS_noisy_ARI.png Graphic file (type png)
 
 <use parts/res/dat_file/ari/20NEWS_noisy_ARI.png>
 Package pdftex.def Info: parts/res/dat_file/ari/20NEWS_noisy_ARI.png used on in
-put line 397.
+put line 384.
 (pdftex.def)             Requested size: 251.86258pt x 219.2686pt.
 
-Overfull \hbox (14.75131pt too wide) in paragraph at lines 397--398
+Overfull \hbox (14.75131pt too wide) in paragraph at lines 384--385
  [][] 
  []
 
-<parts/res/dat_file/nmi/20NEWS_noisy_NMI.png, id=237, 307.1475pt x 267.399pt>
+<parts/res/dat_file/nmi/20NEWS_noisy_NMI.png, id=220, 307.1475pt x 267.399pt>
 File: parts/res/dat_file/nmi/20NEWS_noisy_NMI.png Graphic file (type png)
 
 <use parts/res/dat_file/nmi/20NEWS_noisy_NMI.png>
 Package pdftex.def Info: parts/res/dat_file/nmi/20NEWS_noisy_NMI.png used on in
-put line 401.
+put line 388.
 (pdftex.def)             Requested size: 251.86258pt x 219.2686pt.
 
-Overfull \hbox (14.75131pt too wide) in paragraph at lines 401--402
+Overfull \hbox (14.75131pt too wide) in paragraph at lines 388--389
  [][] 
  []
 
 
-LaTeX Warning: Float too large for page by 50.77577pt on input line 403.
+LaTeX Warning: Float too large for page by 50.77577pt on input line 390.
 
-) (./parts/conclusion.tex) (./parts/futur.tex) (./parts/remercie.tex) [7 <./par
-ts/res/dat_file/acc/RCV1_ACC.png> <./parts/res/dat_file/ari/RCV1_ARI.png> <./pa
-rts/res/dat_file/nmi/RCV1_NMI.png>] [8 <./parts/res/dat_file/acc/20NEWS_ACC.png
-> <./parts/res/dat_file/ari/20NEWS_ARI.png> <./parts/res/dat_file/nmi/20NEWS_NM
-I.png> <./parts/res/dat_file/acc/20NEWS_noisy_ACC.png> <./parts/res/dat_file/ar
-i/20NEWS_noisy_ARI.png> <./parts/res/dat_file/nmi/20NEWS_noisy_NMI.png>]
+) (./parts/conclusion.tex) (./parts/futur.tex [5] [6] [7 <./parts/res/dat_file/
+acc/RCV1_ACC.png> <./parts/res/dat_file/ari/RCV1_ARI.png> <./parts/res/dat_file
+/nmi/RCV1_NMI.png> <./parts/res/dat_file/acc/20NEWS_ACC.png> <./parts/res/dat_f
+ile/ari/20NEWS_ARI.png> <./parts/res/dat_file/nmi/20NEWS_NMI.png>])
+(./parts/remercie.tex) [8 <./parts/res/dat_file/acc/20NEWS_noisy_ACC.png> <./pa
+rts/res/dat_file/ari/20NEWS_noisy_ARI.png> <./parts/res/dat_file/nmi/20NEWS_noi
+sy_NMI.png>]
 LaTeX Font Info:    Try loading font information for OT1+pcr on input line 61.
-
-(/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1pcr.fd
+ (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 )
 Underfull \hbox (badness 4686) in paragraph at lines 61--61
@@ -1831,6 +1817,9 @@ Package rerunfilecheck Info: File `report.out' has not changed.
 LaTeX Warning: There were undefined references.
 
 
+LaTeX Warning: There were multiply-defined labels.
+
+
 Package biblatex Warning: Please (re)run Biber on the file:
 (biblatex)                report
 (biblatex)                and rerun LaTeX afterwards.
@@ -1841,10 +1830,10 @@ Package logreq Info: Writing requests to 'report.run.xml'.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 62.
  ) 
 Here is how much of TeX's memory you used:
- 25369 strings out of 493029
- 458682 string characters out of 6136234
- 898429 words of memory out of 5000000
- 28284 multiletter control sequences out of 15000+600000
+ 25376 strings out of 493029
+ 458832 string characters out of 6136234
+ 899475 words of memory out of 5000000
+ 28287 multiletter control sequences out of 15000+600000
  55173 words of font info for 163 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  55i,19n,54p,1626b,1467s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1858,10 +1847,10 @@ thpazo/fplmri.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/courier/ucrr8a
 .pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></usr/s
 hare/texlive/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/share/texlive
 /texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on report.pdf (9 pages, 766137 bytes).
+Output written on report.pdf (9 pages, 771843 bytes).
 PDF statistics:
- 384 PDF objects out of 1000 (max. 8388607)
- 330 compressed objects within 4 object streams
- 98 named destinations out of 1000 (max. 500000)
+ 390 PDF objects out of 1000 (max. 8388607)
+ 336 compressed objects within 4 object streams
+ 102 named destinations out of 1000 (max. 500000)
  212 words of extra memory for PDF output out of 10000 (max. 10000000)
 

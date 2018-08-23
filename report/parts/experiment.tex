@@ -24,12 +24,7 @@ TFIDF(t,X,C) = TF(t, X) . IDF(t, C)
 \end{equation}
 For each dataset there is a preprocessing step. We remove stopword and keep only
 the 2000 words with the top TFIDF scores. We use also a stemming step 
-\cite{journals/mtcl/Lovins68} for dataset 20 Newsgroups. 
-\\We divide each dataset in two subset :
-\begin{enumerate}
-\item Validation Set : representing 10\% of total dataset use for hyperparameter optimization (see section\ref{seq:hyperparam}).
-\item Test Set : representing 90\% of total dataset use to compare result from different algorithm (see section \ref{seq:results}).
-\end{enumerate} 
+\cite{journals/mtcl/Lovins68}. 
 \subsection{Generate Constraint}
 To generate the set of keywords $KW$ we rank each word of each 
 document of each class using TFIDF according to algorithm~\ref{algo:gen_kw}.
@@ -63,29 +58,6 @@ we substract  the TFIDF of other class, so that the keywords are the most discri
   \Return{KW}
   \caption{\label{algo:gen_kw}Extract Keywords}
 \end{algorithm}
-%\subsubsection{Background Knowledge}
-%We generate pairwise constraints randomly accordinf to algorithm
-%~\ref{algo:gen_pair}
-%\begin{algorithm}[!h]
-%  \SetKwInOut{Input}{input}
-%  \SetKwInOut{Output}{output}
-%  \Input{Corpus C, The set of labels L, The number of pair $N_p$}
-%  \Output{Must-Link Pair ML, Cannot-Link Pair CL}
-%  \For{p = 1 : $N_p$}{
-%    \Repeat{$X_i \neq X_j \wedge L_i = L_j$}{
-%      Choose randomly ($X_i, X_j$)\\
-%    }
-%    Insert ($X_i, X_j$) in ML\\
-%  }
-%  \For{p = 1 : $N_p$}{
-%    \Repeat{$X_i \neq X_j \wedge L_i \neq L_j$}{
-%      Choose randomly ($X_i, X_j$)\\
-%    }
-%    Insert ($X_i, X_j$) in ML\\
-%  }
-%  \Return{ML, CL}
-%  \caption{\label{algo:gen_pair}Extract Pair}
-%\end{algorithm}
 \subsection{Evaluation}
 \subsubsection{Baseline Algorithm}
 We evaluate our algorithm with $K$-Means and Deep $K$-Means with pretraining 
@@ -123,17 +95,44 @@ We use the same architecture used in~\cite{Deap-K-Means}. The encoder is a fully
 multilayer perceptron formed by 3 hidden layers (with dimensions 500, 500, 2000) 
 and an embedding layer (with dimension K, the number of cluster). 
 The decoder is a mirrored version of the encoder~\ref{fig:autoenc}.
-The ReLu activation function is used on layers, except for the third
-hidden layer of encoder and decoder part.
-\subsubsection{\label{seq:hyperparam}Hyperparameters}
-We used Grad Search strategy for $\lambda_0$ and $\lambda_1$ optimization.
-We search on the range 
-$[10^{-6},10^{-5}10^{-4},10^{-3},10^{-2},10^{-1}]$ for $\lambda_0$ and $\lambda_1$.   
-We select hyperparameters which maximize the Accuracy Metrics for Validation Set.
-The results of Grad Search are reported in table~\ref{tab:line_search_met1}.
+All layers except the one preceding the embedding layer and the one
+preceding the output layer are applied a ReLU activation function \cite{Nair:2010:RLU:3104322.3104425} 
+before being fed to the next
+layer. For the layer preceding the embedding layer and for the layerone preceding the output layer
+we apply the identity function.
+\subsubsection{\label{seq:results}Experimental Protocol}
+The purpose of the experiment is to rediscover the different classes of 
+datasets with keywords.
+\\To add noise to 20 newsgroups dataset we divide the dataset into two corpus 
+$C_1, C_2$. Each corpus contains ten classes. We generate keywords 
+\ref{algo:gen_kw} from $C_1$. Then we concatenate document from corpus $C_1$
+with document from corpus $C_2$. The clustering processed on corpus $C_1$.
+\\The tests were carried out in 3 steps :
+\begin{enumerate}
+\item Discriminative Keywords : We test our algorithm with 3 discriminaticves 
+keywords (see  algorithm \ref{algo:gen_kw}).
+\item Non Discriminative Keywords : We test our algorithm with 3 discriminaticves 
+keywords (see  algorithm \ref{algo:gen_kw}).
+\item Robustness : We test the robustness of our algorithm. To test this, we
+can vary the number of keywords by classes. In addition we compare
+the results of each version of CDKM. We generate discriminative keywords with 
+algorithm \ref{algo:gen_kw} for this test.
+\end{enumerate}
+For all tests we select hyperparameters with 3 dicriminatives keywords per 
+classes see section \ref{seq:results}. 
+\subsubsection{\label{seq:hyperparam}Hyperparameters Selection}
+The hyperparameters $\lambda_0$ and $\lambda_1$ , that define the trade-off 
+between the lexical constraint error and clustering  error in the loss function, 
+were determined by performing a grid search on the set \{$10^i | i \in [-6, -1]$\}.
+To do so, we randomly split each dataset into a validation set (10\% of the 
+data) and a test set (90\%). Each model is trained on the whole data and only 
+the validation set labels are leveraged in the grid search to identify the 
+optimal $\lambda_0$ and $\lambda_1$.
+\\We select hyperparameters which maximize the Accuracy Metrics for Validation Set.
+The results of Grid Search are reported in table~\ref{tab:line_search_met1}.
 \begin{table}
 \caption{\label{tab:line_search_met1}Best results of Grad Search for the optimization of
-hyperparameters for each dataset for the Unclustered Keywords method.}
+hyperparameters for each dataset.}
 %The best result for each  metric/dataset is bold.}
 \centering
 \resizebox{.3\textwidth}{!}{
@@ -193,17 +192,12 @@ hyperparameters for each dataset for the Unclustered Keywords method.}
 %}
 %\subcaption*{DBPedia}
 \end{table}
-
 \subsection{\label{seq:results}Results}
-The purpose of the experiment is to rediscover the different classes of 
-datasets with keywords.\\
-To add noise to 20 newsgroups dataset e divide the dataset into two corpus $C_1, C_2$. 
-Each corpus contain ten classes. We generate keywords \ref{algo:gen_kw} 
-from $C_1$. Then we concatenate document from corpus $C_1$ with document
-from corpus $C_2$. The clustering processed on corpus $C_1$. For this experiment
-we extract 3 discriminative keywords per class (see algorithm \ref{algo:gen_kw}).
-\\Results for are reported in table \ref{tab:res_mask}.
-
+To present the tests, we denote "cdkm mask" (respectively sim) the version of 
+the algorithm using masked document (respectively similarity function), and LP
+(respectively SP) when we use the Leical Pretrain (respectively Simple Pretrain).
+\subsubsection{Discriminative Keywords}
+Results are reported in table \ref{tab:res_mask}.
 \begin{table}
 \caption{\label{tab:res_mask}Clustering results for $K$-Means applies to 
 different learned latent space to measure the efficiency of lexical constraints
@@ -280,8 +274,7 @@ and the standard deviation computed over 10 runs.}
 \end{table}
 
 \subsubsection{Non Discriminative Keywords}
-For this experiment we extract 3 non-discriminative keywords per class (see algorithm \ref{algo:gen_kw}).
-\\Results for are reported in table \ref{tab:res_non_discr}.
+Results for are reported in table \ref{tab:res_non_discr}.
 \begin{table}
 \caption{\label{tab:res_non_discr}Clustering results for $K$-Means applies applies to 
 different learned latent space to measure the efficiency of lexical constraints
@@ -349,13 +342,7 @@ and the standard deviation computed over 10 runs.}
 
 \subsubsection{Robustness}
 
-We can also test the robustness of our algorithm. To test this, we
-can vary the number of keywords by classes. In addition we compare
-the results of each version of CDKM.
-We can see results  in 
-figures \ref{fig:rcv1}, \ref{fig:20news}, \ref{fig:20news_noise}.
-We generate discriminative keywords with algorithm \ref{algo:gen_kw}
-for this test.
+We can see results  in figures \ref{fig:rcv1}, \ref{fig:20news}, \ref{fig:20news_noise}.
 \begin{figure}
   \begin{subfigure}[b]{\hsize}
     \centering

@@ -470,6 +470,42 @@
       \endverb
       \keyw{dblp}
     \endentry
+    \entry{Nair:2010:RLU:3104322.3104425}{inproceedings}{}
+      \name{author}{2}{}{%
+        {{hash=0719e279192084705efab5d7e0505f52}{%
+           family={Nair},
+           family_i={N\bibinitperiod},
+           given={Vinod},
+           given_i={V\bibinitperiod}}}%
+        {{hash=881b7655f3886f90a9400902a521acdb}{%
+           family={Hinton},
+           family_i={H\bibinitperiod},
+           given={Geoffrey\bibnamedelima E.},
+           given_i={G\bibinitperiod\bibinitdelim E\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Haifa, Israel}%
+      }
+      \list{publisher}{1}{%
+        {Omnipress}%
+      }
+      \strng{namehash}{28e845481dc4358431d266c4df5a99df}
+      \strng{fullhash}{28e845481dc4358431d266c4df5a99df}
+      \field{sortinit}{N}
+      \field{sortinithash}{925374ca63e7594de7fafdb83e64d41d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Proceedings of the 27th International Conference on International Conference on Machine Learning}
+      \field{isbn}{978-1-60558-907-7}
+      \field{series}{ICML'10}
+      \field{title}{Rectified Linear Units Improve Restricted Boltzmann Machines}
+      \field{year}{2010}
+      \field{pages}{807\bibrangedash 814}
+      \range{pages}{8}
+      \verb{url}
+      \verb http://dl.acm.org/citation.cfm?id=3104322.3104425
+      \endverb
+    \endentry
     \entry{doi:10.1162/089976604773135104}{article}{}
       \name{author}{5}{}{%
         {{hash=50d9bfec9f6162486e5504b41791de0d}{%
