@@ -8,7 +8,7 @@ Formally, the objective is to minimize :
 $$
 \sum\limits_{k =1 }^K \sum\limits_{X \in S_k} ||X - r_k||_2^2
 $$
-We can see $K$-Means in algorithm\ref{algo:kmeans}
+We can see $K$-Means algorithm in algorithm\ref{algo:kmeans}
 \begin{algorithm}
   \SetKwInOut{Input}{input}
   \SetKwInOut{Output}{output}
@@ -38,25 +38,38 @@ The Auto-Encoder tries to learn a function $f (X, \theta) = X$. In
 other words, it is trying to learn an approximation of the identity
 function. An Auto-Encoder is composed in two parts an encoder function
 g, and a decoder function f. To learn representations from which it is 
-possible to reconstruct input data,, we use a
-reconstruct loss $L_{rec}$ using MSE :
+possible to reconstruct input data, we use a
+reconstruct loss $L_{rec}$ using euclidean distance :
 \begin{equation}
-  L_{rec}(X, \theta) = || X - A(X, \theta) ||_2^2 
+  L_{rec}(X; \theta) = \sum\limits_X|| X - A(X, \theta) ||_2^2 
 \end{equation}
-where $A(X, \theta) = f(g(X, \theta))$ is the Auto-Encoder output. We denote 
-$h_\theta(X) = g(X,\theta)$ the encoder output.
-\begin{figure}[!h]
+where $A(X, \theta)$ is the Auto-Encoder output.
+We denote $h_\theta(X) = g(X,\theta)$ the encoder output.
+The reconstruct loss allows to minimize the euclidean distance between input and 
+output. In other word, after the training of our autoencoder, the output will be
+close  to the input.
+\\Minimize the reconstruct loss allows to have a latent space where essential 
+data is kept. In addition to reconstruct loss we can add different penalties 
+$\Omega$ to bias the latent space.If we add penalties we need to introduce
+different hyperparameters $\Lambda$ to balance the different losses.
+\\Generally, the Autoencoder loss with $m$ penalties takes the form :
+\begin{equation} 
+L(X;\theta) = \sum\limits_X|| X - A(X, \theta) ||_2^2 + \lambda_0 \omega_0 + 
+\ldots + \lambda_m \omega_m  
+\end{equation}
+\begin{figure}
   \centering
   \resizebox{\hsize}{!}{
     \fbox{\includegraphics{parts/res/autoencoder.png}}
   } 
   \caption{Auto-Encoder}
   \label{fig:autoenc}
-\end{figure} 
+\end{figure}
 \subsection{\label{seq:DeepClust}Deep Clustering}
 A several approaches for the deep $K$-Means propose to jointly learn the
 representation and perform the $K$-Means algorithm \cite{2018arXiv180107648A}.
 In these approaches, network's loss is divided in two parts :
+The non-clustering loss and the clustering loss.
 The non-clustering loss does not
 take into account of the clustering parts. In general, the non-clustering 
 loss is the reconstruction loss of the auto-encoder. We can add additional 
@@ -88,15 +101,33 @@ where $G_{k}$ is a differentiable function such that :
 \begin{equation}
   \lim\limits_{\alpha \rightarrow \alpha_0}G_{k}(h_\theta(X), \alpha; R) = \left\{
 \begin{array}{ll}
-  1 & \mbox{if} r_k = c(h_\theta(X); R)\\
+  1 & \mbox{if } r_k = c(h_\theta(X); R)\\
   0 & \mbox{Otherwise.}
 \end{array}
 \right.
 \end{equation}
 where $\alpha$ play the role of an inverse temperature. In \cite{Deap-K-Means}
-, $G_{k}$ was chosen to be a parameterized softmax : 
-$G_{k}(h_\theta(X), \alpha; R) = \frac{e^{-\alpha F(h_\theta(X),r_k)}}
-{\sum\limits_{k' = 1}^K e^{-\alpha F(h_\theta(X),r_k')}}$\\
+, $G_{k}$ was chosen to be a parameterized softmax.
+The softmax function take as input a K-dimensional vector $z$ of real values
+and return K-dimensional vector $\sigma(z)$ of positive real values and all the 
+entries add up to 1. The softmax function takes the form :
+\begin{equation}\label{eq:general_softmax}
+\forall k, \sigma(z)_k = \frac{e^{z_k}}{\sum_{{k'}=1}^Ke^{z_{k'}}}
+\end{equation}
+In the case of deep $K$-Means, they want :
+\begin{equation}
+\sigma(z)_k \rightarrow \left\{
+\begin{array}{ll}
+  1 & \mbox{if } r_k = c'(h_\theta(X); R)\\
+  0 & \mbox{Otherwise.}
+\end{array}
+\right.
+\end{equation}
+Finally, $G_{k}$ is defined as follows :
+\begin{equation}
+G_{k}(h_\theta(X), \alpha; R) = \frac{e^{-\alpha ||h_\theta(X) - r_k||_2^2}}
+{\sum\limits_{k' = 1}^K e^{-\alpha ||h_\theta(X) - r_{k'}||_2^2}}
+\end{equation}
 To update $(\theta, R)$, they used the stochastic gradient descent (SGD)
 as follows :
 \begin{equation}
@@ -105,7 +136,12 @@ as follows :
 \end{equation}
 where $\widetilde{C}$ is a random mini batch of C, and $\epsilon$ the
 learning rate.
-Algorithm \ref{algo:dkm} summarizes the deep k-Means algorithm :
+\\SGD is an iterative method for optimizing a differentiable objective function.
+If we find a local minimum (respectively maximum) of an objective function 
+using stochastic gradient descent, one takes steps proportional to the 
+negative (respectively positive) of the gradient of the function at the 
+current point. It is called stochastic because samples are shuffled.
+\\Algorithm \ref{algo:dkm} summarizes the deep $K$-Means algorithm :
 \begin{algorithm}[!h]
   \SetKwInOut{Input}{input}
   \SetKwInOut{Output}{output}
@@ -133,13 +169,13 @@ Algorithm \ref{algo:dkm} summarizes the deep k-Means algorithm :
   \caption{Overview of the Deep k-Means approach}
   \label{fig:approach_dkm}
 \end{figure}
-\subsection{\label{seq:BackLexicalConstraint}Lexical Constrain}
+\subsection{\label{seq:BackLexicalConstraint}Seed Words classification}
 Li, Xing, Sun and Ma \cite{Li:2016:EDL:2983323.2983721} proposed a
 classification algorithm using Keywords. They assume that keywords could be 
 semantically or statistically related to the seed words of the same category.
 In this paper, they
 use a function $p$ to compute the co-occurrence of each word of a document
-with keywords of each categories : 
+with keywords of each category : 
 \begin{equation}\label{sim}
 p(i|w) = \frac{df(w,i)}{df(w)}
 \end{equation}

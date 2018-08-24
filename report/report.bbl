@@ -19,6 +19,14 @@
 
 \refsection{0}
   \sortlist[entry]{nty/global}
+    \entry{Newsgroups20}{misc}{}
+      \field{sortinit}{2}
+      \field{sortinithash}{8343b463aacf48517c044b4d2c9c45ed}
+      \field{labeltitlesource}{title}
+      \field{title}{20 Newsgroups Dataset}
+      \field{year}{{empty}}
+      \keyw{dataset}
+    \endentry
     \entry{2018arXiv180107648A}{article}{}
       \name{author}{4}{}{%
         {{hash=a322429432dae14269176ea6f035e405}{%
@@ -99,34 +107,7 @@
       \field{year}{2011}
       \field{pages}{902\bibrangedash 913}
       \range{pages}{12}
-      \verb{doi}
-      \verb 10.1109/TKDE.2010.165
-      \endverb
       \keyw{clustering.,concept factorization,graph Laplacian,manifold regularization,Nonnegative matrix factorization}
-    \endentry
-    \entry{Newsgroups20}{misc}{}
-      \name{author}{1}{}{%
-        {{hash=a2e4822a98337283e39f7b60acf85ec9}{%
-           family={{empty}},
-           family_i={e\bibinitperiod}}}%
-      }
-      \name{editor}{1}{}{%
-        {{hash=a2e4822a98337283e39f7b60acf85ec9}{%
-           family={{empty}},
-           family_i={e\bibinitperiod}}}%
-      }
-      \strng{namehash}{a2e4822a98337283e39f7b60acf85ec9}
-      \strng{fullhash}{a2e4822a98337283e39f7b60acf85ec9}
-      \field{sortinit}{e}
-      \field{sortinithash}{fefc5210ef4721525b2a478df41efcd4}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{title}{20 Newsgroups Dataset}
-      \field{year}{{empty}}
-      \verb{url}
-      \verb http://people.csail.mit.edu/jrennie/20Newsgroups/
-      \endverb
-      \keyw{dataset}
     \endentry
     \entry{Deap-K-Means}{book}{}
       \name{author}{3}{}{%
@@ -182,14 +163,8 @@
       \field{year}{1982}
       \field{pages}{831\bibrangedash 834}
       \range{pages}{4}
-      \verb{doi}
-      \verb 10.1080/01621459.1982.10477894
-      \endverb
       \verb{eprint}
       \verb https://www.tandfonline.com/doi/pdf/10.1080/01621459.1982.10477894
-      \endverb
-      \verb{url}
-      \verb https://www.tandfonline.com/doi/abs/10.1080/01621459.1982.10477894
       \endverb
     \endentry
     \entry{Goodfellow-et-al-2016}{book}{}
@@ -275,15 +250,6 @@
       \field{year}{1972}
       \field{pages}{11\bibrangedash 21}
       \range{pages}{11}
-      \verb{doi}
-      \verb 10.1108/eb026526
-      \endverb
-      \verb{eprint}
-      \verb https://doi.org/10.1108/eb026526
-      \endverb
-      \verb{url}
-      \verb https://doi.org/10.1108/eb026526
-      \endverb
     \endentry
     \entry{kullback1951}{article}{}
       \name{author}{2}{}{%
@@ -315,12 +281,6 @@
       \field{year}{1951}
       \field{pages}{79\bibrangedash 86}
       \range{pages}{8}
-      \verb{doi}
-      \verb 10.1214/aoms/1177729694
-      \endverb
-      \verb{url}
-      \verb https://doi.org/10.1214/aoms/1177729694
-      \endverb
     \endentry
     \entry{Lewis:2004:RNB:1005332.1005345}{article}{}
       \name{author}{4}{}{%
@@ -362,9 +322,6 @@
       \field{year}{2004}
       \field{pages}{361\bibrangedash 397}
       \range{pages}{37}
-      \verb{url}
-      \verb http://dl.acm.org/citation.cfm?id=1005332.1005345
-      \endverb
     \endentry
     \entry{Li:2016:EDL:2983323.2983721}{inproceedings}{}
       \name{author}{4}{}{%
@@ -408,12 +365,6 @@
       \field{year}{2016}
       \field{pages}{85\bibrangedash 94}
       \range{pages}{10}
-      \verb{doi}
-      \verb 10.1145/2983323.2983721
-      \endverb
-      \verb{url}
-      \verb http://doi.acm.org/10.1145/2983323.2983721
-      \endverb
       \keyw{dataless text classification,text analysis,topic modeling}
     \endentry
     \entry{1056489}{article}{}
@@ -439,9 +390,6 @@
       \field{year}{1982}
       \field{pages}{129\bibrangedash 137}
       \range{pages}{9}
-      \verb{doi}
-      \verb 10.1109/TIT.1982.1056489
-      \endverb
       \keyw{Least-squares approximation;PCM communication;Quantization (signal);Signal quantization}
     \endentry
     \entry{journals/mtcl/Lovins68}{article}{}
@@ -465,10 +413,47 @@
       \field{year}{1968}
       \field{pages}{22\bibrangedash 31}
       \range{pages}{10}
-      \verb{url}
-      \verb http://dblp.uni-trier.de/db/journals/mtcl/mtcl11.html#Lovins68
-      \endverb
       \keyw{dblp}
+    \endentry
+    \entry{2013arXiv1301.3781M}{article}{}
+      \name{author}{4}{}{%
+        {{hash=485b259515dc5e970eacb830156afa79}{%
+           family={{Mikolov}},
+           family_i={M\bibinitperiod},
+           given={T.},
+           given_i={T\bibinitperiod}}}%
+        {{hash=e54d8058b7ee8005543c18bc780e2f5e}{%
+           family={{Chen}},
+           family_i={C\bibinitperiod},
+           given={K.},
+           given_i={K\bibinitperiod}}}%
+        {{hash=8a80b4b123812e7fd5adb07fe593a602}{%
+           family={{Corrado}},
+           family_i={C\bibinitperiod},
+           given={G.},
+           given_i={G\bibinitperiod}}}%
+        {{hash=bcc19e41746ad75155bb324952309709}{%
+           family={{Dean}},
+           family_i={D\bibinitperiod},
+           given={J.},
+           given_i={J\bibinitperiod}}}%
+      }
+      \strng{namehash}{41f9f5c2a6afd5f76db185747013d2e2}
+      \strng{fullhash}{d9a75229bd6904601cce68fd77747bf3}
+      \field{sortinit}{M}
+      \field{sortinithash}{2684bec41e9697b92699b46491061da2}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{cs.CL}
+      \field{eprinttype}{arXiv}
+      \field{journaltitle}{ArXiv e-prints}
+      \field{month}{01}
+      \field{title}{{Efficient Estimation of Word Representations in Vector Space}}
+      \field{year}{2013}
+      \verb{eprint}
+      \verb 1301.3781
+      \endverb
+      \keyw{Computer Science - Computation and Language}
     \endentry
     \entry{Nair:2010:RLU:3104322.3104425}{inproceedings}{}
       \name{author}{2}{}{%
@@ -502,9 +487,25 @@
       \field{year}{2010}
       \field{pages}{807\bibrangedash 814}
       \range{pages}{8}
-      \verb{url}
-      \verb http://dl.acm.org/citation.cfm?id=3104322.3104425
-      \endverb
+    \endentry
+    \entry{doi:10.1117/1.2819119}{article}{}
+      \name{author}{1}{}{%
+        {{hash=441f03f67b16fec7ea4ea0b675a0dfb8}{%
+           family={Nasrabadi},
+           family_i={N\bibinitperiod},
+           given={Nasser\bibnamedelima M.},
+           given_i={N\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+      }
+      \strng{namehash}{441f03f67b16fec7ea4ea0b675a0dfb8}
+      \strng{fullhash}{441f03f67b16fec7ea4ea0b675a0dfb8}
+      \field{sortinit}{N}
+      \field{sortinithash}{925374ca63e7594de7fafdb83e64d41d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Electronic Imaging}
+      \field{title}{Pattern Recognition and Machine Learning}
+      \field{volume}{16}
+      \field{year}{2007}
     \endentry
     \entry{doi:10.1162/089976604773135104}{article}{}
       \name{author}{5}{}{%
@@ -540,7 +541,6 @@
       \field{sortinithash}{c7387613477035a752d935acfc3e3ea2}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{abstract}{In this letter, we investigate the impact of choosing different loss functions from the viewpoint of statistical learning theory. We introduce a convexity assumption, which is met by all loss functions commonly used in the literature, and study how the bound on the estimation error changes with the loss. We also derive a general result on the minimizer of the expected risk for a convex loss function in the case of classification. The main outcome of our analysis is that for classification, the hinge loss appears to be the loss of choice. Other things being equal, the hinge loss leads to a convergence rate practically indistinguishable from the logistic loss rate and much better than the square loss rate. Furthermore, if the hypothesis space is sufficiently rich, the bounds obtained for the hinge loss are not loosened by the thresholding stage.}
       \field{journaltitle}{Neural Computation}
       \field{number}{5}
       \field{title}{Are Loss Functions All the Same?}
@@ -548,15 +548,6 @@
       \field{year}{2004}
       \field{pages}{1063\bibrangedash 1076}
       \range{pages}{14}
-      \verb{doi}
-      \verb 10.1162/089976604773135104
-      \endverb
-      \verb{eprint}
-      \verb https://doi.org/10.1162/089976604773135104
-      \endverb
-      \verb{url}
-      \verb https://doi.org/10.1162/089976604773135104
-      \endverb
     \endentry
     \entry{SWANN1969S39}{article}{}
       \name{author}{1}{}{%
@@ -580,12 +571,6 @@
       \field{year}{1969}
       \field{pages}{S39\bibrangedash S55}
       \range{pages}{-1}
-      \verb{doi}
-      \verb https://doi.org/10.1016/0014-5793(69)80075-X
-      \endverb
-      \verb{url}
-      \verb http://www.sciencedirect.com/science/article/pii/001457936980075X
-      \endverb
     \endentry
     \entry{ARI}{article}{}
       \name{author}{3}{}{%
@@ -622,9 +607,6 @@
       \field{year}{2010}
       \field{pages}{2837\bibrangedash 2854}
       \range{pages}{18}
-      \verb{url}
-      \verb http://dl.acm.org/citation.cfm?id=1756006.1953024
-      \endverb
     \endentry
     \entry{Wagstaff:2001:CKC:645530.655669}{inproceedings}{}
       \name{author}{4}{}{%
@@ -668,9 +650,6 @@
       \field{year}{2001}
       \field{pages}{577\bibrangedash 584}
       \range{pages}{8}
-      \verb{url}
-      \verb http://dl.acm.org/citation.cfm?id=645530.655669
-      \endverb
     \endentry
   \endsortlist
 \endrefsection

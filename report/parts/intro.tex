@@ -1,20 +1,21 @@
 \section{Introduction}\label{sec:intro}
 
 Clustering is one of the most fundamental tasks in data mining and machine
-learning. $K$-Means algorithm is a clustering method using untrod models,
+learning. $K$-Means algorithm is a clustering method using centroid models,
 it represents each cluster by a single mean vector. $K$-Means clustering sorts
 n objects into k clusters in which each observation belongs to
 the cluster with the nearest centroid.
-We use because $K$-Means is often used in practice and it is easy to interpret 
+Then, $K$-Means is often used in practice and it is easy to interpret. 
 \\In real application domains, users may want to introduce constraints to finding 
-useful properties for clustering data.
+useful properties for clustering data. Traditional $K$-Means algorithms 
+have no way to take advantage of this information.
 \\The difficulty with integration of constraints into $K$-Means
 algorithm is to find a good representation for data  taking into
 account constraints. The Deep Learning and Auto-Encoder can be used to
 learn this representation. With Auto-Encoder we have to perform the
 $K$-Means in the latent space learned, and this latent space must be
 $K$-Means friendly.
-\\In this study, we specifically focus on the k-Means algorithm with lexical constraints . Lexical constraints are represented
+\\In this study, we specifically focus on the k-Means algorithm with lexical constraints. Lexical constraints are represented
 by a set of keywords given by the user. We use an Auto-encoder to learn a latent space taking
 into account constraints. The loss of the Auto-Encoder is divided in two parts, (a) 
 the reconstruct loss $L_{rec}$ and (b) different penalties skewing the

@@ -52,7 +52,7 @@ if __name__ == "__main__":
     
     fig.legend(lines[:2], ['SIM LP', 'SIM SP'],
                         loc='upper left', frameon=False, prop={'size': 5.5})
-    fig.legend(lines[2:4], ['MASK SP', 'MASK SP'],
+    fig.legend(lines[2:4], ['MASK LP', 'MASK SP'],
                         loc='upper center', frameon=False, prop={'size': 5.5})
     #fig.legend(lines[4:], ['Autoencoder + K-Means', 'Deep K-Means'],
     #                    loc='upper right', frameon=False, prop={'size': 5.5})

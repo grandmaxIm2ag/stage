@@ -1,6 +1,5 @@
-\section{Integrating Lexical Constraints}
-The idea is to learn a latent space taking into account lexical constraints and
-background knowledge.
+\section{Integrating Lexical Biases to Deep $K$-Means Algorithm}
+The idea is to learn a latent space taking into account lexical biases.
 \\We denote  X a document of size d,
 C the corpus, N the size of C, and K the number of cluster.
 There are two ways to see this problem, the first is that the user gives a set 
@@ -12,20 +11,37 @@ We denote :
 KW = \begin{pmatrix}KW_1  \\ ... \\ KW_k \\ ...\\ ... \\ KW_{K}\end{pmatrix}
 \end{equation}
 where $KW_k$ the set of keyword for the $k^{th}$ class. Also, we denote X' a biasing
-version of X. X' can be defined in three different ways :
+version of X. X' can be defined in two different ways :
 \begin{enumerate}
 \item \textbf{Masked Document} :
 \begin{equation}
-X' = \begin{pmatrix}mask_1(X)  \\ ... \\ mask_k(X) \\ ...\\ ... \\ mask_K(X)\end{pmatrix}
+X_k' = mask_k(X) 
 \end{equation}
 where $mask_k(X)$ is the document X masked by keywords from the $k^{th}$ class
-\item \textbf{Similarity function} :
 \begin{equation}
-   X'_k = \forall i, X_i * \mu(i,k) 
+\forall i, mask_k(X)_i = \left\{
+\begin{array}{ll}
+  X_i & \mbox{if } i \in KW_k\\
+  0 & \mbox{Otherwise.}
+\end{array}
+\right. 
 \end{equation}
+Masked documents allow to have a representation biased by keywords. The risk 
+with this method is to have a large number of documents containing no keywords, 
+and therefore to have many $X'$ such that $\forall k, X_k' = \vec 0$. 
+\item \textbf{Similarity function} :
+\\For the similarity function we use the score defined in equation \ref{nu} :
+\begin{equation}
+   X'_k = \forall i, X_i \nu(i,k) 
+\end{equation}
+The similarity function allows to minor the words being semantically distant 
+from keywords. In addition, unlike hidden documents, words that are 
+semantically close to keywords will not have a null score. Nevertheless the 
+risk with this method is to have words with little importance for clustering 
+have high score.
 \end{enumerate}
 \subsection{Lexical Constraints}
-We want representation where document X is close of the closest
+We want a latent space where document X is close to the closest
 $X'_k$ : 
 \begin{equation}
 || h_\theta(X) - h_\theta(c'(X ; X' )) ||_2^2
@@ -35,8 +51,37 @@ However, the  function $c'$ is not differentiable, and we cant use SGD algorithm
 \cite{doi:10.1080/01621459.1982.10477894}
 to learn this function. To approximate the $\argmin$ function we can use the 
 parameterized softmax function \cite{doi:10.1117/1.2819119}. The softmax 
-function can be used as a differentiable substitute to $\argmin$. 
-\\The penalty takes the form : 
+function can be used as a differentiable substitute to $\argmin$.
+\\Indeed, want representation where document X is close to the closest, so we 
+want a function $\omega_k$ such that :
+\begin{equation}
+\omega_k = \left\{
+\begin{array}{ll}
+  1 & \mbox{if } r_k = c'(h_\theta(X); R)\\
+  0 & \mbox{Otherwise.}
+\end{array}
+\right.
+\end{equation}
+Then if we minimize 
+\begin{equation}
+\sum\limits_{X \in C} \sum\limits_{k = 1}^K \omega_k || h_\theta(X) - 
+h_\theta(X_k') ||_2^2
+\end{equation}
+we minimize the distance between the document $h_\theta(X)$ and the closest 
+$h_\theta(X'_k)$ allowing to have a latent space where document X is close to 
+the closest $X'_k$.
+Let's take the equation \ref{eq:general_softmax} and set $z_k = 
+-\alpha|| h_\theta(X) - h_\theta(X_k') ||_2^2$.
+So we have :
+\begin{equation}
+\lim\limits_{\alpha \rightarrow \alpha_0}\sigma(z)_k \rightarrow \left\{
+\begin{array}{ll}
+  1 & \mbox{if } r_k = c'(h_\theta(X); R)\\
+  0 & \mbox{Otherwise.}
+\end{array}
+\right\} \approx \omega_k
+\end{equation}
+\\Finally, the penalty takes the form : 
 \begin{equation}\label{eq:omega_kw_soft}
 \begin{array}{l}
   \sum\limits_{X \in C} \sum\limits_{k = 1}^K \frac{e^{-\alpha|| h_\theta(X) - 
@@ -47,30 +92,26 @@ h_\theta(X'_{k'})||_2^2}}|| h_\theta(X) - h_\theta(X'_{k})||_2^2
 
 \subsection{Deep $K$-Means}
 
-For the Deep $K$-Means, we can use the approach proposed by Moradi Fard, Thonet and Gaussier 
-\cite{Deap-K-Means} see in section 2.3.\\
-For the clustering loss we can use squared loss with euclidean distance. We
-denote $R = \begin{pmatrix} r_1 & r_2 & ... & r_K\end{pmatrix}$ the vector of
-centroids.\\
-Finally the loss function is :
+For the Deep $K$-Means, we can use the approach proposed by Moradi Fard, Thonet 
+and Gaussier \cite{Deap-K-Means} see in section 2.3 introducing lexical biases 
+with equation \ref{eq:omega_kw_soft}.
+\\We denote $R = \begin{pmatrix} r_1 & r_2 & ... & r_K\end{pmatrix}$ the vector 
+of centroids.\\
+The loss function is :
 \begin{equation}
-\begin{array}{ll}
-L(C ,\alpha;\theta,R) = &\sum\limits_{X \in C} ||X - A(X;\theta)||_2^2 + \\ 
-&\lambda_0 \sum\limits_{X \in C}\sum\limits_{k=1}^K||h_\theta(X) - r_k ||_2^2 G_{k}(h_\theta(X), \alpha; R) + \\ &
-\lambda_1|| h_\theta(X) - h_\theta(X')||_2^2
-\end{array}
-\end{equation}
-and the loss function for Clustered Keywords is :
-\begin{equation}
+\resizebox{0.91\hsize}{!}{%
+$
 \begin{array}{ll}
 L(C ,\alpha;\theta,R) = & \sum\limits_{X \in C} ||X - A(X;\theta)||_2^2 + 
 \\ & \lambda_0 \sum\limits_{X \in C}\sum\limits_{k=1}^K||h_\theta(X) - r_k ||_2^2 G_{k}(h_\theta(X), \alpha; R) + 
-\\ & \lambda_1'\sum\limits_{X \in C} \sum\limits_{k = 1}^K \frac{e^{-\alpha|| h_\theta(X) - 
+\\ & \lambda_1\sum\limits_{X \in C} \sum\limits_{k = 1}^K \frac{e^{-\alpha|| h_\theta(X) - 
 h_\theta(X'_k)||_2^2}}{\sum\limits_{k' = 1}^K e^{-\alpha|| h_\theta(X) - 
 h_\theta(X'_{k'})||_2^2}}|| h_\theta(X) - h_\theta(X'_{k})||_2^2
 \end{array}
+$
+}
 \end{equation}
-with hyperparameters $\lambda_0 \geq 0, \lambda_1 \geq 0, \lambda_1' \geq 0$.\\
+with hyperparameters $\lambda_0 \geq 0, \lambda_1 \geq 0$.\\
 
 \subsection{Learning Algorithm and Pretraining}
 
@@ -83,15 +124,18 @@ the auto-encoder then, petraining allows to initialize centroïds.
 We use two methods for pretraining : 
 \begin{enumerate} 
 \item \textbf{simple pretrain} : minimizing only reconstruct loss :
-  $\sum\limits_{X \in X} || X - f(h_\theta(X))||_2^2$. This allows to 
+  $\sum\limits_{X \in X} || X - f(h_\theta(X))||_2^2$. It allows to 
   initialize with the least loss of information about documents.   
-\item \textbf{lexical pretrain} : minimizing $\sum\limits_{X \in X} || X - f(h_\theta(X))||_2^2 + 
-  \lambda_1 \sum\limits_{X \in C} || h_\theta(X) - h_\theta(X')||_2^2$. 
+\item \textbf{lexical pretrain} : minimizing $$
+\resizebox{0.91\hsize}{!}{$\sum\limits_{X \in X} || X - f(h_\theta(X))||_2^2 + 
+  \lambda_1 \sum\limits_{X \in C} \sum\limits_{k = 1}^K \frac{e^{-\alpha|| h_\theta(X) - 
+h_\theta(X'_k)||_2^2}}{\sum\limits_{k' = 1}^K e^{-\alpha|| h_\theta(X) - 
+h_\theta(X'_{k'})||_2^2}}|| h_\theta(X) - h_\theta(X'_{k})||_2^2$}$$ 
   It allows to initialize centroïds with bias representation.
 \end{enumerate}
 
 \subsubsection{Centers Initialization}
-After pretraining we need to initialize centers. We denote $S^{(k)}$ as follow :
+After pretraining we need to initialize centers. We denote $S^{(k)}$ as follows :
 \begin{equation}
 \forall i, S^{(k)}_i = \left\{
     \begin{array}{ll}

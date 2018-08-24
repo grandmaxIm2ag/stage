@@ -1,5 +1,0 @@
-[2] Config.pm:340> INFO - This is Biber 2.4
-[2] Config.pm:343> INFO - Logfile is 'report..blg'
-[167] biber:287> INFO - === jeu. août 23, 2018, 02:01:20
-[323] Utils.pm:163> ERROR - Cannot find control file 'report..bcf'! - did you pass the "backend=biber" option to BibLaTeX?
-[323] Biber.pm:113> INFO - ERRORS: 1
