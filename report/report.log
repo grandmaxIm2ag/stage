@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.4.17)  24 AUG 2018 03:41
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.9.30)  28 AUG 2018 22:24
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1565,7 +1565,7 @@ Package caption Warning: \subcaption
 (caption)                outside box or environment on input line 179.
 See the caption package documentation for explanation.
 
-<parts/res/dat_file/acc/20NEWS_ACC.png, id=253, 307.1475pt x 267.399pt>
+<parts/res/dat_file/acc/20NEWS_ACC.png, id=254, 307.1475pt x 267.399pt>
 File: parts/res/dat_file/acc/20NEWS_ACC.png Graphic file (type png)
 
 <use parts/res/dat_file/acc/20NEWS_ACC.png>
@@ -1577,7 +1577,7 @@ Overfull \hbox (14.75131pt too wide) in paragraph at lines 201--202
  [][] 
  []
 
-<parts/res/dat_file/ari/20NEWS_ARI.png, id=254, 307.1475pt x 267.399pt>
+<parts/res/dat_file/ari/20NEWS_ARI.png, id=255, 307.1475pt x 267.399pt>
 File: parts/res/dat_file/ari/20NEWS_ARI.png Graphic file (type png)
 
 <use parts/res/dat_file/ari/20NEWS_ARI.png>
@@ -1589,7 +1589,7 @@ Overfull \hbox (14.75131pt too wide) in paragraph at lines 205--206
  [][] 
  []
 
-<parts/res/dat_file/nmi/20NEWS_NMI.png, id=255, 312.9291pt x 267.399pt>
+<parts/res/dat_file/nmi/20NEWS_NMI.png, id=256, 312.9291pt x 267.399pt>
 File: parts/res/dat_file/nmi/20NEWS_NMI.png Graphic file (type png)
 
 <use parts/res/dat_file/nmi/20NEWS_NMI.png>
@@ -1647,7 +1647,7 @@ Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 216.
 Here is how much of TeX's memory you used:
  24926 strings out of 493029
  451498 string characters out of 6136234
- 876585 words of memory out of 5000000
+ 876603 words of memory out of 5000000
  27841 multiletter control sequences out of 15000+600000
  57561 words of font info for 168 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -1664,10 +1664,10 @@ c/mathpazo/fplmr.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/mathpazo
 exlive/texmf-dist/fonts/type1/urw/palatino/uplbi8a.pfb></usr/share/texlive/texm
 f-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/share/texlive/texmf-dist/fonts
 /type1/urw/palatino/uplri8a.pfb>
-Output written on report.pdf (9 pages, 649853 bytes).
+Output written on report.pdf (9 pages, 650019 bytes).
 PDF statistics:
- 360 PDF objects out of 1000 (max. 8388607)
- 316 compressed objects within 4 object streams
+ 361 PDF objects out of 1000 (max. 8388607)
+ 317 compressed objects within 4 object streams
  109 named destinations out of 1000 (max. 500000)
  182 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -1,0 +1,5 @@
+[0] Config.pm:340> INFO - This is Biber 2.4
+[0] Config.pm:343> INFO - Logfile is 'soutenance.blg'
+[72] biber:287> INFO - === mar. août 28, 2018, 22:15:27
+[199] Utils.pm:163> ERROR - Cannot find control file 'soutenance.bcf'! - did you pass the "backend=biber" option to BibLaTeX?
+[199] Biber.pm:113> INFO - ERRORS: 1

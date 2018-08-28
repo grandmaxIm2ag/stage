@@ -6,6 +6,9 @@
 \usepackage{lmodern}
 \usepackage{adjustbox}
 \usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{color, colortbl}
 \usepackage{commath}
 \usepackage{amsmath,amssymb,amsthm}
 \usepackage{tikz}
@@ -27,9 +30,10 @@
     \hspace{1em}%
     \insertframenumber/\inserttotalframenumber
 }
+\usepackage{upgreek}
 \begin{document}
 
-\title{Integrating lexical constraints and background knowledge to $K$-Means with Deep Learning}
+\title{Integrating lexical constraints to K-Means with Deep Learning}
 \author{Maxence Grand \\                                                   
         Supervised by : Thibaut Thonet \and \'Eric Gaussier  \and Marc Tommasi \and Aur\'elien Bellet \and  Maziar Moradi Fard} 
 \institute{Laboratoire d'Informatique de Grenoble, Team AMA}
@@ -73,112 +77,6 @@ $$
   \item Bias clustering
   \end{itemize}
 \end{frame}
-\begin{frame}
-\frametitle{Background Knowledge}
-\begin{itemize}
-\pause
-\item \textbf{Must-link} constraint $ML$ : $(X, X') \in ML \implies $ X and X' are in the
-  same cluster.\pause
-\item \textbf{Cannot-link} constraint $CL$ : $(X, X') \in CL \implies $ X and X' are in
-  different cluster.
-\end{itemize}
-\end{frame}
-
-\begin{frame}
-  \frametitle{Background Knowledge - COP$K$-Means}
-  \begin{columns}[T] % align columns
-    \setlength{\mylen}{0.5\textwidth}
-    \begin{column}{\mylen}
-      \scalebox{.6}{                        %new code
-        \begin{algorithm}[H]
-          \SetKwInOut{Input}{input}
-          \SetKwInOut{Output}{output}
-          \Input{Corpus C, must-link constraints $ML \subseteq C x C$,
-            cannot-link constraints $CL \subseteq C x C$}
-          \Output{Clusters $S_1, S_2, ..., S_k$}
-          Let $S_1, S_2 , ..., S_k$ be the initial clusters\\
-          \Repeat{Convergence}{
-            \ForEach{$X_i \in C$}{
-              Assign $X_i$ to closest $S_j$ such that Violate-Constraints($X_i, C_j, CL,
-              ML$) is false.\\
-              \If{No such clusters exists}{
-                return \{\}\\
-              }
-            }
-            \ForEach{Clusters $S_i$}{
-              Update centroids.\\
-            }
-          }
-          \Return{$S_1, S_2, ..., S_k$}
-          \caption{\label{algo:cop}COP-Kmeans}
-        \end{algorithm}  
-      }
-    \end{column}%
-    \hfill%
-    \begin{column}{\dimexpr\textwidth-\mylen}
-      \scalebox{.7}{                        %new code
-        \begin{algorithm}[H]
-          \SetKwInOut{Input}{input}
-          \SetKwInOut{Output}{output}
-          \Input{Ducument X, Clusters S, must-link constraints $ML \subseteq C x C$,
-            cannot-link constraints $CL \subseteq C x C$}
-          \Output{True if constraints are violate, False otherwise}
-          \ForEach{($X, X' \in ML$)}{
-            \If{$X' \in S$}{
-              \Return{True}
-            }
-          }
-          \ForEach{($X, X' \in CL$)}{
-            \If{$X' \in S$}{
-              \Return{True}
-            }
-          }
-          \Return{False}
-          \caption{\label{algo:vio}Violate-Constraints}
-        \end{algorithm}
-        
-      }
-    \end{column}%
-  \end{columns}
-\footnote{Wagstaff et al}
-\end{frame}
-
-\begin{frame}
-\frametitle{Background Knowledge - NNClustering}
-\begin{equation*}
-  P = f_{NN}(X_p), ~ Q = f_{NN}(X_q)
-\end{equation*}
-\pause
-\begin{equation*}
-  KL(P||Q) = \sum_i^k P_ilog\frac{P_i}{Q_i}
-\end{equation*}
-\pause
-\begin{equation*}
-  I_s = \left\{
-\begin{array}{ll}
-  1 & \mbox{if ($X_p, X_q$) $\in$ ML }\\
-  0 & \mbox{Otherwise.}
-\end{array}
-\right.
-\end{equation*}
-%
-\begin{equation*}
-  I_{ds} = \left\{
-\begin{array}{ll}
-  1 & \mbox{if ($X_p, X_q$) $\in$ CL}\\
-  0 & \mbox{Otherwise.}
-\end{array}
-\right.
-\end{equation*}
-\begin{equation*}
-  Loss(P || Q) = I_s(X_p, X_q)KL(P || Q) + I_{ds}(X_p, X_q)max(0,
-  \eta-KL(P||Q))
-\end{equation*}
-\begin{equation*}
-  L(P,Q) = Loss(P || Q) + Loss(Q || P)
-\end{equation*}
-\footnote{Hsu et al}
-\end{frame}
 
 %Bas de page pour COP-KMeans et NNclust
 \begin{frame}
@@ -208,39 +106,43 @@ background knowledge.
 \begin{frame}
 \frametitle{Lexical Constraints}
 \begin{equation*}
-KW = \begin{pmatrix} kw_1 & kw_2 & ... & kw_{N_{kw}-1} & kw_{N_{kw}}
+  KW = \begin{pmatrix} kw_1 & kw_2 & ... & kw_{k-1} & kw_{k}
 \end {pmatrix}
 \end{equation*}
-\pause
-Introducing $X'$ such that
+Introducing $X'$ such that a biasing version of X :
+\begin{enumerate}
+\item \textbf{Masked Document} :
 \begin{equation*}
-\forall_{i=1,2,..,N}X_i' = \left\{
+X_k' = mask_k(X) 
+\end{equation*}
+where $mask_k(X)$ is the document X masked by keywords from the $k^{th}$ class
+\begin{equation*}
+\forall i, mask_k(X)_i = \left\{
 \begin{array}{ll}
-  X_i & \mbox{if } i \in KW \\
+  X_i & \mbox{if } i \in KW_k\\
   0 & \mbox{Otherwise.}
 \end{array}
-\right.
+\right. 
 \end{equation*}
-\pause
-\begin{equation*}\label{eq:omega1}
-  \omega_{KW} = \sum_{X \in C} || h_{\theta}(X) - h_{\theta}(X')||_2^2
+\item \textbf{Similarity function} :
+\begin{equation*}
+   X'_k = \forall i, X_i \nu(i,k) 
 \end{equation*}
+\end{enumerate}
 \end{frame}
 
+
 \begin{frame}
-\frametitle{Pairwise Constraints}
-\pause
-\begin{itemize}
-\item Must-Link : $$\omega_{ML} = \sum_{\forall{(X_i,X_j)\in ML}} || h_{\theta}(X_i) - h_{\theta}(X_j) ||_2^2$$ \pause
-\item Cannot-Link : $$\omega_{CL} = \sum_{\forall{(X_i,X_j)\in CL}} max(0,
-  \eta - || h_{\theta}(X_i) - h_{\theta}(X_j) ||_2^2)$$
-\end{itemize}
+  \frametitle{Deep $K$-Means }
+  \resizebox{\hsize}{!}{
+  \fbox{\includegraphics{approach_overview.pdf}}
+  }
 \end{frame}
 
 \begin{frame}
   \frametitle{Deep $K$-Means }
 \begin{equation*}
-  L_{Clust}(C,\beta;\theta,R) = \sum_{X \in C} ||h_\theta(X)-c(h_\theta(X); R)||_2^2
+  L_{Clust}(C,\alpha;\theta,R) = \sum_{X \in C} ||h_\theta(X)-c(h_\theta(X); R)||_2^2
 \end{equation*}
 \begin{equation*}
   c(h_\theta(X); R) = argmin_{r \in R}||h_\theta(X) - r||_2^2
@@ -250,27 +152,20 @@ Introducing $X'$ such that
 \begin{frame}
   \frametitle{Deep $K$-Means }
 \begin{equation*}
-L_{Clust}(C, K, \beta; \theta, R) = \sum_{X \in C} \sum_{k=1}^K ||h_{\theta}(X) - r_k||_2^2 G_{k, F}(h_{\theta}(X), \beta; R)
+L_{Clust}(C, K, \alpha; \theta, R) = \sum_{X \in C} \sum_{k=1}^K ||h_{\theta}(X) - r_k||_2^2 G_{k, F}(h_{\theta}(X), \alpha; R)
 \end{equation*}
 \begin{equation*}
-G_{k, F}(h_{\theta}(X), \beta; R) = \frac{e^{-\beta ||g(X, \theta) - r_k||_2^2}}
-{\sum_{k' = 1}^K e^{-\beta ||g(X, \theta) - r_k||_2^2}}
+G_{k, F}(h_{\theta}(X), \alpha; R) = \frac{e^{-\alpha ||g(X, \theta) - r_k||_2^2}}
+{\sum_{k' = 1}^K e^{-\alpha ||g(X, \theta) - r_k||_2^2}}
 \end{equation*}
 \end{frame}
 
 \begin{frame}
 \frametitle{Final Loss}
-\begin{equation*}
-  L_{const}(C, KW;\theta) = \alpha_0\omega_{KW} + \alpha_1\omega_{CL} + \alpha_2\omega_{ML}  
-\end{equation*}
-\pause
-\begin{equation*}
-  L_{rec}(C, \theta) = \sum_{X \in C}(||X - f(h_\theta(X))||_2^2
-\end{equation*}
-\pause
-\begin{equation*}
-  L(C,KW; \theta) = L_{rec}(C, \theta) + L_{const}(C, KW;\theta) + \lambda.L_{Clust}(C, K, \beta; \theta, R)   
-\end{equation*}
+\end{frame}
+
+\begin{frame}
+\frametitle{Training Algorithm & Pretraining}
 \end{frame}
 
 \section{Experiment}
@@ -285,7 +180,7 @@ G_{k, F}(h_{\theta}(X), \beta; R) = \frac{e^{-\beta ||g(X, \theta) - r_k||_2^2}}
 \end{frame}
 
 \begin{frame}
-\frametitle{Generate Lexical Constraints}
+\frametitle{Keywords Extraction}
 \scalebox{.7}{
 \begin{algorithm}[H]
   \SetKwInOut{Input}{input}
@@ -301,10 +196,11 @@ G_{k, F}(h_{\theta}(X), \beta; R) = \frac{e^{-\beta ||g(X, \theta) - r_k||_2^2}}
       }
     }
   }
-  \ForEach{Class $c_i, c_j \in C$}{
-    \If{$c_i \neq c_j$}{
-      $rank_i \gets rank_i - rank_j$\\
+  \If{$Discriminating\_ Extraction$}{
+    \ForEach{Class $c_i \in C$}{
+      ${rank'}_i \gets rank_i - \sum\limits_{\forall c_j, c_j \neq c_i}rank_j$\\
     }
+    $rank \gets rank'$
   }
   \ForEach{Class $c_i \in C$}{
     $KW \gets KW \cup \{\{w_1, w_2 ... w_P\} : \not\exists (v_1, v_2) | v_1 \not\in 
@@ -326,59 +222,140 @@ G_{k, F}(h_{\theta}(X), \beta; R) = \frac{e^{-\beta ||g(X, \theta) - r_k||_2^2}}
 \end{frame}
 
 \begin{frame}
-\frametitle{Baseline Algorithm}
-Deep $K$-Means algorithm.
+  \frametitle{Baseline Algorithm}
+  \begin{enumerate}
+  \item $K$-Means
+  \item Deep $K$-Means algorithm
+  \end{enumerate}
 \end{frame}
 
 \begin{frame}
-\frametitle{Architecture}
-\begin{figure}[!h]
-  \centering
-  \fbox{\includegraphics[scale=0.2]{archi.png}}
-  \caption{\label{fig:archi}Architecture}
+  \frametitle{Baseline Algorithm}
+  \begin{enumerate}
+  \item $K$-Means
+    \begin{enumerate}
+    \item KM
+    \item AE + KM SP
+    \item AE + KM LP
+    \end{enumerate}
+  \item Deep $K$-Means algorithm
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Results}
+  \begin{table}
+%The best result for each  metric/dataset is bold.}
+\centering
+\resizebox{\hsize}{!}{
+\begin{tabular}{|l|l|l|l|}
+    \hline
+                      & ACC      &ARI       &NMI       \\ \hline
+    $K$-Means         &$36.1\pm2.2$&$13.3\pm1.7$&$40.9\pm1.6$\\ \hline
+    AE + KM, SP       &$53.1\pm2.3$&$35.0\pm1.4$&$49.3\pm1.0$\\ \hline
+    Deep $K$-Means    &$54.9\pm1.7$&$37.6\pm1.1$&$51.6\pm0.6$\\ \hline
+    AE + KM, LP mask  &\boldmath$67.1\pm4.5$&$37.6\pm5.1$&$39.8\pm3.9$\\ \hline
+    AE + KM, LP sim   &$56.0\pm2.3$&$37.6\pm1.6$&$50.8\pm0.7$\\ \hline
+       CDKM, LP mask  &$61.3\pm0.6$&\boldmath$41.2\pm0.8$&$52.7\pm0.5$\\ \hline
+       CDKM, LP sim   &$60.6\pm1.3$&$40.5\pm1.3$&$53.0\pm0.8$\\ \hline
+       CDKM, SP mask  &$60.2\pm1.8$&\boldmath$41.2\pm0.9$&\boldmath$53.5\pm0.5$\\ \hline
+       CDKM, SP sim   &$60.5\pm1.2$&$40.7\pm0.8$&$52.9\pm0.5$\\ \hline
+\end{tabular}
+\begin{tabular}{|l|l|l|l|}
+    \hline
+                      & ACC      &ARI       &NMI       \\ \hline
+    $K$-Means         &$33.1\pm2.7$&$ 8.7\pm1.3$&$26.3\pm1.6$\\ \hline
+    AE + KM, SP       &$45.2\pm3.3$&$23.0\pm2.5$&$30.0\pm2.0$\\ \hline
+    Deep $K$-Means    &$44.5\pm2.4$&$23.6\pm2.4$&$30.2\pm2.0$\\ \hline
+    AE + KM, LP mask  &$45.9\pm2.2$&$24.0\pm1.8$&$31.8\pm1.5$\\ \hline
+    AE + KM, LP sim   &$46.2\pm2.6$&$24.6\pm1.9$&$32.3\pm1.3$\\ \hline
+       CDKM, LP mask  &$50.0\pm2.1$&$26.0\pm1.6$&$31.7\pm1.7$\\ \hline
+       CDKM, LP sim   &$49.4\pm2.1$&$25.3\pm1.9$&$31.1\pm1.7$\\ \hline
+       CDKM, SP mask  &$49.5\pm1.7$&$26.1\pm1.1$&$32.0\pm0.9$\\ \hline
+       CDKM, SP sim   &$49.3\pm1.1$&$25.9\pm1.2$&$32.0\pm1.1$\\ \hline
+\end{tabular}
+}
+\subcaption*{20 Newsgroups}
+\resizebox{0.5\hsize}{!}{
+\begin{tabular}{|l|l|l|l|}
+    \hline
+                      & ACC      &ARI       &NMI       \\ \hline
+    $K$-Means         &$48.8\pm6.6$&$18.4\pm6.0$&$29.7\pm5.8$\\ \hline
+    AE + KM, SP       &$51.3\pm3.5$&$17.5\pm5.8$&$24.5\pm5.1$\\ \hline
+    Deep $K$-Means    &$54.4\pm4.9$&$23.9\pm3.5$&$29.6\pm3.6$\\ \hline
+    AE + KM, LP mask  &$65.0\pm6.7$&$35.6\pm7.3$&$37.5\pm6.5$\\ \hline
+    AE + KM, LP sim   &$62.7\pm6.1$&$35.1\pm5.7$&$38.4\pm4.1$\\ \hline
+       CDKM, LP mask  &\boldmath$72.7\pm4.0$&\boldmath$43.8\pm5.4$&\boldmath$44.1\pm3.9$\\ \hline
+       CDKM, LP sim   &$72.5\pm4.5$&$43.7\pm5.7$&$44.0\pm4.3$\\ \hline
+       CDKM, SP mask  &$70.3\pm4.2$&$41.0\pm5.1$&$42.1\pm4.0$\\ \hline
+       CDKM, SP sim   &$70.4\pm5.1$&$41.8\pm7.1$&$43.0\pm5.2$\\ \hline
+\end{tabular}
+}
+\subcaption*{RCV1}
+\end{table}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Results}
+  
+\begin{table}
+%The best result for each  metric/dataset is bold.}
+\centering
+\resizebox{\hsize}{!}{
+\begin{tabular}{|l|l|l|l|}
+    \hline
+                      & ACC      &ARI       &NMI       \\ \hline
+    $K$-Means         &$36.1\pm2.2$&$13.3\pm1.7$&$40.9\pm1.6$\\ \hline
+    Deep $K$-Means    &$54.9\pm1.7$&$37.6\pm1.1$&$51.6\pm0.6$\\ \hline
+    AE + KM, LP mask  &\boldmath$67.1\pm4.5$&$37.6\pm5.1$&$39.8\pm3.9$\\ \hline
+    AE + KM, LP sim   &$56.0\pm2.3$&$37.6\pm1.6$&$50.8\pm0.7$\\ \hline
+       CDKM, LP mask  &$58.8\pm1.4$&$38.5\pm1.4$&$52.6\pm0.6$\\ \hline
+       CDKM, LP sim   &\boldmath$60.1\pm2.1$&\boldmath$40.2\pm1.4$&\boldmath$52.8\pm1.0$\\ \hline
+       CDKM, SP mask  &$58.9\pm2.0$&$38.9\pm1.6$&\boldmath$52.8\pm0.9$\\ \hline
+       CDKM, SP sim   &$60.1\pm1.7$&$40.1\pm1.5$&$52.7\pm0.7$\\ \hline
+\end{tabular}
+\begin{tabular}{|l|l|l|l|}
+    \hline
+                      & ACC      &ARI       &NMI       \\ \hline
+    $K$-Means         &$33.1\pm2.7$&$ 8.7\pm1.3$&$26.3\pm1.6$\\ \hline
+    Deep $K$-Means    &$44.5\pm2.4$&$23.6\pm2.4$&$30.2\pm2.0$\\ \hline
+    AE + KM, LP mask  &\boldmath$67.1\pm4.5$&$37.6\pm5.1$&$39.8\pm3.9$\\ \hline
+    AE + KM, LP sim   &$56.0\pm2.3$&$37.6\pm1.6$&$50.8\pm0.7$\\ \hline
+       CDKM, LP mask   &$48.8\pm2.3$&\boldmath$25.7\pm1.9$&\boldmath$31.6\pm1.9$\\ \hline
+       CDKM, LP sim  &$47.8\pm2.6$&$24.3\pm1.8$&$30.8\pm1.7$\\ \hline
+       CDKM, SP mask  &$48.8\pm2.3$&$25.7\pm1.9$&$31.6\pm1.9$\\ \hline
+       CDKM, SP sim   &\boldmath$49.2\pm2.3$&$25.2\pm2.0$&$31.5\pm1.7$\\ \hline
+\end{tabular}
+}
+\subcaption*{20 Newsgroups}
+\resizebox{0.5\hsize}{!}{
+\begin{tabular}{|l|l|l|l|}
+    \hline
+                      & ACC      &ARI       &NMI       \\ \hline
+    $K$-Means         &$48.8\pm6.6$&$18.4\pm6.0$&$29.7\pm5.8$\\ \hline
+    Deep $K$-Means    &$54.4\pm4.9$&$23.9\pm3.5$&$29.6\pm3.6$\\ \hline
+    AE + KM, LP mask  &\boldmath$67.1\pm4.5$&$37.6\pm5.1$&$39.8\pm3.9$\\ \hline
+    AE + KM, LP sim   &$56.0\pm2.3$&$37.6\pm1.6$&$50.8\pm0.7$\\ \hline
+       CDKM, LP mask  &\boldmath$68.5\pm5.6$&\boldmath$39.6\pm6.4$&\boldmath$41.3\pm4.6$\\ \hline
+       CDKM, LP sim   &$65.8\pm5.0$&$36.2\pm5.5$&$38.9\pm3.7$\\ \hline
+       CDKM, SP mask  &$68.5\pm5.6$&$39.6\pm6.4$&$41.3\pm4.6$\\ \hline
+       CDKM, SP sim   &$67.5\pm6.3$&$38.6\pm6.4$&$40.7\pm4.4$\\ \hline
+\end{tabular}
+}
+\subcaption*{RCV1}
+\end{table}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Results}
+\begin{figure}
+    \centering
+    \fbox{\includegraphics[scale=0.35]{res/dat_file/acc/20NEWS_ACC.png}}     
+    \fbox{\includegraphics[scale=0.35]{res/dat_file/ari/20NEWS_ARI.png}}    
+    \fbox{\includegraphics[scale=0.35]{res/dat_file/nmi/20NEWS_NMI.png}}    
 \end{figure}
 \end{frame}
 
-\begin{frame}
-\frametitle{Hyperparameters}
-\begin{equation*}
-L(C,KW, K; \theta) = L_{rec}(C, \theta) + L_{const}(C, KW;\theta) + \lambda.L_{Clust}(C, K, \beta; \theta, R)
-\end{equation*}
-with
-\begin{equation*}
-L_{const}(C, KW;\theta) = \alpha_0\omega_{KW} + \alpha_1\omega_{CL} + \alpha_2\omega_{ML}
-\end{equation*}
-\begin{table}[!h]
-\centering
-\resizebox{\textwidth}{!}{%Details sur le line search
-  \begin{tabular}{| l | l | l | l |}
-    \hline
-               & 20NEWS Without noise & 20NEWS With noise & RCV1 Without noise  \\ \hline
-    $\lambda$  & $10^{-1}$            & $10^{-1}$         & $10^{-2}$           \\ \hline
-    $\alpha_0$ & $10^{-2}$            & $5.10^{-3}$       & $10^{-1}$           \\ \hline
-    $\alpha_1$ & 0                    & 0                 & 0                   \\ \hline
-    $\alpha_2$ & 0                    & 0                 & 0                   \\ \hline
-    $\eta$     & 0                    & 0                 & 0                   \\ \hline
-  \end{tabular}
-}
-\end{table}
-\end{frame}
-
-\begin{frame}
-\frametitle{Results}
-\begin{table}[!h]
-\resizebox{\textwidth}{!}{%Inverser lignes/colonnes
-  \begin{tabular}{|l|l|l|l|l|l|l|}
-    \hline
-    & \multicolumn{3}{|c|}{DKM} & \multicolumn{3}{|c|}{CDKM}\\
-    & ACC         &ARI          & NMI         & ACC         & ARI          &NMI  \\ \hline
-20NEWS without noise   &$51.7\pm 1.9$&$33.6\pm 1.1$&$47.1\pm 0.9$&\boldmath$53.4\pm 2.2$&\boldmath$35.4\pm 1.2$ &\boldmath$47.4\pm 0.9$ \\ \hline
-20NEWS with noise   &$42.8\pm 3.3$&$20.7\pm 1.9$&$28.3\pm 0.8$&\boldmath$45.3\pm 3$  &\boldmath$23.23\pm 2.3$&\boldmath$30.0\pm 1.7$ \\ \hline
-RCV1 without noise   &$55.3\pm 3.4$&$24.1\pm 5.5$&$30.5\pm 5.3$&\boldmath$62.7\pm 5$  &\boldmath$31.7\pm 3.9$ &\boldmath$37.2\pm 4$   \\ \hline
-  \end{tabular}
-}
-\end{table}
-\end{frame}
 
 \section{Conclusion \& Future Works}
 
@@ -408,27 +385,27 @@ Any Questions ?
 \end{frame}
 
 \begin{frame}
-\frametitle{$G_{F,k}$ \& $\beta$}
+\frametitle{$G_{F,k}$ \& $\alpha$}
 \begin{equation*}
-G_{k, F}(h_{\theta}(X), \beta; R) = \frac{e^{-\beta ||h_\theta(X) - r_k||_2^2}}
-{\sum_{k' = 1}^K e^{-\beta ||g(X, \theta) - r_k||_2^2}}
+G_{k, F}(h_{\theta}(X), \alpha; R) = \frac{e^{-\alpha ||h_\theta(X) - r_k||_2^2}}
+{\sum_{k' = 1}^K e^{-\alpha ||g(X, \theta) - r_k||_2^2}}
 \end{equation*}
 \begin{equation*}
-  \lim\limits_{\beta \rightarrow \beta_0}G_{k, F}(h_\theta(X), \beta; R) = \left\{
+  \lim\limits_{\alpha \rightarrow \alpha_0}G_{k, F}(h_\theta(X), \alpha; R) = \left\{
 \begin{array}{ll}
   1 & \mbox{if }r_k = c(h_\theta(X); R)\\
   0 & \mbox{Otherwise.}
 \end{array}
 \right.
 \end{equation*}
-where $\beta$ play the role of an inverse temperature.
+where $\alpha$ play the role of an inverse temperature.
 \end{frame}
 
 \begin{frame}
 \frametitle{Stochastic gradient descent (SGD)}
 \begin{equation*}
   (\theta, R) \gets (\theta, R) - \epsilon \frac{1}{|\widetilde{C}|}
-  \nabla_{(\theta, R)} L(C, \beta; \theta, R)
+  \nabla_{(\theta, R)} L(C, \alpha; \theta, R)
 \end{equation*}
 where $\widetilde{C}$ is a random mini batch of C, and $\epsilon$ the
 learning rate.
@@ -440,12 +417,12 @@ learning rate.
   \SetKwInOut{Input}{input}
   \SetKwInOut{Output}{output}
   \Input{Corpus C , number of clusters K, balancing parameter $\lambda$,
-    scheme for $\beta$, number of epochs T ,
+    scheme for $\alpha$, number of epochs T ,
     number of minibatches MB , learning rate $\epsilon$}
   \Output{Auto-Encoder parameter $\theta$, cluster representative R}
   Initialise $\theta$ and $r_k$, $1 \leq k \leq K$ (randomly or through 
   pretraining)\\
-  \ForEach{$\beta = m_\beta : M_\beta$}{
+  \ForEach{$\alpha = m_\alpha : M_\alpha$}{
     \ForEach{t = 1 : T}{
       \ForEach{n = 1 : MB}{
         Draw minibatch $\widetilde{C} \subseteq  C$\\
@@ -455,13 +432,6 @@ learning rate.
   }
 \end{algorithm}
 }
-\end{frame}
-
-\begin{frame}
-\frametitle{Deep COP$K$-Means}
-\begin{equation*}
-  L( C, KW, K; \theta) = L_{rec}(C, \theta) + \omega_{KW} + \lambda.L_{Clust}(X, K, \beta;\theta, R)
-\end{equation*}
 \end{frame}
 
 \begin{frame}
@@ -478,9 +448,7 @@ $H(S) = -\sum_k\frac{|s_k|}{N}log\frac{N|s_k|}{|s_k|}$
 \frametitle{Metric - Accuracy}
 The Accuracy is the proportion of true results among the total
   number of cases examined. The Accuracy metric is defined as follows :
-$$
-ACC(S,C) = \frac{1}{N}\sum_k {max}_j|s_k \cap c_j|
-$$
+$$ACC(S,C) = \frac{1}{N}\sum_k {max}_j|s_k \cap c_j|$$
 \end{frame}
 
 \begin{frame}
@@ -493,4 +461,64 @@ Let a be the number of pairs of document in C
   The Adjusted Rand index is defined as follows :
   $$ARI = \frac{a+b}{\binom{N}{2}}$$
 \end{frame}
+
+\begin{frame}
+\frametitle{Architecture}
+\begin{figure}[!h]
+  \centering
+  \fbox{\includegraphics[scale=0.2]{archi.png}}
+  \caption{\label{fig:archi}Architecture}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+\frametitle{Hyperparameters}
+Grid search on the set \{$10^i | i \in [-6, -1]$\}.
+\begin{table}
+\caption{\label{tab:line_search_met1}Best results of Grid Search for the optimization of
+hyperparameters for each dataset.}
+%The best result for each  metric/dataset is bold.}
+\centering
+\resizebox{.6\textwidth}{!}{
+\begin{tabular}{|l|l|l|}
+    \hline
+                      &$\lambda_0$&$\lambda_1$       \\ \hline
+    Deep $K$-Means    &$10^{-1}$  &\cellcolor{gray}         \\ \hline
+    AE + KM, LP mask  &\cellcolor{gray}  &$10^{-2}$         \\ \hline
+    AE + KM, LP sim   &\cellcolor{gray}  &$10^{-2}$         \\ \hline
+       CDKM, LP mask  &$10^{-6}$  &$10^{-1}$         \\ \hline
+       CDKM, LP sim   &$10^{-3}$  &$10^{-1}$         \\ \hline
+       CDKM, SP mask  &$10^{-1}$  &$10^{-6}$         \\ \hline
+       CDKM, SP sim   &$10^{-1}$  &$10^{-5}$         \\ \hline
+\end{tabular}
+\begin{tabular}{|l|l|l|}
+    \hline
+                      &$\lambda_0$&$\lambda_1$       \\ \hline
+    Deep $K$-Means    &$10^{-1}$  &\cellcolor{gray}         \\ \hline
+    AE + KM, LP mask  &\cellcolor{gray}  &$10^{-2}$         \\ \hline
+    AE + KM, LP sim   &\cellcolor{gray}  &$10^{-2}$         \\ \hline
+       CDKM, LP mask  &$10^{-1}$  &$10^{-3}$         \\ \hline
+       CDKM, LP sim   &$10^{-1}$  &$10^{-3}$         \\ \hline
+       CDKM, SP mask  &$10^{-1}$  &$10^{-4}$         \\ \hline
+       CDKM, SP sim   &$10^{-1}$  &$10^{-5}$         \\ \hline
+\end{tabular}
+}
+\subcaption*{20 Newsgroups}
+\resizebox{.3\textwidth}{!}{
+\begin{tabular}{|l|l|l|}
+    \hline
+                      &$\lambda_0$&$\lambda_1$       \\ \hline
+    Deep $K$-Means    &$10^{-2}$  &\cellcolor{gray}         \\ \hline
+    AE + KM, LP mask  &\cellcolor{gray}  &$10^{-4}$         \\ \hline
+    AE + KM, LP sim   &\cellcolor{gray} &$10^{-2}$         \\ \hline
+       CDKM, LP mask  &$10^{-1}$  &$10^{-3}$         \\ \hline
+       CDKM, LP sim   &$10^{-1}$  &$10^{-3}$         \\ \hline
+       CDKM, SP mask  &$10^{-1}$  &$10^{-3}$         \\ \hline
+       CDKM, SP sim   &$10^{-1}$  &$10^{-2}$         \\ \hline
+\end{tabular}
+}
+\subcaption*{RCV1}
+\end{table}
+\end{frame}
+
 \end{document}
