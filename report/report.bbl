@@ -24,7 +24,6 @@
       \field{sortinithash}{8343b463aacf48517c044b4d2c9c45ed}
       \field{labeltitlesource}{title}
       \field{title}{20 Newsgroups Dataset}
-      \field{year}{{empty}}
       \keyw{dataset}
     \endentry
     \entry{2018arXiv180107648A}{article}{}
@@ -163,9 +162,24 @@
       \field{year}{1982}
       \field{pages}{831\bibrangedash 834}
       \range{pages}{4}
-      \verb{eprint}
-      \verb https://www.tandfonline.com/doi/pdf/10.1080/01621459.1982.10477894
-      \endverb
+    \endentry
+    \entry{citeulike:8631377}{manual}{}
+      \name{author}{1}{}{%
+        {{hash=806b710a4b42317738ee77d534b1190e}{%
+           family={Fisher},
+           family_i={F\bibinitperiod},
+           given={Ronald\bibnamedelima A.},
+           given_i={R\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+      }
+      \strng{namehash}{806b710a4b42317738ee77d534b1190e}
+      \strng{fullhash}{806b710a4b42317738ee77d534b1190e}
+      \field{sortinit}{F}
+      \field{sortinithash}{c6a7d9913bbd7b20ea954441c0460b78}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{month}{01}
+      \field{title}{{UCI Machine Learning Repository: Iris Data Set}}
+      \field{year}{2011}
     \endentry
     \entry{Goodfellow-et-al-2016}{book}{}
       \name{author}{3}{}{%
@@ -194,7 +208,6 @@
       \field{sortinithash}{1c854ef9177a91bf894e66485bdbd3ed}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{note}{\url{http://www.deeplearningbook.org}}
       \field{title}{Deep Learning}
       \field{year}{2016}
     \endentry

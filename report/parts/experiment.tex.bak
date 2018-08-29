@@ -1,4 +1,4 @@
-\section{Experiment}
+\section{Experiment}\label{seq:exp}
 
 \subsection{Data}
 To experiment our algorithm we use the dataset 20Newsgroups \cite{Newsgroups20}.
@@ -25,7 +25,7 @@ TFIDF(t,X,C) = TF(t, X) . IDF(t, C)
 For each dataset there is a preprocessing step. We remove stopword and keep only
 the 2000 words with the top TFIDF scores. We use also a stemming step 
 \cite{journals/mtcl/Lovins68}. 
-\subsection{Generate Constraint}
+\subsection{Keywords Exctraction}
 To generate the set of keywords $KW$ we rank each word of each 
 document of each class using TFIDF according to algorithm~\ref{algo:gen_kw}.
 We add for each document of each class the TFIDF of each word, in this manner
@@ -65,9 +65,9 @@ constraints, we focus on the family of $K$-Means-related models and compare our
 approach against state-of-the-art models from this family, using both standard 
 and deep clustering models. For the standard clustering methods, we used: the 
 $K$-Means clustering approach, denoted \textbf{KM}; an approach denoted as \textbf{AE-KM} in which 
-dimensionality reduction is first performed using an auto-encoder followed by 
+dimensional reduction is first performed using an auto-encoder followed by 
 $K$-Means applied to the learned representations. For AE-KM, we can use only 
-the reconstruct loss (denoted \textbf{AE-KM SP}) or integrate lexical contraints loss 
+the reconstruct loss (denoted \textbf{AE-KM SP}) or integrate lexical constraints loss 
 (denoted \textbf{AE-KM LP}).\\For the deep clustering models, we use the Deep $K$-Means 
 Model see in section~\ref{seq:DeepClust} denoted \textbf{DKM} with pretraining.
 \subsubsection{\label{seq:metric}Metric}
@@ -104,7 +104,7 @@ The decoder is a mirrored version of the encoder~\ref{fig:autoenc}.
 All layers except the one preceding the embedding layer and the one
 preceding the output layer are applied a ReLU activation function \cite{Nair:2010:RLU:3104322.3104425} 
 before being fed to the next
-layer. For the layer preceding the embedding layer and for the layerone preceding the output layer
+layer. For the layer preceding the embedding layer and for the layer preceding the output layer
 we apply the identity function.
 \subsubsection{\label{seq:protocol}Experimental Protocol}
 The purpose of the experiment is to rediscover the different classes of 
@@ -115,9 +115,9 @@ $C_1, C_2$. Each corpus contains ten classes. We generate keywords
 with document from corpus $C_2$. The clustering processed on corpus $C_1$.
 \\The tests were carried out in 3 steps :
 \begin{enumerate}
-\item Discriminative Keywords : We test our algorithm with 3 discriminaticves 
+\item Discriminative Keywords : We test our algorithm with 3 discriminative 
 keywords (see  algorithm \ref{algo:gen_kw}).
-\item Non Discriminative Keywords : We test our algorithm with 3 discriminaticves 
+\item Non Discriminative Keywords : We test our algorithm with 3 non dicriminative 
 keywords (see  algorithm \ref{algo:gen_kw}).
 \item Robustness : We test the robustness of our algorithm. To test this, we
 can vary the number of keywords by classes. In addition we compare
@@ -201,7 +201,7 @@ hyperparameters for each dataset.}
 \subsection{\label{seq:results}Results}
 To present the tests, we denote \textbf{CDKM MASK} (respectively \textbf{CDKM SIM}) the version of 
 the algorithm using masked document (respectively similarity function), and \textbf{LP}
-(respectively \textbf{SP}) when we use the Leical Pretrain (respectively Simple Pretrain).
+(respectively \textbf{SP}) when we use the Lexical Pretrain (respectively Simple Pretrain).
 \\The results for the evaluation of the compared clustering methods on the 
 different benchmark datasets are summarized in tables \ref{tab:res_mask} 
 \ref{tab:res_non_discr} and in figures \ref{fig:rcv1}, \ref{fig:20news},
@@ -217,10 +217,10 @@ the corresponding method/metric.
 Results are reported in table \ref{tab:res_mask}.
 \\We can observe that cdkm is always better than baselines, whatever the method 
 to define X' and the type of pretraining. We also observe that Lexical Pretrain 
-is gerally better than Simple Pretrain. Finally, the results for the mask method
+is generally better than Simple Pretrain. Finally, the results for the mask method
 and for the sim method are similar.
 \\The strongest progression is for the dataset RCV1, and the weakest progression 
-is for the datasete 20 newsgroup with noise.
+is for the dataset 20 newsgroup with noise.
 \\While observing results for \textbf{AE+KM mask LP} and \textbf{AE+KM sim LP},
 we notice that lexical biases give better results than $K$-Means  or Deep 
 $K$-Means.
@@ -228,13 +228,20 @@ $K$-Means.
 Results are reported in table \ref{tab:res_non_discr}.
 \\We can observe that cdkm is always better than baselines, whatever the method 
 to define X' and the type of pretraining. We also observe that Lexical Pretrain 
-is gerally better than Simple Pretrain. Finally, the results for the mask method
+is generally better than Simple Pretrain. Finally, the results for the mask method
 and for the sim method are similar.
 \\The strongest progression is for the dataset RCV1, and the weakest progression 
-is for the datasete 20 newsgroup with noise.
+is for the dataset 20 newsgroup with noise.
 \\While observing results for \textbf{AE+KM mask LP} and \textbf{AE+KM sim LP},
 we notice that lexical biases give better results than $K$-Means  or Deep 
-$K$-Means. It is with the method sim that we have the lowest peroformance 
+$K$-Means. It is with the method sim that we have the lowest performance 
 decrease.
 \subsubsection{Robustness}
 We can see results  in figures \ref{fig:20news}.
+\\We observe that when we use only one key word the results are bad for each of 
+the metrics.
+\\We observe that the sim method is more stable. Indeed, from two keywords, 
+peroformances increase. While for the mask method we see a peak for 3 keywords, 
+then performances decrease. Moreover, we note that for the sim method, the two 
+methods of pretraining have fairly similar results. While for the mask method 
+there is a big difference in terms of performance.
