@@ -48,7 +48,6 @@
 \subfile{parts/experiment}
 \subfile{parts/conclusion}
 \subfile{parts/futur}
-\subfile{parts/remercie}
 \begin{table}
 \caption{\label{tab:res_mask}Clustering results for $K$-Means applies to 
 different learned latent space to measure the efficiency of lexical constraints
@@ -81,9 +80,9 @@ and the standard deviation computed over 10 runs.}
     $K$-Means         &$36.1\pm2.2$&$13.3\pm1.7$&$40.9\pm1.6$\\ \hline
     AE + KM, SP       &$53.1\pm2.3$&$35.0\pm1.4$&$49.3\pm1.0$\\ \hline
     Deep $K$-Means    &$54.9\pm1.7$&$37.6\pm1.1$&$51.6\pm0.6$\\ \hline
-    AE + KM, LP mask  &\boldmath$67.1\pm4.5$&$37.6\pm5.1$&$39.8\pm3.9$\\ \hline
+    AE + KM, LP mask  &$56.8\pm1.7$&$38.4\pm1.1$&$51.6\pm0.6$\\ \hline
     AE + KM, LP sim   &$56.0\pm2.3$&$37.6\pm1.6$&$50.8\pm0.7$\\ \hline
-       CDKM, LP mask  &$61.3\pm0.6$&\boldmath$41.2\pm0.8$&$52.7\pm0.5$\\ \hline
+       CDKM, LP mask  &\boldmath$61.3\pm0.6$&\boldmath$41.2\pm0.8$&$52.7\pm0.5$\\ \hline
        CDKM, LP sim   &$60.6\pm1.3$&$40.5\pm1.3$&$53.0\pm0.8$\\ \hline
        CDKM, SP mask  &$60.2\pm1.8$&\boldmath$41.2\pm0.9$&\boldmath$53.5\pm0.5$\\ \hline
        CDKM, SP sim   &$60.5\pm1.2$&$40.7\pm0.8$&$52.9\pm0.5$\\ \hline
@@ -137,9 +136,10 @@ and the standard deviation computed over 10 runs.}
     \hline
                       & ACC      &ARI       &NMI       \\ \hline
     $K$-Means         &$48.8\pm6.6$&$18.4\pm6.0$&$29.7\pm5.8$\\ \hline
+    AE + KM, SP       &$51.3\pm3.5$&$17.5\pm5.8$&$24.5\pm5.1$\\ \hline
     Deep $K$-Means    &$54.4\pm4.9$&$23.9\pm3.5$&$29.6\pm3.6$\\ \hline
-    AE + KM, LP mask  &\boldmath$67.1\pm4.5$&$37.6\pm5.1$&$39.8\pm3.9$\\ \hline
-    AE + KM, LP sim   &$56.0\pm2.3$&$37.6\pm1.6$&$50.8\pm0.7$\\ \hline
+    AE + KM, LP mask  &$66.1\pm5.0$&$38.2\pm5.3$&$40.5\pm4.3$\\ \hline
+    AE + KM, LP sim   &$62.3\pm4.8$&$35.2\pm5.0$&$38.7\pm3.5$\\ \hline
        CDKM, LP mask  &\boldmath$68.5\pm5.6$&\boldmath$39.6\pm6.4$&\boldmath$41.3\pm4.6$\\ \hline
        CDKM, LP sim   &$65.8\pm5.0$&$36.2\pm5.5$&$38.9\pm3.7$\\ \hline
        CDKM, SP mask  &$68.5\pm5.6$&$39.6\pm6.4$&$41.3\pm4.6$\\ \hline
@@ -152,9 +152,10 @@ and the standard deviation computed over 10 runs.}
     \hline
                       & ACC      &ARI       &NMI       \\ \hline
     $K$-Means         &$36.1\pm2.2$&$13.3\pm1.7$&$40.9\pm1.6$\\ \hline
+    AE + KM, SP       &$53.1\pm2.3$&$35.0\pm1.4$&$49.3\pm1.0$\\ \hline
     Deep $K$-Means    &$54.9\pm1.7$&$37.6\pm1.1$&$51.6\pm0.6$\\ \hline
-    AE + KM, LP mask  &\boldmath$67.1\pm4.5$&$37.6\pm5.1$&$39.8\pm3.9$\\ \hline
-    AE + KM, LP sim   &$56.0\pm2.3$&$37.6\pm1.6$&$50.8\pm0.7$\\ \hline
+    AE + KM, LP mask  &$57.5\pm2.8$&$39.6\pm1.7$&$51.6\pm1.4$\\ \hline
+    AE + KM, LP sim   &$55.7\pm1.7$&$37.6\pm1.0$&$50.8\pm0.4$\\ \hline
        CDKM, LP mask  &$58.8\pm1.4$&$38.5\pm1.4$&$52.6\pm0.6$\\ \hline
        CDKM, LP sim   &\boldmath$60.1\pm2.1$&\boldmath$40.2\pm1.4$&\boldmath$52.8\pm1.0$\\ \hline
        CDKM, SP mask  &$58.9\pm2.0$&$38.9\pm1.6$&\boldmath$52.8\pm0.9$\\ \hline
@@ -167,9 +168,10 @@ and the standard deviation computed over 10 runs.}
     \hline
                       & ACC      &ARI       &NMI       \\ \hline
     $K$-Means         &$33.1\pm2.7$&$ 8.7\pm1.3$&$26.3\pm1.6$\\ \hline
+    AE + KM, SP       &$45.2\pm3.3$&$23.0\pm2.5$&$30.0\pm2.0$\\ \hline
     Deep $K$-Means    &$44.5\pm2.4$&$23.6\pm2.4$&$30.2\pm2.0$\\ \hline
-    AE + KM, LP mask  &\boldmath$67.1\pm4.5$&$37.6\pm5.1$&$39.8\pm3.9$\\ \hline
-    AE + KM, LP sim   &$56.0\pm2.3$&$37.6\pm1.6$&$50.8\pm0.7$\\ \hline
+    AE + KM, LP mask  &$45.2\pm2.2$&$24.2\pm1.6$&$32.4\pm1.1$\\ \hline
+    AE + KM, LP sim   &$42.3\pm2.4$&$21.7\pm2.0$&$29.1\pm1.3$\\ \hline
        CDKM, LP mask   &$48.8\pm2.3$&\boldmath$25.7\pm1.9$&\boldmath$31.6\pm1.9$\\ \hline
        CDKM, LP sim  &$47.8\pm2.6$&$24.3\pm1.8$&$30.8\pm1.7$\\ \hline
        CDKM, SP mask  &$48.8\pm2.3$&$25.7\pm1.9$&$31.6\pm1.9$\\ \hline

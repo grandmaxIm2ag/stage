@@ -1,4 +1,4 @@
-\section{Experiment}
+\section{Experiment}\label{seq:exp}
 
 \subsection{Data}
 To experiment our algorithm we use the dataset 20Newsgroups \cite{Newsgroups20}.
@@ -25,10 +25,10 @@ TFIDF(t,X,C) = TF(t, X) . IDF(t, C)
 For each dataset there is a preprocessing step. We remove stopword and keep only
 the 2000 words with the top TFIDF scores. We use also a stemming step 
 \cite{journals/mtcl/Lovins68}. 
-\subsection{Generate Constraint}
+\subsection{Keywords Extraction}
 To generate the set of keywords $KW$ we rank each word of each 
-document of each class using TFIDF according to algorithm~\ref{algo:gen_kw}.
-We add for each document of each class the TFIDF of each word, in this manner
+document of each classes using TFIDF according to algorithm~\ref{algo:gen_kw}.
+We add for each document of each classes the TFIDF of each word, in this manner
 we find the most important word of each class. Furthermore, for discriminative keywords,
 we substract  the TFIDF of other class, so that the keywords are the most discriminating.
 \begin{algorithm}
@@ -117,14 +117,14 @@ with document from corpus $C_2$. The clustering processed on corpus $C_1$.
 \begin{enumerate}
 \item Discriminative Keywords : We test our algorithm with 3 discriminative 
 keywords (see  algorithm \ref{algo:gen_kw}).
-\item Non Discriminative Keywords : We test our algorithm with 3 non dicriminative 
+\item Non Discriminative Keywords : We test our algorithm with 3 non discriminative 
 keywords (see  algorithm \ref{algo:gen_kw}).
 \item Robustness : We test the robustness of our algorithm. To test this, we
 can vary the number of keywords by classes. In addition we compare
 the results of each version of CDKM. We generate discriminative keywords with 
 algorithm \ref{algo:gen_kw} for this test.
 \end{enumerate}
-For all tests we select hyperparameters with 3 dicriminatives keywords per 
+For all tests we select hyperparameters with 3 discriminative keywords per 
 classes see section \ref{seq:results}. 
 \subsubsection{\label{seq:hyperparam}Hyperparameters Selection}
 The hyperparameters $\lambda_0$ and $\lambda_1$ , that define the trade-off 
@@ -204,8 +204,8 @@ the algorithm using masked document (respectively similarity function), and \tex
 (respectively \textbf{SP}) when we use the Lexical Pretrain (respectively Simple Pretrain).
 \\The results for the evaluation of the compared clustering methods on the 
 different benchmark datasets are summarized in tables \ref{tab:res_mask} 
-\ref{tab:res_non_discr} and in figures \ref{fig:rcv1}, \ref{fig:20news},
-\ref{fig:20news_noise}. The clustering performance is evaluated with respect to
+\ref{tab:res_non_discr} and in figures \ref{fig:20news}.
+The clustering performance is evaluated with respect to
 three standard measures Normalized Mutual Information (NMI), the Adjusted Rand 
 Index (ari) and the clustering accuracy (ACC) see in section \ref{seq:metric}. 
 We report for each dataset/method pair the average and standard deviation of 
@@ -227,19 +227,17 @@ $K$-Means.
 \subsubsection{Non Discriminative Keywords}
 Results are reported in table \ref{tab:res_non_discr}.
 \\We can observe that cdkm is always better than baselines, whatever the method 
-to define X' and the type of pretraining. We also observe that Lexical Pretrain 
-is generally better than Simple Pretrain. Finally, the results for the mask method
-and for the sim method are similar.
-\\The strongest progression is for the dataset RCV1, and the weakest progression 
-is for the dataset 20 newsgroup with noise.
+to define X' and the type of pretraining.
 \\While observing results for \textbf{AE+KM mask LP} and \textbf{AE+KM sim LP},
 we notice that lexical biases give better results than $K$-Means  or Deep 
 $K$-Means. It is with the method sim that we have the lowest performance 
 decrease.
+\\We also notice that both types of pretraining have similar performance.
 \subsubsection{Robustness}
 We can see results  in figures \ref{fig:20news}.
-\\We observe that when we use only one key word the results are bad for each of 
-the metrics.
-\\Then, from 2 keywords, the results are better, and increase 
-gradually for accuracy and the adjusted rand index.
-\\We also observe that the performances for sim and mask are similar
+\\We observe that when we use only one keyword the results are bad for each metrics.
+\\We observe that the sim method is more stable. Indeed, from two keywords, 
+performances increase. While for the mask method we see a peak for 3 keywords, 
+then performances decrease. Moreover, we note that for the sim method, the two 
+methods of pretraining have fairly similar results. While for the mask method 
+there is a big difference in terms of performance.

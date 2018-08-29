@@ -30,27 +30,34 @@ We can see $K$-Means algorithm in algorithm\ref{algo:kmeans}
   \Return{S}
   \caption{\label{algo:kmeans}$K$-means}
 \end{algorithm}
-
-\subsection{Auto-Encoder}
-The Auto-Encoder~\cite{Goodfellow-et-al-2016} allows to learn a latent space with significant
+\begin{figure}
+  \centering
+  \resizebox{\hsize}{!}{
+    \fbox{\includegraphics{parts/res/example_km.png}}
+  } 
+  \caption{$K$-Means algorithm result for the Iris Flower Dataset \cite{citeulike:8631377}}
+  \label{fig:example_km}
+\end{figure}
+\subsection{Autoencoder}
+The Autoencoder~\cite{Goodfellow-et-al-2016} allows to learn a latent space with significant
 information for the clustering without loss of information.
-The Auto-Encoder tries to learn a function $f (X, \theta) = X$. In
+The Autoencoder tries to learn a function $f (X, \theta) = X$. In
 other words, it is trying to learn an approximation of the identity
-function. An Auto-Encoder is composed in two parts an encoder function
+function. An Autoencoder is composed in two parts an encoder function
 g, and a decoder function f. To learn representations from which it is 
 possible to reconstruct input data, we use a
 reconstruct loss $L_{rec}$ using euclidean distance :
 \begin{equation}
   L_{rec}(X; \theta) = \sum\limits_X|| X - A(X, \theta) ||_2^2 
 \end{equation}
-where $A(X, \theta)$ is the Auto-Encoder output.
+where $A(X, \theta)$ is the Autoencoder output.
 We denote $h_\theta(X) = g(X,\theta)$ the encoder output.
 The reconstruct loss allows to minimize the euclidean distance between input and 
-output. In other word, after the training of our autoencoder, the output will be
+output. In other word, after the training of our Autoencoder, the output will be
 close  to the input.
 \\Minimize the reconstruct loss allows to have a latent space where essential 
-data is kept. In addition to reconstruct loss we can add different penalties 
-$\Omega$ to bias the latent space.If we add penalties we need to introduce
+data are kept. In addition to reconstruct loss we can add different penalties 
+$\Omega$ to bias the latent space. If we add penalties we need to introduce
 different hyperparameters $\Lambda$ to balance the different losses.
 \\Generally, the Autoencoder loss with $m$ penalties takes the form :
 \begin{equation} 
@@ -62,7 +69,7 @@ L(X;\theta) = \sum\limits_X|| X - A(X, \theta) ||_2^2 + \lambda_0 \omega_0 +
   \resizebox{\hsize}{!}{
     \fbox{\includegraphics{parts/res/autoencoder.png}}
   } 
-  \caption{Auto-Encoder}
+  \caption{Autoencoder}
   \label{fig:autoenc}
 \end{figure}
 \subsection{\label{seq:DeepClust}Deep Clustering}
@@ -108,7 +115,7 @@ where $G_{k}$ is a differentiable function such that :
 \end{equation}
 where $\alpha$ play the role of an inverse temperature. In \cite{Deap-K-Means}
 , $G_{k}$ was chosen to be a parameterized softmax.
-The softmax function take as input a K-dimensional vector $z$ of real values
+\\The softmax function take as input a K-dimensional vector $z$ of real values
 and return K-dimensional vector $\sigma(z)$ of positive real values and all the 
 entries add up to 1. The softmax function takes the form :
 \begin{equation}\label{eq:general_softmax}
@@ -148,7 +155,7 @@ current point. It is called stochastic because samples are shuffled.
   \Input{Corpus C , number of clusters K, balancing parameter $\lambda_0$,
     scheme for $\alpha$, number of epochs T ,
     number of minibatches MB , learning rate $\epsilon$}
-  \Output{Auto-Encoder parameter $\theta$, cluster representative R}
+  \Output{Autoencoder parameter $\theta$, cluster representative R}
   Initialize $\theta$ and $r_k$, $1 \leq k \leq K$ (randomly or through 
   pretraining)\\
   \ForEach{$\alpha = m_\alpha : M_\alpha$}{

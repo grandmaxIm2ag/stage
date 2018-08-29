@@ -15,12 +15,12 @@ account constraints. The Deep Learning and Auto-Encoder can be used to
 learn this representation. With Auto-Encoder we have to perform the
 $K$-Means in the latent space learned, and this latent space must be
 $K$-Means friendly.
-\\In this study, we specifically focus on the k-Means algorithm with lexical constraints. Lexical constraints are represented
-by a set of keywords given by the user. We use an Auto-encoder to learn a latent space taking
-into account constraints. The loss of the Auto-Encoder is divided in two parts, (a) 
+\\In this study, we specifically focus on the k-Means algorithm with lexical biases. Lexical biases are represented
+by a set of keywords given by the user. We use an Autoencoder to learn a latent space taking
+into account biases. The loss of the Autoencoder is divided in two parts, (a) 
 the reconstruct loss $L_{rec}$ and (b) different penalties skewing the
 representation. Then, the representation must be $K$-Means friendly, 
 to do this, we use the Deep $K$-Means model \cite{Deap-K-Means}.  
 \\In the next section, we provide some background on the $K$-Means algorithm and
-deep learning. In section 3, we proposed a method to introduce constraints to 
-the $K$-Means algorithm. And we are experimenting our method in section 4.
+deep learning. In section \ref{seq:proposed}, we proposed a method to introduce constraints to 
+the $K$-Means algorithm. And we are experimenting our method in section \ref{seq:exp}.

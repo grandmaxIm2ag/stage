@@ -1,12 +1,34 @@
-\section{Future Works}
-In futur works, we plan to add priorities to classes In other words, we would like some classes
+\section{Future Work}
+In future works, we plan to add priorities to classes In other words, we would like some classes
 to be more important than others, to bias clustering to some classes considered more
-important by the user. Also, because users do not always know the entire corpus of
+important by the user.
+\\Also, because users do not always know the entire corpus of
 documents, it might be useful to add a trash class system that groups documents
-that have no links to the user's given keyword classes. In addition, the
+that have no links to the user's given keyword classes.
+\\In addition, the
 initialization of the centers is only taking into account keywords, we could use
-a simmilarity function and initialize the centers with the words closest to the
-keywords in the corpus. Finally, one of the major problems of our agorithm is
+a similarity function and initialize the centers with the words closest to the
+keywords in the corpus.
+\\Moreover, our tests do not allow us to know if the performance gain is due to 
+lexical biases or centroid iniatization. Indeed, for Deep $K$-Means algorithm, 
+centroid are initilized after the pretraining with $K$-Means++ algorithm. It 
+could be interesting to add two baselines :
+\begin{enumerate}
+\item \textbf{DKM LP} : We could test a version of the DKM algorithm where 
+  pretraining would take lexical bias into account. In other words, we could use 
+  the lexical pretrain with Deep $K$-Means algorithm. For this test, we 
+  continue to use the $K$-Means++ algorithm for the centroid initialization. 
+\item \textbf{DKM SI} : We could test a version of the DKM algorithm the 
+  centroid initialization defines in section \ref{sec:pre}. For this test, we 
+  continue to use the petraining defined in \cite{Deap-K-Means} for Deep 
+  $K$-Means algorithm.
+\end{enumerate}  
+Finally, one of the major problems of our algorithm is
 that we can not use as keywords only words present in the corpus, nevertheless
 it is possible that the user wants to give keywords that are not part of corpus.
-To do this, we could use embedded words.
+To do this, we could use words embedding \cite{2013arXiv1301.3781M}.
+Word embedding is a method that focuses on learning a representation of words. 
+This technique allows to represent each word of a dictionary by a 
+corresponding real number vector. This facilitates the semantic analysis of 
+words. This new representation is unique in that words appearing in similar 
+contexts have corresponding vectors that are relatively close.
