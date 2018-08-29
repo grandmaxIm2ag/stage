@@ -13,6 +13,8 @@
 \usepackage{amsmath,amssymb,amsthm}
 \usepackage{tikz}
 \usepackage{pgffor}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
 \usepackage[lined]{algorithm2e}
 \usetheme{Singapore}
 \newlength{\mylen}
@@ -80,18 +82,27 @@ $$
 
 %Bas de page pour COP-KMeans et NNclust
 \begin{frame}
+  \frametitle{Auto-Encoder}
 \begin{itemize}
   \setlength\itemsep{1em}
 \item Encode Function $h_{\theta}(X) = g(X; \theta)$
 \item Decode Function $f(Y; \theta)$
-\item $L_{rec}(X, \theta) = || X - f(h_{\theta}(X); \theta)||_2^2$
+\item $L_{rec}(X, \theta) = || X - A(X)||_2^2$
 \end{itemize}
-  \frametitle{Auto-Encoder}
   \begin{figure}[!h]
     \centering
     \fbox{\includegraphics[scale=0.2]{autoencoder.png}}
     \label{fig:AE}
   \end{figure}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Auto-Encoder}
+  We can add different penalties $\Omega$ and hyperparameters $\Lambda$
+  \begin{equation*} 
+    L(X;\theta) = \sum\limits_X|| X - A(X, \theta) ||_2^2 + \lambda_0 \omega_0 + 
+    \ldots + \lambda_m \omega_m  
+  \end{equation*}
 \end{frame}
 
 \section{Proposed Method}
@@ -131,6 +142,38 @@ where $mask_k(X)$ is the document X masked by keywords from the $k^{th}$ class
 \end{enumerate}
 \end{frame}
 
+\begin{frame}
+\frametitle{Lexical Constraints - Similarity Function}
+\begin{equation*}\label{sim}
+p(i|w) = \frac{df(w,i)}{df(w)}
+\end{equation*}
+\begin{equation*}\label{rel}
+  rel(i,k) = \frac{1}{|k|} \sum\limits_{w \in k} p(w,i)
+\end{equation*}
+\begin{equation*}\label{nu}
+  \nu(i,k) = max \left(\frac{rel(i,k)}{\sum\limits_{k' \in KW}rel(i,k')} - \frac{1}{|KW|}, 0\right)
+\end{equation*}
+\end{frame}
+
+\begin{frame}
+\frametitle{Lexical Constraints - Loss}
+\begin{equation*}
+|| h_\theta(X) - h_\theta(c'(X ; X' )) ||_2^2
+\end{equation*}
+where $c'(X ; X') = \argmin\limits_{X'_k \in X'}
+||h_\theta(X) - h_\theta(X'_k) ||_2^2$
+\end{frame}
+
+\begin{frame}
+\frametitle{Lexical Constraints}
+\begin{equation*}
+\begin{array}{l}
+  \sum\limits_{X \in C} \sum\limits_{k = 1}^K \frac{e^{-\alpha|| h_\theta(X) - 
+h_\theta(X'_k)||_2^2}}{\sum\limits_{k' = 1}^K e^{-\alpha|| h_\theta(X) - 
+h_\theta(X'_{k'})||_2^2}}|| h_\theta(X) - h_\theta(X'_{k})||_2^2
+\end{array}
+\end{equation*}
+\end{frame}
 
 \begin{frame}
   \frametitle{Deep $K$-Means }
@@ -161,13 +204,47 @@ G_{k, F}(h_{\theta}(X), \alpha; R) = \frac{e^{-\alpha ||g(X, \theta) - r_k||_2^2
 \end{frame}
 
 \begin{frame}
-\frametitle{Final Loss}
+  \frametitle{Final Loss}
+  \begin{equation*}
+    \begin{array}{ll}
+      L(C ,\alpha;\theta,R) = & \sum\limits_{X \in C} ||X - A(X;\theta)||_2^2 + 
+      \\ & \lambda_0 \sum\limits_{X \in C}\sum\limits_{k=1}^K||h_\theta(X) - r_k ||_2^2 G_{k}(h_\theta(X), \alpha; R) + 
+      \\ & \lambda_1\sum\limits_{X \in C} \sum\limits_{k = 1}^K \frac{e^{-\alpha|| h_\theta(X) - 
+          h_\theta(X'_k)||_2^2}}{\sum\limits_{k' = 1}^K e^{-\alpha|| h_\theta(X) - 
+          h_\theta(X'_{k'})||_2^2}}|| h_\theta(X) - h_\theta(X'_{k})||_2^2
+    \end{array}
+  \end{equation*}
 \end{frame}
 
 \begin{frame}
-\frametitle{Training Algorithm & Pretraining}
+  \frametitle{Pretraining}
+  \begin{enumerate} 
+  \item \textbf{simple pretrain} 
+    $$\sum\limits_{X \in C} || X - A(X)||_2^2$$
+  \item \textbf{lexical pretrain}
+    $$
+    \resizebox{0.91\hsize}{!}{$\sum\limits_{X \in C} || X - A(X)||_2^2 + 
+      \lambda_1 \sum\limits_{X \in C} \sum\limits_{k = 1}^K \frac{e^{-\alpha|| h_\theta(X) - 
+          h_\theta(X'_k)||_2^2}}{\sum\limits_{k' = 1}^K e^{-\alpha|| h_\theta(X) - 
+          h_\theta(X'_{k'})||_2^2}}|| h_\theta(X) - h_\theta(X'_{k})||_2^2$}$$
+  \end{enumerate}
 \end{frame}
 
+\begin{frame}
+  \frametitle{Centroid Initialization}
+  \begin{equation*}
+    \forall i, S^{(k)}_i = \left\{
+    \begin{array}{ll}
+      log\left(\frac{N}{df(i)}\right) & \mbox{if } i \in KW \\
+      0 & \mbox{Otherwise}
+    \end{array}
+    \right.
+  \end{equation*}
+  Then we initialize R as follows :
+  \begin{equation*}
+    \forall k, r_k =  h_\theta(S^{(k)})
+  \end{equation*}
+\end{frame}
 \section{Experiment}
 
 \begin{frame}
