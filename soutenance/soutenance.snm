@@ -2,6 +2,7 @@
 \beamer@slide {sim}{21}
 \beamer@slide {rel}{21}
 \beamer@slide {nu}{21}
-\beamer@slide {algo:gen_kw}{32}
+\beamer@slide {algo:gen_kw}{33}
 \beamer@slide {fig:archi}{49}
 \beamer@slide {tab:line_search_met1}{50}
+\beamer@slide {eq:general_softmax}{51}

@@ -110,8 +110,7 @@ $$
 %Remplacer \Omega par L_{const}
 \begin{frame}
 \frametitle{The Idea}
-Learn a latent space taking into account lexical constraints and
-background knowledge.
+Learn a latent space taking into account lexical constraints.
 \end{frame}
 
 \begin{frame}
@@ -120,7 +119,7 @@ background knowledge.
   KW = \begin{pmatrix} kw_1 & kw_2 & ... & kw_{k-1} & kw_{k}
 \end {pmatrix}
 \end{equation*}
-Introducing $X'$ such that a biasing version of X :
+We Introduce $X'$ a biasing version of X :
 \begin{enumerate}
 \item \textbf{Masked Document} :
 \begin{equation*}
@@ -198,8 +197,8 @@ h_\theta(X'_{k'})||_2^2}}|| h_\theta(X) - h_\theta(X'_{k})||_2^2
 L_{Clust}(C, K, \alpha; \theta, R) = \sum_{X \in C} \sum_{k=1}^K ||h_{\theta}(X) - r_k||_2^2 G_{k, F}(h_{\theta}(X), \alpha; R)
 \end{equation*}
 \begin{equation*}
-G_{k, F}(h_{\theta}(X), \alpha; R) = \frac{e^{-\alpha ||g(X, \theta) - r_k||_2^2}}
-{\sum_{k' = 1}^K e^{-\alpha ||g(X, \theta) - r_k||_2^2}}
+G_{k}(h_\theta(X), \alpha; R) = \frac{e^{-\alpha ||h_\theta(X) - r_k||_2^2}}
+{\sum\limits_{k' = 1}^K e^{-\alpha ||h_\theta(X) - r_{k'}||_2^2}}
 \end{equation*}
 \end{frame}
 
@@ -214,6 +213,30 @@ G_{k, F}(h_{\theta}(X), \alpha; R) = \frac{e^{-\alpha ||g(X, \theta) - r_k||_2^2
           h_\theta(X'_{k'})||_2^2}}|| h_\theta(X) - h_\theta(X'_{k})||_2^2
     \end{array}
   \end{equation*}
+\end{frame}
+
+\begin{frame}
+\frametitle{Training Deep $K$-Means}
+\scalebox{0.7}{
+\begin{algorithm}[H]
+  \SetKwInOut{Input}{input}
+  \SetKwInOut{Output}{output}
+  \Input{Corpus C , number of clusters K, balancing parameter $\lambda$,
+    scheme for $\alpha$, number of epochs T ,
+    number of minibatches MB , learning rate $\epsilon$}
+  \Output{Auto-Encoder parameter $\theta$, cluster representative R}
+  Initialise $\theta$ and $r_k$, $1 \leq k \leq K$ (randomly or through 
+  pretraining)\\
+  \ForEach{$\alpha = m_\alpha : M_\alpha$}{
+    \ForEach{t = 1 : T}{
+      \ForEach{n = 1 : MB}{
+        Draw minibatch $\widetilde{C} \subseteq  C$\\
+        Update ($\theta, R$) using SGD
+      } 
+    }  
+  }
+\end{algorithm}
+}
 \end{frame}
 
 \begin{frame}
@@ -235,7 +258,7 @@ G_{k, F}(h_{\theta}(X), \alpha; R) = \frac{e^{-\alpha ||g(X, \theta) - r_k||_2^2
   \begin{equation*}
     \forall i, S^{(k)}_i = \left\{
     \begin{array}{ll}
-      log\left(\frac{N}{df(i)}\right) & \mbox{if } i \in KW \\
+      log\left(\frac{N}{df(i)}\right) & \mbox{if } i \in KW_k \\
       0 & \mbox{Otherwise}
     \end{array}
     \right.
@@ -302,7 +325,7 @@ G_{k, F}(h_{\theta}(X), \alpha; R) = \frac{e^{-\alpha ||g(X, \theta) - r_k||_2^2
   \frametitle{Baseline Algorithm}
   \begin{enumerate}
   \item $K$-Means
-  \item Deep $K$-Means algorithm
+  \item Deep $K$-Means
   \end{enumerate}
 \end{frame}
 
@@ -315,13 +338,14 @@ G_{k, F}(h_{\theta}(X), \alpha; R) = \frac{e^{-\alpha ||g(X, \theta) - r_k||_2^2
     \item AE + KM SP
     \item AE + KM LP
     \end{enumerate}
-  \item Deep $K$-Means algorithm
+  \item Deep $K$-Means
   \end{enumerate}
 \end{frame}
 
 \begin{frame}
   \frametitle{Results}
-  \begin{table}
+  
+\begin{table}
 %The best result for each  metric/dataset is bold.}
 \centering
 \resizebox{\hsize}{!}{
@@ -331,9 +355,9 @@ G_{k, F}(h_{\theta}(X), \alpha; R) = \frac{e^{-\alpha ||g(X, \theta) - r_k||_2^2
     $K$-Means         &$36.1\pm2.2$&$13.3\pm1.7$&$40.9\pm1.6$\\ \hline
     AE + KM, SP       &$53.1\pm2.3$&$35.0\pm1.4$&$49.3\pm1.0$\\ \hline
     Deep $K$-Means    &$54.9\pm1.7$&$37.6\pm1.1$&$51.6\pm0.6$\\ \hline
-    AE + KM, LP mask  &\boldmath$67.1\pm4.5$&$37.6\pm5.1$&$39.8\pm3.9$\\ \hline
+    AE + KM, LP mask  &$56.8\pm1.7$&$38.4\pm1.1$&$51.6\pm0.6$\\ \hline
     AE + KM, LP sim   &$56.0\pm2.3$&$37.6\pm1.6$&$50.8\pm0.7$\\ \hline
-       CDKM, LP mask  &$61.3\pm0.6$&\boldmath$41.2\pm0.8$&$52.7\pm0.5$\\ \hline
+       CDKM, LP mask  &\boldmath$61.3\pm0.6$&\boldmath$41.2\pm0.8$&$52.7\pm0.5$\\ \hline
        CDKM, LP sim   &$60.6\pm1.3$&$40.5\pm1.3$&$53.0\pm0.8$\\ \hline
        CDKM, SP mask  &$60.2\pm1.8$&\boldmath$41.2\pm0.9$&\boldmath$53.5\pm0.5$\\ \hline
        CDKM, SP sim   &$60.5\pm1.2$&$40.7\pm0.8$&$52.9\pm0.5$\\ \hline
@@ -345,10 +369,10 @@ G_{k, F}(h_{\theta}(X), \alpha; R) = \frac{e^{-\alpha ||g(X, \theta) - r_k||_2^2
     AE + KM, SP       &$45.2\pm3.3$&$23.0\pm2.5$&$30.0\pm2.0$\\ \hline
     Deep $K$-Means    &$44.5\pm2.4$&$23.6\pm2.4$&$30.2\pm2.0$\\ \hline
     AE + KM, LP mask  &$45.9\pm2.2$&$24.0\pm1.8$&$31.8\pm1.5$\\ \hline
-    AE + KM, LP sim   &$46.2\pm2.6$&$24.6\pm1.9$&$32.3\pm1.3$\\ \hline
-       CDKM, LP mask  &$50.0\pm2.1$&$26.0\pm1.6$&$31.7\pm1.7$\\ \hline
+    AE + KM, LP sim   &$46.2\pm2.6$&$24.6\pm1.9$&\boldmath$32.3\pm1.3$\\ \hline
+       CDKM, LP mask  &\boldmath$50.0\pm2.1$&$26.0\pm1.6$&$31.7\pm1.7$\\ \hline
        CDKM, LP sim   &$49.4\pm2.1$&$25.3\pm1.9$&$31.1\pm1.7$\\ \hline
-       CDKM, SP mask  &$49.5\pm1.7$&$26.1\pm1.1$&$32.0\pm0.9$\\ \hline
+       CDKM, SP mask  &$49.5\pm1.7$&\boldmath$26.1\pm1.1$&$32.0\pm0.9$\\ \hline
        CDKM, SP sim   &$49.3\pm1.1$&$25.9\pm1.2$&$32.0\pm1.1$\\ \hline
 \end{tabular}
 }
@@ -374,8 +398,7 @@ G_{k, F}(h_{\theta}(X), \alpha; R) = \frac{e^{-\alpha ||g(X, \theta) - r_k||_2^2
 
 \begin{frame}
   \frametitle{Results}
-  
-\begin{table}
+  \begin{table}
 %The best result for each  metric/dataset is bold.}
 \centering
 \resizebox{\hsize}{!}{
@@ -383,9 +406,10 @@ G_{k, F}(h_{\theta}(X), \alpha; R) = \frac{e^{-\alpha ||g(X, \theta) - r_k||_2^2
     \hline
                       & ACC      &ARI       &NMI       \\ \hline
     $K$-Means         &$36.1\pm2.2$&$13.3\pm1.7$&$40.9\pm1.6$\\ \hline
+    AE + KM, SP       &$53.1\pm2.3$&$35.0\pm1.4$&$49.3\pm1.0$\\ \hline
     Deep $K$-Means    &$54.9\pm1.7$&$37.6\pm1.1$&$51.6\pm0.6$\\ \hline
-    AE + KM, LP mask  &\boldmath$67.1\pm4.5$&$37.6\pm5.1$&$39.8\pm3.9$\\ \hline
-    AE + KM, LP sim   &$56.0\pm2.3$&$37.6\pm1.6$&$50.8\pm0.7$\\ \hline
+    AE + KM, LP mask  &$57.5\pm2.8$&$39.6\pm1.7$&$51.6\pm1.4$\\ \hline
+    AE + KM, LP sim   &$55.7\pm1.7$&$37.6\pm1.0$&$50.8\pm0.4$\\ \hline
        CDKM, LP mask  &$58.8\pm1.4$&$38.5\pm1.4$&$52.6\pm0.6$\\ \hline
        CDKM, LP sim   &\boldmath$60.1\pm2.1$&\boldmath$40.2\pm1.4$&\boldmath$52.8\pm1.0$\\ \hline
        CDKM, SP mask  &$58.9\pm2.0$&$38.9\pm1.6$&\boldmath$52.8\pm0.9$\\ \hline
@@ -395,9 +419,10 @@ G_{k, F}(h_{\theta}(X), \alpha; R) = \frac{e^{-\alpha ||g(X, \theta) - r_k||_2^2
     \hline
                       & ACC      &ARI       &NMI       \\ \hline
     $K$-Means         &$33.1\pm2.7$&$ 8.7\pm1.3$&$26.3\pm1.6$\\ \hline
+    AE + KM, SP       &$45.2\pm3.3$&$23.0\pm2.5$&$30.0\pm2.0$\\ \hline
     Deep $K$-Means    &$44.5\pm2.4$&$23.6\pm2.4$&$30.2\pm2.0$\\ \hline
-    AE + KM, LP mask  &\boldmath$67.1\pm4.5$&$37.6\pm5.1$&$39.8\pm3.9$\\ \hline
-    AE + KM, LP sim   &$56.0\pm2.3$&$37.6\pm1.6$&$50.8\pm0.7$\\ \hline
+    AE + KM, LP mask  &$45.2\pm2.2$&$24.2\pm1.6$&$32.4\pm1.1$\\ \hline
+    AE + KM, LP sim   &$42.3\pm2.4$&$21.7\pm2.0$&$29.1\pm1.3$\\ \hline
        CDKM, LP mask   &$48.8\pm2.3$&\boldmath$25.7\pm1.9$&\boldmath$31.6\pm1.9$\\ \hline
        CDKM, LP sim  &$47.8\pm2.6$&$24.3\pm1.8$&$30.8\pm1.7$\\ \hline
        CDKM, SP mask  &$48.8\pm2.3$&$25.7\pm1.9$&$31.6\pm1.9$\\ \hline
@@ -410,9 +435,10 @@ G_{k, F}(h_{\theta}(X), \alpha; R) = \frac{e^{-\alpha ||g(X, \theta) - r_k||_2^2
     \hline
                       & ACC      &ARI       &NMI       \\ \hline
     $K$-Means         &$48.8\pm6.6$&$18.4\pm6.0$&$29.7\pm5.8$\\ \hline
+    AE + KM, SP       &$51.3\pm3.5$&$17.5\pm5.8$&$24.5\pm5.1$\\ \hline
     Deep $K$-Means    &$54.4\pm4.9$&$23.9\pm3.5$&$29.6\pm3.6$\\ \hline
-    AE + KM, LP mask  &\boldmath$67.1\pm4.5$&$37.6\pm5.1$&$39.8\pm3.9$\\ \hline
-    AE + KM, LP sim   &$56.0\pm2.3$&$37.6\pm1.6$&$50.8\pm0.7$\\ \hline
+    AE + KM, LP mask  &$66.1\pm5.0$&$38.2\pm5.3$&$40.5\pm4.3$\\ \hline
+    AE + KM, LP sim   &$62.3\pm4.8$&$35.2\pm5.0$&$38.7\pm3.5$\\ \hline
        CDKM, LP mask  &\boldmath$68.5\pm5.6$&\boldmath$39.6\pm6.4$&\boldmath$41.3\pm4.6$\\ \hline
        CDKM, LP sim   &$65.8\pm5.0$&$36.2\pm5.5$&$38.9\pm3.7$\\ \hline
        CDKM, SP mask  &$68.5\pm5.6$&$39.6\pm6.4$&$41.3\pm4.6$\\ \hline
@@ -437,23 +463,20 @@ G_{k, F}(h_{\theta}(X), \alpha; R) = \frac{e^{-\alpha ||g(X, \theta) - r_k||_2^2
 \section{Conclusion \& Future Works}
 
 \begin{frame}
-  \frametitle{Conclusion \& Future Works}
+  \frametitle{Conclusion \& Future Work}
 \begin{itemize}
 \item We have presented and tested in this study an approach to integrate lexical constraints to $K$-Means algorithm. \pause 
 \item Future Works
 \begin{itemize}
-\item Test pairwise constraints
-\item More baseline Algorithm
-\begin{itemize}
-\item COP$K$-Means
-\item Deep COP$K$-Means
+\item Additionnal Class
+\item Modify Center Initialization
+\item Other Baseline Algorithm :
+  \begin{itemize}
+  \item DKM LP
+  \item DKM SI
+  \end{itemize}
 \end{itemize}
-\item Robustness
-\begin{itemize}
-\item Change number of keywords
-\item Change number of cluster
-\end{itemize}
-\end{itemize}
+\item Word Embedding
 \end{itemize}
 \end{frame}
 
@@ -486,29 +509,6 @@ where $\alpha$ play the role of an inverse temperature.
 \end{equation*}
 where $\widetilde{C}$ is a random mini batch of C, and $\epsilon$ the
 learning rate.
-\end{frame}
-\begin{frame}
-\frametitle{Training dkm}
-\scalebox{0.7}{
-\begin{algorithm}[H]
-  \SetKwInOut{Input}{input}
-  \SetKwInOut{Output}{output}
-  \Input{Corpus C , number of clusters K, balancing parameter $\lambda$,
-    scheme for $\alpha$, number of epochs T ,
-    number of minibatches MB , learning rate $\epsilon$}
-  \Output{Auto-Encoder parameter $\theta$, cluster representative R}
-  Initialise $\theta$ and $r_k$, $1 \leq k \leq K$ (randomly or through 
-  pretraining)\\
-  \ForEach{$\alpha = m_\alpha : M_\alpha$}{
-    \ForEach{t = 1 : T}{
-      \ForEach{n = 1 : MB}{
-        Draw minibatch $\widetilde{C} \subseteq  C$\\
-        Update ($\theta, R$) using SGD
-      } 
-    }  
-  }
-\end{algorithm}
-}
 \end{frame}
 
 \begin{frame}
@@ -598,4 +598,10 @@ hyperparameters for each dataset.}
 \end{table}
 \end{frame}
 
+\begin{frame}
+  \frametitle{Softmax}
+  \begin{equation*}\label{eq:general_softmax}
+    \forall k, \sigma(z)_k = \frac{e^{z_k}}{\sum_{{k'}=1}^Ke^{z_{k'}}}
+  \end{equation*}
+\end{frame}
 \end{document}
