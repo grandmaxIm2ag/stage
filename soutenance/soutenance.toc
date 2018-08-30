@@ -1,6 +1,0 @@
-\beamer@endinputifotherversion {3.36pt}
-\select@language {english}
-\beamer@sectionintoc {1}{Introduction}{3}{0}{1}
-\beamer@sectionintoc {2}{Proposed Method}{18}{0}{2}
-\beamer@sectionintoc {3}{Experiment}{31}{0}{3}
-\beamer@sectionintoc {4}{Conclusion \& Future Works}{40}{0}{4}

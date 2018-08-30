@@ -19,13 +19,6 @@
 \usetheme{Singapore}
 \newlength{\mylen}
 \resetcounteronoverlays{compt}
-\AtBeginSection[]
-{
-  \begin{frame}<beamer>
-    \frametitle{Overview}
-    \tableofcontents[currentsection]
-  \end{frame}
-}
 \addtobeamertemplate{navigation symbols}{}{%
     \usebeamerfont{footline}%
     \usebeamercolor[fg]{footline}%
@@ -33,6 +26,14 @@
     \insertframenumber/\inserttotalframenumber
 }
 \usepackage{upgreek}
+\usepackage[doi=false,
+            isbn=false,
+            url=false,
+            bibstyle=authoryear,
+            style=authoryear]{biblatex}
+\bibliography{biblio}%
+\renewcommand{\footfullcite}[1]{\footnote[frame]{\fullcite{#1}}}
+\def\bibfont{\tiny}% Réduit la taille de la police dans les références biblio
 \begin{document}
 
 \title{Integrating lexical constraints to K-Means with Deep Learning}
@@ -42,11 +43,6 @@
 \date{\today}
 
 \maketitle
-
-\begin{frame}{Overview}
-\tableofcontents
-\end{frame}
-\section{Introduction}
 
 \begin{frame}
 \frametitle{$K$-Means}
@@ -152,6 +148,7 @@ p(i|w) = \frac{df(w,i)}{df(w)}
 \begin{equation*}\label{nu}
   \nu(i,k) = max \left(\frac{rel(i,k)}{\sum\limits_{k' \in KW}rel(i,k')} - \frac{1}{|KW|}, 0\right)
 \end{equation*}
+\footfullcite{Li:2016:EDL:2983323.2983721}
 \end{frame}
 
 \begin{frame}
@@ -161,10 +158,7 @@ p(i|w) = \frac{df(w,i)}{df(w)}
 \end{equation*}
 where $c'(X ; X') = \argmin\limits_{X'_k \in X'}
 ||h_\theta(X) - h_\theta(X'_k) ||_2^2$
-\end{frame}
-
-\begin{frame}
-\frametitle{Lexical Constraints}
+\pause
 \begin{equation*}
 \begin{array}{l}
   \sum\limits_{X \in C} \sum\limits_{k = 1}^K \frac{e^{-\alpha|| h_\theta(X) - 
@@ -189,10 +183,7 @@ h_\theta(X'_{k'})||_2^2}}|| h_\theta(X) - h_\theta(X'_{k})||_2^2
 \begin{equation*}
   c(h_\theta(X); R) = argmin_{r \in R}||h_\theta(X) - r||_2^2
 \end{equation*}
-\end{frame}
-
-\begin{frame}
-  \frametitle{Deep $K$-Means }
+\pause
 \begin{equation*}
 L_{Clust}(C, K, \alpha; \theta, R) = \sum_{X \in C} \sum_{k=1}^K ||h_{\theta}(X) - r_k||_2^2 G_{k, F}(h_{\theta}(X), \alpha; R)
 \end{equation*}
@@ -225,8 +216,8 @@ G_{k}(h_\theta(X), \alpha; R) = \frac{e^{-\alpha ||h_\theta(X) - r_k||_2^2}}
     scheme for $\alpha$, number of epochs T ,
     number of minibatches MB , learning rate $\epsilon$}
   \Output{Auto-Encoder parameter $\theta$, cluster representative R}
-  Initialise $\theta$ and $r_k$, $1 \leq k \leq K$ (randomly or through 
-  pretraining)\\
+  Initialise $\theta$ and $r_k$, $1 \leq k \leq K$ through 
+  pretraining\\
   \ForEach{$\alpha = m_\alpha : M_\alpha$}{
     \ForEach{t = 1 : T}{
       \ForEach{n = 1 : MB}{
@@ -271,12 +262,20 @@ G_{k}(h_\theta(X), \alpha; R) = \frac{e^{-\alpha ||h_\theta(X) - r_k||_2^2}}
 \section{Experiment}
 
 \begin{frame}
-  \frametitle{Data}
-  \begin{itemize}
-    \setlength\itemsep{2em}
-  \item 20 newsgroups
-  \item RCV1 
-  \end{itemize}
+  \frametitle{Experimental Setup}
+  \begin{enumerate}
+  \item Dataset :
+    \begin{itemize}
+    \item 20 newsgroups
+    \item RCV1 
+    \end{itemize}
+  \item Metrics :
+    \begin{itemize}
+    \item Normalized Mutual Information
+    \item Accuracy
+    \item Adjusted Rand Index
+    \end{itemize}
+  \end{enumerate}
 \end{frame}
 
 \begin{frame}
@@ -313,23 +312,6 @@ G_{k}(h_\theta(X), \alpha; R) = \frac{e^{-\alpha ||h_\theta(X) - r_k||_2^2}}
 \end{frame}
 
 \begin{frame}
-\frametitle{Metric}
-\begin{itemize}
-\item NMI
-\item Accuracy
-\item Adjusted Rand Index
-\end{itemize}
-\end{frame}
-
-\begin{frame}
-  \frametitle{Baseline Algorithm}
-  \begin{enumerate}
-  \item $K$-Means
-  \item Deep $K$-Means
-  \end{enumerate}
-\end{frame}
-
-\begin{frame}
   \frametitle{Baseline Algorithm}
   \begin{enumerate}
   \item $K$-Means
@@ -349,6 +331,7 @@ G_{k}(h_\theta(X), \alpha; R) = \frac{e^{-\alpha ||h_\theta(X) - r_k||_2^2}}
 %The best result for each  metric/dataset is bold.}
 \centering
 \resizebox{\hsize}{!}{
+%\captionof{table}{Your caption here}
 \begin{tabular}{|l|l|l|l|}
     \hline
                       & ACC      &ARI       &NMI       \\ \hline
@@ -375,6 +358,7 @@ G_{k}(h_\theta(X), \alpha; R) = \frac{e^{-\alpha ||h_\theta(X) - r_k||_2^2}}
        CDKM, SP mask  &$49.5\pm1.7$&\boldmath$26.1\pm1.1$&$32.0\pm0.9$\\ \hline
        CDKM, SP sim   &$49.3\pm1.1$&$25.9\pm1.2$&$32.0\pm1.1$\\ \hline
 \end{tabular}
+%\subcaption*{20 Newsgroups}
 }
 \subcaption*{20 Newsgroups}
 \resizebox{0.5\hsize}{!}{
@@ -398,59 +382,6 @@ G_{k}(h_\theta(X), \alpha; R) = \frac{e^{-\alpha ||h_\theta(X) - r_k||_2^2}}
 
 \begin{frame}
   \frametitle{Results}
-  \begin{table}
-%The best result for each  metric/dataset is bold.}
-\centering
-\resizebox{\hsize}{!}{
-\begin{tabular}{|l|l|l|l|}
-    \hline
-                      & ACC      &ARI       &NMI       \\ \hline
-    $K$-Means         &$36.1\pm2.2$&$13.3\pm1.7$&$40.9\pm1.6$\\ \hline
-    AE + KM, SP       &$53.1\pm2.3$&$35.0\pm1.4$&$49.3\pm1.0$\\ \hline
-    Deep $K$-Means    &$54.9\pm1.7$&$37.6\pm1.1$&$51.6\pm0.6$\\ \hline
-    AE + KM, LP mask  &$57.5\pm2.8$&$39.6\pm1.7$&$51.6\pm1.4$\\ \hline
-    AE + KM, LP sim   &$55.7\pm1.7$&$37.6\pm1.0$&$50.8\pm0.4$\\ \hline
-       CDKM, LP mask  &$58.8\pm1.4$&$38.5\pm1.4$&$52.6\pm0.6$\\ \hline
-       CDKM, LP sim   &\boldmath$60.1\pm2.1$&\boldmath$40.2\pm1.4$&\boldmath$52.8\pm1.0$\\ \hline
-       CDKM, SP mask  &$58.9\pm2.0$&$38.9\pm1.6$&\boldmath$52.8\pm0.9$\\ \hline
-       CDKM, SP sim   &$60.1\pm1.7$&$40.1\pm1.5$&$52.7\pm0.7$\\ \hline
-\end{tabular}
-\begin{tabular}{|l|l|l|l|}
-    \hline
-                      & ACC      &ARI       &NMI       \\ \hline
-    $K$-Means         &$33.1\pm2.7$&$ 8.7\pm1.3$&$26.3\pm1.6$\\ \hline
-    AE + KM, SP       &$45.2\pm3.3$&$23.0\pm2.5$&$30.0\pm2.0$\\ \hline
-    Deep $K$-Means    &$44.5\pm2.4$&$23.6\pm2.4$&$30.2\pm2.0$\\ \hline
-    AE + KM, LP mask  &$45.2\pm2.2$&$24.2\pm1.6$&$32.4\pm1.1$\\ \hline
-    AE + KM, LP sim   &$42.3\pm2.4$&$21.7\pm2.0$&$29.1\pm1.3$\\ \hline
-       CDKM, LP mask   &$48.8\pm2.3$&\boldmath$25.7\pm1.9$&\boldmath$31.6\pm1.9$\\ \hline
-       CDKM, LP sim  &$47.8\pm2.6$&$24.3\pm1.8$&$30.8\pm1.7$\\ \hline
-       CDKM, SP mask  &$48.8\pm2.3$&$25.7\pm1.9$&$31.6\pm1.9$\\ \hline
-       CDKM, SP sim   &\boldmath$49.2\pm2.3$&$25.2\pm2.0$&$31.5\pm1.7$\\ \hline
-\end{tabular}
-}
-\subcaption*{20 Newsgroups}
-\resizebox{0.5\hsize}{!}{
-\begin{tabular}{|l|l|l|l|}
-    \hline
-                      & ACC      &ARI       &NMI       \\ \hline
-    $K$-Means         &$48.8\pm6.6$&$18.4\pm6.0$&$29.7\pm5.8$\\ \hline
-    AE + KM, SP       &$51.3\pm3.5$&$17.5\pm5.8$&$24.5\pm5.1$\\ \hline
-    Deep $K$-Means    &$54.4\pm4.9$&$23.9\pm3.5$&$29.6\pm3.6$\\ \hline
-    AE + KM, LP mask  &$66.1\pm5.0$&$38.2\pm5.3$&$40.5\pm4.3$\\ \hline
-    AE + KM, LP sim   &$62.3\pm4.8$&$35.2\pm5.0$&$38.7\pm3.5$\\ \hline
-       CDKM, LP mask  &\boldmath$68.5\pm5.6$&\boldmath$39.6\pm6.4$&\boldmath$41.3\pm4.6$\\ \hline
-       CDKM, LP sim   &$65.8\pm5.0$&$36.2\pm5.5$&$38.9\pm3.7$\\ \hline
-       CDKM, SP mask  &$68.5\pm5.6$&$39.6\pm6.4$&$41.3\pm4.6$\\ \hline
-       CDKM, SP sim   &$67.5\pm6.3$&$38.6\pm6.4$&$40.7\pm4.4$\\ \hline
-\end{tabular}
-}
-\subcaption*{RCV1}
-\end{table}
-\end{frame}
-
-\begin{frame}
-  \frametitle{Results}
 \begin{figure}
     \centering
     \fbox{\includegraphics[scale=0.35]{res/dat_file/acc/20NEWS_ACC.png}}     
@@ -464,24 +395,31 @@ G_{k}(h_\theta(X), \alpha; R) = \frac{e^{-\alpha ||h_\theta(X) - r_k||_2^2}}
 
 \begin{frame}
   \frametitle{Conclusion \& Future Work}
-\begin{itemize}
-\item We have presented and tested in this study an approach to integrate lexical constraints to $K$-Means algorithm. \pause 
-\item Future Works
-\begin{itemize}
-\item Additionnal Class
-\item Modify Center Initialization
-\item Other Baseline Algorithm :
   \begin{itemize}
-  \item DKM LP
-  \item DKM SI
+  \item We have presented and tested in this study an approach to integrate lexical constraints to $K$-Means algorithm. \pause 
+  \item Future Works
+    \begin{itemize}
+    \item Additionnal Class
+    \item Modify Center Initialization
+    \item Other Baseline Algorithm :
+      \begin{itemize}
+      \item DKM LP
+      \item DKM SI
+      \end{itemize}
+    \item Word Embedding
+    \end{itemize}
   \end{itemize}
-\end{itemize}
-\item Word Embedding
-\end{itemize}
 \end{frame}
 
 \begin{frame}
 Any Questions ?
+\end{frame}
+
+\begin{frame}
+  \frametitle{Softmax}
+  \begin{equation*}\label{eq:general_softmax}
+    \forall k, \sigma(z)_k = \frac{e^{z_k}}{\sum_{{k'}=1}^Ke^{z_{k'}}}
+  \end{equation*}
 \end{frame}
 
 \begin{frame}
@@ -512,7 +450,7 @@ learning rate.
 \end{frame}
 
 \begin{frame}
-\frametitle{Metric - NMI}
+\frametitle{Metric - Normalized Mutual Information}
 The NMI Metric is defined as follows
 $$NMI(S,C) = \frac{I(S,C)}{[H(S)+H(C)]/2}$$ 
 with
@@ -596,12 +534,5 @@ hyperparameters for each dataset.}
 }
 \subcaption*{RCV1}
 \end{table}
-\end{frame}
-
-\begin{frame}
-  \frametitle{Softmax}
-  \begin{equation*}\label{eq:general_softmax}
-    \forall k, \sigma(z)_k = \frac{e^{z_k}}{\sum_{{k'}=1}^Ke^{z_{k'}}}
-  \end{equation*}
 \end{frame}
 \end{document}
