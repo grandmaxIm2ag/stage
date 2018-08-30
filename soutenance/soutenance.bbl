@@ -1,0 +1,71 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 2.6 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \sortlist[entry]{nyt/global}
+    \entry{Li:2016:EDL:2983323.2983721}{inproceedings}{}
+      \name{author}{4}{}{%
+        {{uniquename=0,hash=fc90189e403c903655a1cbc1af93456b}{%
+           family={Li},
+           family_i={L\bibinitperiod},
+           given={Chenliang},
+           given_i={C\bibinitperiod}}}%
+        {{uniquename=0,hash=47aa21d766081235e64b22a2e224c619}{%
+           family={Xing},
+           family_i={X\bibinitperiod},
+           given={Jian},
+           given_i={J\bibinitperiod}}}%
+        {{uniquename=0,hash=8b562490f05b03da5ef1aca562e8b589}{%
+           family={Sun},
+           family_i={S\bibinitperiod},
+           given={Aixin},
+           given_i={A\bibinitperiod}}}%
+        {{uniquename=0,hash=51b3db1005cc69faf20b0510151af383}{%
+           family={Ma},
+           family_i={M\bibinitperiod},
+           given={Zongyang},
+           given_i={Z\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Indianapolis, Indiana, USA}%
+      }
+      \list{publisher}{1}{%
+        {ACM}%
+      }
+      \strng{namehash}{21b98bde6c74ef620d726de9dec65406}
+      \strng{fullhash}{616533e4546e0ae1b9b0e838b308e162}
+      \field{sortinit}{L}
+      \field{sortinithash}{872351f18d0f736066eda0bf18bfa4f7}
+      \field{labelyear}{2016}
+      \field{datelabelsource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Proceedings of the 25th ACM International on Conference on Information and Knowledge Management}
+      \field{isbn}{978-1-4503-4073-1}
+      \field{series}{CIKM '16}
+      \field{title}{Effective Document Labeling with Very Few Seed Words: A Topic Model Approach}
+      \field{year}{2016}
+      \field{pages}{85\bibrangedash 94}
+      \range{pages}{10}
+      \keyw{dataless text classification,text analysis,topic modeling}
+    \endentry
+  \endsortlist
+\endrefsection
+\endinput
+

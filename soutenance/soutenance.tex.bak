@@ -44,11 +44,10 @@
 
 \maketitle
 
-\section{Introduction}
 \begin{frame}
 \frametitle{$K$-Means}
 Given a corpus C, where each document X is a 
-D-dimensional real vector, k-means clustering aims to partition the N 
+N-dimensional real vector, k-means clustering aims to partition the n 
 documents into K $S_k$ clusters represented by centroids 
 R = {$r_1, r_2, ..., r_K$}. :
 Formally, the objective is to minimize :
@@ -217,7 +216,7 @@ G_{k}(h_\theta(X), \alpha; R) = \frac{e^{-\alpha ||h_\theta(X) - r_k||_2^2}}
     scheme for $\alpha$, number of epochs T ,
     number of minibatches MB , learning rate $\epsilon$}
   \Output{Auto-Encoder parameter $\theta$, cluster representative R}
-  Initialize $\theta$ and $r_k$, $1 \leq k \leq K$ through 
+  Initialise $\theta$ and $r_k$, $1 \leq k \leq K$ through 
   pretraining\\
   \ForEach{$\alpha = m_\alpha : M_\alpha$}{
     \ForEach{t = 1 : T}{
@@ -400,7 +399,7 @@ G_{k}(h_\theta(X), \alpha; R) = \frac{e^{-\alpha ||h_\theta(X) - r_k||_2^2}}
   \item We have presented and tested in this study an approach to integrate lexical constraints to $K$-Means algorithm. \pause 
   \item Future Works
     \begin{itemize}
-    \item Additional Class
+    \item Additionnal Class
     \item Modify Center Initialization
     \item Other Baseline Algorithm :
       \begin{itemize}

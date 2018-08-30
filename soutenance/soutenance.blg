@@ -1,0 +1,19 @@
+[4] Config.pm:340> INFO - This is Biber 2.4
+[5] Config.pm:343> INFO - Logfile is 'soutenance.blg'
+[163] biber:287> INFO - === jeu. août 30, 2018, 13:25:52
+[428] Biber.pm:348> INFO - Reading 'soutenance.bcf'
+[893] Biber.pm:742> INFO - Found 1 citekeys in bib section 0
+[912] Biber.pm:3151> INFO - Processing section 0
+[1013] Biber.pm:3308> INFO - Looking for bibtex format file 'biblio.bib' for section 0
+[1205] bibtex.pm:1113> INFO - Decoding LaTeX character macros into UTF-8
+[1367] bibtex.pm:974> INFO - Found BibTeX data source 'biblio.bib'
+[1460] Utils.pm:147> WARN - BibTeX subsystem: /tmp/gbGzA0dIe0/biblio.bib_2324.utf8, line 109, warning: 21 characters of junk seen at toplevel
+[1460] Utils.pm:147> WARN - BibTeX subsystem: /tmp/gbGzA0dIe0/biblio.bib_2324.utf8, line 177, warning: 780 characters of junk seen at toplevel
+[1460] Utils.pm:147> WARN - BibTeX subsystem: /tmp/gbGzA0dIe0/biblio.bib_2324.utf8, line 224, warning: 21 characters of junk seen at toplevel
+[1572] UCollate.pm:65> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[1572] UCollate.pm:65> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[1573] Biber.pm:3028> INFO - Sorting list 'nyt/global' of type 'entry' with scheme 'nyt' and locale 'en-US'
+[1573] Biber.pm:3032> INFO - No sort tailoring available for locale 'en-US'
+[1578] bbl.pm:519> INFO - Writing 'soutenance.bbl' with encoding 'UTF-8'
+[1605] bbl.pm:615> INFO - Output to soutenance.bbl
+[1618] Biber.pm:109> INFO - WARNINGS: 3
